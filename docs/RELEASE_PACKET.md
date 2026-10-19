@@ -67,10 +67,10 @@ These are study prompts, not completed teach-backs. Mastery remains recorded onl
 
 ## Publication and storage checklist
 
-- [ ] Run `make m11-verify` in the canonical Python 3.11.15 environment.
-- [ ] Authenticate GitHub CLI and create/push `Keke946/VeriReason`.
-- [ ] Confirm public CI passes the CPU job and Docker job.
-- [ ] Upload the selected E2 adapter as the `v1.0.0` release asset and publish its archive SHA-256.
+- [x] Run the release verification in canonical Python 3.11.15 CI.
+- [x] Publish `Keke946/VeriReason` as a public repository.
+- [x] Confirm public CI passes the CPU job and Docker job.
+- [x] Upload the selected E2 adapter as the `v1.0.0` release asset.
 - [ ] Copy E1, E3, E4 adapters and private manifest/receipt evidence to a second durable location if
       no-retraining replay of every arm is desired.
 - [ ] Capture missing provider invoices or leave the documented accounting limitation unchanged.

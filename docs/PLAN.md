@@ -161,13 +161,13 @@ files. Docker and CI entry points use the same CPU-only lock; local Docker execu
 so the container build remains a first-public-CI check rather than an unreported local result. M11
 now owns the technical report, cards, demo/release surface, resume packet, and mock-interview gate.
 
-M11 now has a locally verified release candidate: license/citation metadata, public README,
+M11 has published GitHub v1.0.0 with license/citation metadata, public README,
 technical report, model/data cards, reproducibility guide, follow-up literature review,
 release/interview packet, an E2 demo CLI, and a gate that locks headline documentation to accepted
-result JSON. The current incremental suite passes 320 tests with four optional-runtime skips.
-M11 remains `in_progress` until the real GitHub repository and E2 release asset are published,
-public exact-Python CI passes, cloud-only replay artifacts are migrated or explicitly waived, and
-the outstanding teach-backs occur. No E5 experiment is authorized by this preparation.
+result JSON. Public commit `dc133fc` passes exact Python 3.11.15 and Docker CI; the release contains
+the selected E2 adapter. M11 remains `in_progress` until cloud-only replay artifacts are migrated
+or explicitly waived and the outstanding teach-backs occur. No E5 experiment is authorized by
+publication.
 
 ## Fifteen-day core experiment ladder
 

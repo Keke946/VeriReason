@@ -111,6 +111,7 @@ Configuration files—not chat history—define all experiment parameters.
 - [Model card](docs/MODEL_CARD.md)
 - [Data card](docs/DATA_CARD.md)
 - [Reproducibility guide](docs/REPRODUCIBILITY.md)
+- [Web/CLI handoff for a new Codex task](docs/WEB_HANDOFF.md)
 - [Follow-up research review](docs/RESEARCH_FOLLOWUP.md)
 - [Release and interview packet](docs/RELEASE_PACKET.md)
 - [Experiment registry](experiments/registry.yaml)

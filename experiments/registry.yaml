@@ -1463,7 +1463,7 @@ experiments:
   m11_release_candidate_001:
     objective: "Assemble and locally verify the public report, cards, demo, reproducibility, release, and research-follow-up surface without changing accepted experiment evidence."
     status: running
-    git_commit: null
+    git_commit: "public dc133fca512361213d8c6ca62766a4fbdee582a7; local bf83b4d8b1d41751c8530f576368c460fa99d86c"
     config: configs/m11_release.toml
     dataset_version: "19 allowlisted SQL-free public summaries; no benchmark rows, private manifests, raw SQL, or heldout content"
     model: "Qwen/Qwen3-4B-Base plus selected E2 adapter identity only; no model loaded"
@@ -1481,6 +1481,7 @@ experiments:
       - docs/REPRODUCIBILITY.md
       - docs/RESEARCH_FOLLOWUP.md
       - docs/RELEASE_PACKET.md
+      - docs/WEB_HANDOFF.md
       - src/verireason/demo.py
       - scripts/verify_m11_release.py
       - tests/test_demo.py
@@ -1499,7 +1500,9 @@ experiments:
       heldout_examples_loaded: 0
       heldout_examples_evaluated: 0
       cloud_cost_cny: 0.0
-    notes: "Local release-candidate guard, full tests, and headline-evidence verifier pass. The incremental run uses clean CPython 3.11.13 because the installed macOS 3.11.7 exits 139 under pytest; the accepted M10 base receipt remains exact 3.11.15. M11 stays running until GitHub publication, E2 release upload, public exact-3.11.15 CI, cloud-only artifact migration, and teach-backs are complete."
+      public_python_3_11_15_ci_passed: true
+      public_docker_ci_passed: true
+    notes: "GitHub v1.0.0 is public, public commit dc133fc passes exact-Python-3.11.15 and Docker CI, and GitHub reports the expected SHA-256 for the E2 release asset. The first public snapshot omitted five ignored SQL-free files and failed only the evidence-manifest gate; dc133fc added exactly those files and passed. A Web/CLI handoff now supports continuation from GitHub without original chat history. M11 stays running until cloud-only artifact migration or waiver and teach-backs are complete."
 
 # experiment_id:
 #   objective: ""

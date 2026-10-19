@@ -5,8 +5,8 @@ Last updated: 2026-10-19
 ## Current phase
 
 - Milestone: M11 — Release and interview gate
-- Status: in progress; the local M11 release candidate is assembled and verified; GitHub
-  publication, release-asset upload, cloud-artifact migration, public CI, and teach-backs remain
+- Status: in progress; GitHub v1.0.0 is published and public CI passes; cloud-artifact migration
+  and the outstanding teach-backs remain
 - Final M2 cloud source commit: `75557aa5fc2cfd6f108210da0f5dfda69b481394`
 
 ## Accepted facts
@@ -418,14 +418,18 @@ Last updated: 2026-10-19
   clean Python 3.11.13 environment because the installed macOS Python 3.11.7 still exits 139 when
   importing pytest. This is not a replacement for the prior exact-3.11.15 M10 receipt; the changed
   release candidate still requires exact-3.11.15 public CI before the release is marked complete.
-- The Git remote named `origin` currently points to a local archival repository, not GitHub, and
-  the configured GitHub CLI credential is invalid. No public repository or release asset has yet
-  been created by this task.
+- The public repository is `https://github.com/Keke946/VeriReason`. A sanitized current-tree
+  snapshot was used rather than exposing all 40 development-history commits. Public commit
+  `dc133fc` passes both exact-Python-3.11.15 and Docker CI jobs; the first snapshot failed only
+  because five ignored SQL-free summaries were absent, and the follow-up commit added them.
 - The selected E2 adapter is already backed up locally with manifest
-  `3492a3ec...bd3b7`; its 52-MiB release archive is prepared under `/private/tmp` with SHA-256
+  `3492a3ec...bd3b7`. GitHub Release `v1.0.0` contains the 54,304,343-byte
+  `verireason-e2-adapter.tar.gz`; GitHub reports its SHA-256 as
   `9e17b2a5...bcf8`. E1, E3, E4 adapters and private M2 manifest/receipt evidence have not yet been
   proven to have two durable copies. The retained provider disk must not be deleted until that
   migration audit passes or the user explicitly accepts retraining instead of no-retraining replay.
+- `docs/WEB_HANDOFF.md` gives a new web or CLI task the minimum reading order, CPU-only setup,
+  accepted headline result, E5 feasibility gate, and privacy/compute boundaries.
 - Current literature review selects an EXPO-SQL-inspired terminal-anchored clause/token-localized
   credit experiment as the only strong E5 candidate. DAPO-style informative-group filtering is a
   secondary efficiency ablation. Further E3/E4 scalar-weight tuning and Mini-Dev access remain
@@ -433,6 +437,5 @@ Last updated: 2026-10-19
 
 ## Exactly one next action
 
-Authenticate GitHub, publish the verified release candidate and E2 adapter, confirm exact-Python
-public CI, then inventory and copy the remaining cloud-only adapters/private manifests before any
-provider-disk deletion or E5 GPU authorization.
+Inventory and copy the remaining cloud-only E1/E3/E4 adapters and private M2 manifests/receipts,
+then decide whether E5 passes its local feasibility gate before deleting the provider disk.
