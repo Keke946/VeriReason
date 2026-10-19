@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "experiment_id": "e4_m8_gdpo_smoke_001",
+  "status": "completed",
+  "scope": "engineering_smoke_not_accuracy_experiment",
+  "arm": "E4",
+  "multi_objective_aggregation": "normalize_then_sum",
+  "execution_git_commit": "8376c5739680550e642b6c0f0aafeef6a8599fe8",
+  "hardware": "1x NVIDIA GeForce RTX 4090 D 48 GB",
+  "reference_prepared_bundle_sha256": "82cfce66c7728820f22ba4f759f8cbb18ca49abe0c55e96c10f2be1d275c3265",
+  "training_prompts": 8,
+  "completions_per_prompt": 4,
+  "rollouts": 32,
+  "optimizer_steps": 8,
+  "training_loss": 0.011858987621963024,
+  "gradient_norm_last": 0.74609375,
+  "gradient_norm_max": 1.21875,
+  "adapter_delta_l2": 0.10458169214276547,
+  "reward_diagnostics": {
+    "groups": 8,
+    "mixed_reward_groups": 7,
+    "zero_variance_groups": 1,
+    "mixed_reward_group_fraction": 0.875,
+    "mean_group_relative_reward": -1.5612511283791264e-17
+  },
+  "component_diagnostics": {
+    "completion_count": 32,
+    "strict_correct_count": 7,
+    "valid_count": 21,
+    "confidence_gate_count": 21,
+    "mean_structure_score": 0.3589578664185499,
+    "prediction_status_counts": {
+      "execution_error": 11,
+      "ok": 21
+    }
+  },
+  "trainer_diagnostics": {
+    "mean_completion_length": 58.0,
+    "maximum_completion_length": 130.0,
+    "completion_clipped_ratio_max": 0.0,
+    "mean_entropy": 0.2085528759052977,
+    "minimum_entropy": 0.05461260583251715,
+    "maximum_clip_region_ratio": 0.0
+  },
+  "peak_gpu_memory_mib": 11736.0,
+  "training_stage_wall_seconds": 184.35651603713632,
+  "session_wall_seconds": 314.7241520518437,
+  "adapter_manifest_sha256": "e16ce695ca6bd347ba9c40ce8f125f1f751c05a2ba3b92a16cfffb371b5ba5d5",
+  "separate_process_reload_status": "passed",
+  "adapter_names_after_reload": [
+    "default"
+  ],
+  "heldout_examples_loaded": 0,
+  "heldout_examples_evaluated": 0,
+  "cloud_cost_cny": null,
+  "source_evidence": {
+    "preflight_sha256": "85b7f40882234f0e565d2ebcabd65728eedaaf2d6d977aeaef1d44a0e04e3dc9",
+    "training_result_sha256": "59da99f6d373bae74606ea9abb4b9ff77fa2331ad8afa1f936602cc96096f468",
+    "reload_result_sha256": "eb1f6904c50de798b09f4da86fdb62c1caece527e9ed077c9773ba320527b23f",
+    "posttraining_summary_sha256": "dfacb9b5515279972e3509bf0763752d4c33647d8d6ab92af3ad6418bca9eb61",
+    "session_completion_sha256": "dda969f181e408d1c8d1e4836011f36a7c7a26b06ff3885bc261521004292f9b",
+    "download_hash_match": true
+  },
+  "environment_repair": {
+    "failed_attempt_stage": "train_import_before_model_load",
+    "cause": "The installed xgrammar 0.2.3 package was missing libxgrammar_bindings.so.",
+    "repair": "Force-reinstalled only xgrammar 0.2.3 without dependency changes, then verified xgrammar and GRPOTrainer imports plus pip check before attempt 002."
+  },
+  "interpretation": "The E4 normalize-then-sum training, adapter-save, and independent-reload path is functional on the exact E2/E3 smoke prompts. Seven of eight groups supplied relative learning signal, but this tiny stochastic smoke is engineering evidence rather than validation-accuracy or superiority evidence."
+}

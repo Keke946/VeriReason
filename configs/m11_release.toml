@@ -1,0 +1,34 @@
+schema_version = 1
+status = "release_candidate"
+repository_url = "https://github.com/Keke946/VeriReason"
+base_model_revision = "Qwen/Qwen3-4B-Base@906bfd4b4dc7f14ee4320094d8b41684abff8539"
+selected_adapter_manifest_sha256 = "3492a3ec870f7c6e8e672459f025fc96a9a8cba543b27b7df4fc5f6c6bfbd3b7"
+selected_adapter_archive_sha256 = "9e17b2a5acb5ecbe78c778465dd8920ea3fd643340847243ba3892fbd366bcf8"
+
+required_files = [
+  "README.md",
+  "LICENSE",
+  "CITATION.cff",
+  "docs/TECHNICAL_REPORT.md",
+  "docs/MODEL_CARD.md",
+  "docs/DATA_CARD.md",
+  "docs/REPRODUCIBILITY.md",
+  "docs/RESEARCH_FOLLOWUP.md",
+  "docs/RELEASE_PACKET.md",
+  "src/verireason/demo.py",
+  "results/m8/m8-common-eval-summary.json",
+  "results/m9/m9-serving-summary.json",
+  "results/m10/release-manifest.json",
+]
+
+[expected]
+validation_examples = 1209
+validation_selection_sha256 = "3dc2fcbd371ff287049db6e7cfebbdee182d5cb10aabd328704231e90070f0b1"
+e1_strict_execution_accuracy = 0.40694789081885857
+e2_strict_execution_accuracy = 0.42349048800661704
+e2_minus_e1_strict_execution_accuracy = 0.016542597187758468
+e2_vs_e1_exact_mcnemar_p = 0.011928139715763175
+serving_requests = 192
+public_artifacts = 19
+heldout_examples_loaded = 0
+heldout_examples_evaluated = 0

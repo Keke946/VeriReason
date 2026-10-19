@@ -1,0 +1,55 @@
+schema_version = 1
+status = "route_accepted_training_parameters_pending"
+decision_date = "2026-09-05"
+
+[fixed_parent]
+experiment_id = "e1_m4_formal_sft_001"
+adapter_role = "common_parent_for_all_control_and_rl_branches"
+strict_validation_accuracy = 0.40694789081885857
+never_overwrite = true
+
+[targeted_sft]
+experiment_id = "e1t_targeted_replay_sft_001"
+role = "bounded_supervised_control"
+candidate_selection_sha256 = "5bca7a995aa2f4d56cc2403164ed0719b51bda7393cfcd8a83fbb3a43f5116ef"
+candidate_count = 1678
+source_split = "train"
+maximum_candidate_passes = 1
+starts_from = "e1_m4_formal_sft_001"
+may_replace_e1_as_rl_parent = false
+training_parameters = "must_be_preregistered_after_token_and_compute_preflight"
+execution = "planned_but_must_not_delay_outcome_only_rl"
+
+[rl_mainline]
+branches = ["E2", "E3", "E4"]
+common_parent = "e1_m4_formal_sft_001"
+E2_intervention = "terminal_execution_reward_only"
+E3_intervention = "terminal_plus_reliability_gated_dense_reward_sum_then_normalize"
+E4_intervention = "same_reward_components_per_reward_normalize_then_sum"
+targeted_candidate_pool_role = "sampling_candidate_not_automatic_full_training_set"
+
+[correction_sft]
+status = "conditional_backup_not_core"
+trigger_any = [
+  "rl_smoke_has_excessive_constant_zero_reward_groups",
+  "schema_grounding_remains_dominant_after_stable_rl",
+  "targeted_sft_improves_but_rl_does_not",
+  "core_release_complete_and_multi_turn_correction_is_approved",
+]
+requires_new_preregistration = true
+
+[evaluation]
+development_selection = "existing_dev256"
+development_use = "promotion_and_diagnostics_only"
+validation_selection = "existing_final953"
+validation_use = "frozen_comparison_after_promotion"
+heldout_selection = "bird_mini_dev_private_500"
+heldout_use = "single_final_release_gate_after_experiment_matrix_is_frozen"
+validation_rows_may_enter_training = false
+heldout_rows_may_enter_training_or_tuning = false
+
+[safety]
+cloud_authorized = false
+heldout_authorized = false
+model_download_authorized = false
+large_data_download_authorized = false

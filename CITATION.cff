@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use VeriReason, please cite this repository."
+title: "VeriReason: Verifiable Post-Training for Text-to-SQL LLMs"
+type: software
+authors:
+  - family-names: "BiBo"
+repository-code: "https://github.com/Keke946/VeriReason"
+license: Apache-2.0
+version: 1.0.0
+date-released: 2026-10-19
+keywords:
+  - text-to-SQL
+  - reinforcement learning with verifiable rewards
+  - GRPO
+  - QLoRA
+  - LLM post-training

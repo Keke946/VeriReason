@@ -1,0 +1,115 @@
+schema_version = 1
+status = "operational_eligibility_protocol_amendment_pending_finalization"
+
+[training_source]
+dataset_id = "birdsql/bird23-train-filtered"
+revision = "4068469807b255fcfc0816bdd520946fe460d256"
+license = "CC-BY-SA-4.0"
+labels_url = "https://huggingface.co/datasets/birdsql/bird23-train-filtered/resolve/4068469807b255fcfc0816bdd520946fe460d256/data/train-00000-of-00001.jsonl"
+labels_content_length = 2654294
+labels_etag = '"b3ae3560c14aede19d7faea28f6ad3bb86d85714"'
+labels_last_modified = ""
+labels_observed_sha256 = "2ee64aa593e1adc59be7d5b9ce2395372a8ee27fdd94a3fb4d2fe09f3cd34bc8"
+database_url = "https://bird-bench.oss-cn-beijing.aliyuncs.com/train.zip"
+database_archive_content_length = 8919543554
+database_archive_observed_sha256 = "66e9e3115b59559554013aa3b124156249f30437a6b4e4f96de3d2dfb5ae8cbc"
+database_archive_member_count = 10
+database_archive_member_uncompressed_bytes = 9353941605
+database_nested_archive_path = "train/train_databases.zip"
+database_nested_archive_maximum_member_count = 10000
+database_nested_archive_maximum_uncompressed_bytes = 53687091200
+database_archive_etag = '"1FBA2891BD215A42CE1004736AB7F47F-400"'
+database_archive_last_modified = "Tue, 11 Jul 2023 06:13:29 GMT"
+expected_rows = 6601
+expected_database_count = 69
+
+[heldout_source]
+dataset_id = "BIRD Mini-Dev SQLite"
+revision = "f65faf4ae3b638c1fa6df1d3370c8d92c8366301"
+license = "CC-BY-SA-4.0"
+labels_url = "https://huggingface.co/datasets/birdsql/bird_mini_dev/resolve/f65faf4ae3b638c1fa6df1d3370c8d92c8366301/data/mini_dev_sqlite-00000-of-00001.json"
+labels_content_length = 278513
+labels_etag = '"f1ee766b3e438395cd3f8282adc10d483f6d91de"'
+labels_last_modified = ""
+labels_observed_sha256 = "88ceb0710163cae46a256ecea8f0a8c98286599530b60587fda5c3cfe57d45d2"
+archive_url = "https://drive.usercontent.google.com/download?id=13VLWIwpw5E3d5DUkMvzw7hvHE67a4XkG&export=download&confirm=t"
+archive_content_length = 799944582
+archive_observed_sha256 = "aeb211c0e39010bbdae3838bb5e8bd27dc446ed77495b1709f85ccc9bf67f2be"
+archive_member_count = 246
+archive_member_uncompressed_bytes = 3539193972
+archive_etag = ""
+archive_last_modified = "Thu, 03 Jul 2025 05:45:10 GMT"
+expected_rows = 500
+expected_database_count = 11
+isolation_policy = "heldout_only_no_prompt_repair_early_stopping_reward_tuning_or_manual_data_revision"
+
+[split]
+algorithm = "sha256_ranked_database_ids_v1"
+seed = "verireason-m2-bird-filtered-v1"
+validation_database_count = 10
+minimum_validation_example_ratio = 0.10
+maximum_validation_example_ratio = 0.25
+critical_sql_features = ["join", "aggregate", "subquery", "group_by", "set_operation", "order_by"]
+
+[identity]
+algorithm = "sha256"
+first_download_policy = "record_observed_sha256"
+later_download_policy = "fail_on_sha256_change"
+header_change_same_sha256 = "warn"
+
+[materialization]
+minimum_free_bytes = 75161927680
+dynamic_capacity_reserve_bytes = 10737418240
+partial_suffix = ".partial"
+source_receipt = "source-receipt.json"
+heldout_manifest_mode = "0600"
+require_all_gold_preflight_ok = false
+eligibility_evidence_finalization = true
+
+[evaluator]
+metrics = ["bird_ex_behavior_compatible", "strict_execution_accuracy"]
+metric_scopes = ["full_heldout_conservative_execution_accuracy", "eligible_heldout_execution_accuracy"]
+formal_consumers = ["rl_terminal_reward", "validation_evaluator", "benchmark_candidate_execution"]
+timeout_seconds = 10.0
+progress_steps = 1000
+maximum_vm_bytes = 2147483648
+maximum_cpu_seconds = 12
+maximum_cpu_hard_seconds = 13
+maximum_result_rows = 100000
+maximum_result_bytes = 67108864
+maximum_float_pair_checks = 1000000
+float_absolute_tolerance = 1e-6
+float_relative_tolerance = 1e-6
+
+[operational_eligibility]
+historical_formal_config_sha256 = "d468ca938964597832ce5fb4c23b452fa362e8b6770c9d73a0de80d6c669598b"
+expected_training_unique_sql = 6524
+expected_training_original_ok_unique_sql = 6282
+expected_training_recovered_unique_sql = 214
+expected_training_eligible_unique_sql = 6496
+expected_training_ineligible_unique_sql = 28
+expected_heldout_eligible_examples = 498
+expected_heldout_ineligible_examples = 2
+primary_metric_scope = "full_heldout_conservative_execution_accuracy"
+secondary_metric_scope = "eligible_heldout_execution_accuracy"
+
+[reward]
+w_exec = 1.0
+w_valid = 0.05
+w_struct = 0.20
+normalization_epsilon = 1e-6
+structural_normalization = "active_dimensions_only"
+all_structural_dimensions_empty_score = 0.0
+
+[reward.structural_feature_weights]
+select_signatures = 0.20
+tables = 0.10
+columns = 0.10
+join_signatures = 0.15
+predicate_signatures = 0.15
+group_by = 0.08
+having = 0.05
+order_by = 0.07
+limit = 0.03
+set_operations = 0.04
+subquery_profile = 0.03

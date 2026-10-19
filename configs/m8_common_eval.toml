@@ -1,0 +1,48 @@
+schema_version = 1
+status = "local_preregistered_pending_control_approval"
+experiment_id = "e2_m8_common_validation_001"
+
+[sources]
+m4_public_summary = "results/m4/m4-public-summary.json"
+m4_public_summary_sha256 = "78348da5f336dcbb7972a42b984eb03e3d703668877eaaba6283622142ed0136"
+m7_public_summary = "results/m7/m7-e2-formal-summary.json"
+m7_public_summary_sha256 = "59e7af758f7799dffb149037534eb6673241dadfa405aeb5e0f7121fc4689630"
+m4_config = "configs/m4_formal_sft.toml"
+m4_config_sha256 = "61744444736ddc2b8c98c0177b4f051cfddf6bb78eba51d277b76f23d00a22ac"
+m2_config = "configs/m2_data.toml"
+m2_config_sha256 = "1fa045ebf72a29d9209f5b37f1042126a81e66e3f7511b1c1fc8a8b21d553181"
+
+[model]
+condition = "E2"
+model_id = "Qwen/Qwen3-4B-Base"
+revision = "906bfd4b4dc7f14ee4320094d8b41684abff8539"
+adapter_experiment_id = "e2_m7_outcome_grpo_formal_001"
+adapter_manifest_sha256 = "3492a3ec870f7c6e8e672459f025fc96a9a8cba543b27b7df4fc5f6c6bfbd3b7"
+
+[data]
+split = "validation"
+example_count = 1209
+selection_sha256 = "3dc2fcbd371ff287049db6e7cfebbdee182d5cb10aabd328704231e90070f0b1"
+training_manifest_sha256 = "d90ffab32e296248376c542b736aef5ce7f547acc702a9eab41073789cf5b72a"
+heldout_examples_loaded = 0
+heldout_examples_evaluated = 0
+
+[comparison]
+primary_metric = "strict_execution_accuracy"
+secondary_metrics = ["bird_ex_behavior_compatible", "valid_sql_rate", "strict_sql_only_rate"]
+e1_result_reused = true
+e1_regeneration_allowed = false
+paired_analysis_policy = "use_existing_raw_e1_if_recoverable_without_regeneration"
+quality_claim_before_common_evaluation = false
+
+[execution]
+expected_session_wall_seconds = 7200
+maximum_session_wall_seconds = 14400
+planning_rate_cny_per_hour = 2.59
+maximum_session_cost_cny = 10.36
+require_current_rate_confirmation = true
+require_auto_shutdown = true
+
+[stops]
+conditions = ["prepared_bundle_drift", "adapter_manifest_drift", "heldout_nonzero", "evaluator_drift", "nan_or_inf", "repeated_oom_after_single_safe_retry", "wall_or_cost_limit"]
+

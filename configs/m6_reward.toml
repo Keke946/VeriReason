@@ -1,0 +1,37 @@
+schema_version = 1
+status = "m6_technically_complete_teach_back_due"
+
+[weights]
+execution = 1.0
+validity = 0.05
+structure = 0.20
+
+[normalization]
+standard_deviation = "population"
+zero_variance_epsilon = 0.000001
+zero_variance_output = 0.0
+audited_completion_group_sizes = [2, 4, 8]
+
+[arms]
+E2 = "terminal_execution_reward_only"
+E3 = "sum_raw_components_then_group_normalize"
+E4 = "group_normalize_each_gated_component_then_weighted_sum"
+
+[gating]
+dense_requires_parse = true
+dense_requires_schema_resolution = true
+dense_requires_supported_constructs = true
+dense_requires_safe_execution = true
+terminal_correctness_survives_unsupported_dense_extractor = true
+
+[safety]
+cloud_authorized = false
+rl_training_authorized = false
+heldout_authorized = false
+
+[extractor]
+library = "sqlglot"
+version = "30.17.0"
+dialect = "sqlite"
+unsupported_policy = "fail_closed_dense_gate_only"
+formal_training_schema_audit_completed = true

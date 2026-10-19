@@ -1,0 +1,502 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "experiment_id": "m3_vertical_slice_001",
+  "attempt_id": "m3_vertical_slice_001_attempt_003",
+  "source": {
+    "execution_commit": "530a0f22f491882def5e13b8344d1310c1a7960d",
+    "pin_commit": "f1a50c463c011153fbe6ea098e5c8a72e53af150",
+    "commits_are_distinct": true,
+    "model_id": "Qwen/Qwen3-4B-Base",
+    "model_revision": "906bfd4b4dc7f14ee4320094d8b41684abff8539",
+    "m2_training_manifest_sha256": "d90ffab32e296248376c542b736aef5ce7f547acc702a9eab41073789cf5b72a"
+  },
+  "heldout_examples_loaded": 0,
+  "heldout_examples_evaluated": 0,
+  "tokenizer_preflight": {
+    "status": "passed",
+    "synthetic_prompt": true,
+    "model_id": "Qwen/Qwen3-4B-Base",
+    "revision": "906bfd4b4dc7f14ee4320094d8b41684abff8539",
+    "raw_type": "BatchEncoding",
+    "raw_mapping_keys": [
+      "attention_mask",
+      "input_ids"
+    ],
+    "raw_input_ids_shape": null,
+    "normalized_token_count": 71,
+    "normalized_all_exact_int": true,
+    "prompt_tokens": 71,
+    "answer_tokens": 9,
+    "supervised_tokens": 9
+  },
+  "slice": {
+    "slice_bundle_sha256": "3b18e7d1e59e42cbb12d7d61c08e3031602c9bcf7e1d8e8c3161c6002b6d58e5",
+    "splits": {
+      "train": {
+        "count": 8,
+        "sample_ids": [
+          "1522",
+          "2139",
+          "6510",
+          "1321",
+          "5773",
+          "1549",
+          "4032",
+          "2817"
+        ],
+        "slice_sha256": "6ad817a2621e90f8bb3e10eb65c12f7aa12f95c4ccaa9e439b2dd0092a9a762c",
+        "feature_counts": {
+          "aggregate": 2,
+          "join": 7,
+          "subquery": 1
+        },
+        "token_lengths": {
+          "prompt": [
+            985,
+            734,
+            281,
+            379,
+            251,
+            983,
+            989,
+            1916
+          ],
+          "answer": [
+            52,
+            97,
+            41,
+            54,
+            48,
+            45,
+            44,
+            80
+          ],
+          "total": [
+            1037,
+            831,
+            322,
+            433,
+            299,
+            1028,
+            1033,
+            1996
+          ]
+        },
+        "prompt_hashes": [
+          "817bf6a686a28b88dd6017cd09cc68a77036c9bccc4e4763197929b9a39577b8",
+          "b92510097effc097ae22a2d81dfd22fa248c3d94cc783d8c927b862321d68b64",
+          "09157b553a421ed477d7f7d5969af18b1bfbd80b9d41f06c8c6409c6b29f486c",
+          "b8bcd50830edc50bcf7b222f9909960e86ccfc42562ce191ffdc24436774d95d",
+          "7a501488b240300a25e01a2e2a3ed290e63b2ff2330e6739d54c8b7c5ce8d407",
+          "9689066e1e08bfe2db6d8495fb7b4515e8bbb5ad8b089417e4dc4aae857435ed",
+          "619545ab80f4e73426ce9ee5e85d6ae6cf6ff727466e5e91825fd55e19cd8603",
+          "b6e62bc8b94d9f95f8bda1d7b410fe8ce2884efc88b682c8f17d95df2750460c"
+        ]
+      },
+      "validation": {
+        "count": 8,
+        "sample_ids": [
+          "3497",
+          "3973",
+          "3969",
+          "5180",
+          "6353",
+          "3514",
+          "2297",
+          "5602"
+        ],
+        "slice_sha256": "fca55cb038efd0c25481356a303fe54a9ed9a3beb5fcd03721500cb22edb7e03",
+        "feature_counts": {
+          "aggregate": 3,
+          "group_by": 2,
+          "join": 4,
+          "order_by": 3,
+          "subquery": 2
+        },
+        "token_lengths": {
+          "prompt": [
+            626,
+            685,
+            681,
+            1179,
+            402,
+            319,
+            405,
+            386
+          ],
+          "answer": [
+            75,
+            58,
+            18,
+            32,
+            42,
+            56,
+            23,
+            13
+          ],
+          "total": [
+            701,
+            743,
+            699,
+            1211,
+            444,
+            375,
+            428,
+            399
+          ]
+        },
+        "prompt_hashes": [
+          "9f5f56013d4a401fe0dbc0a6d942178564ab042d214f19d16a9a3c6504d815f7",
+          "1728ebc54722c4484d094023fe8ed2918058c9ab67a8d915df756575fc095c17",
+          "377a77f1de9389e11315c083dc25307f08895cd0aa104069a1f59e6fc203c478",
+          "bbfb04fa37bd2e4458a5d108710de29ef94d4bf3b0dcc89a02edf004f3bd7966",
+          "8a6511bd67a21ab33c2606b123a2fa31a98e17c5e8b6ade435cf439a3a6966b7",
+          "21256cdb89730facbf461a0c6a9c5433d955f0c65ca2d3cbf6fb0982a6dcf0e8",
+          "5743d8e2fd93b1384bd2e5a4eebda803efb650f5d420ef6e4628efd9237a8773",
+          "7adb783f8f46835d6e94bef39029c714f5f5f80c5444fa44c8d95ee8b634f9ea"
+        ]
+      }
+    }
+  },
+  "comparison_contract": {
+    "validation_slice_sha256": "fca55cb038efd0c25481356a303fe54a9ed9a3beb5fcd03721500cb22edb7e03",
+    "prompt_hashes": [
+      "9f5f56013d4a401fe0dbc0a6d942178564ab042d214f19d16a9a3c6504d815f7",
+      "1728ebc54722c4484d094023fe8ed2918058c9ab67a8d915df756575fc095c17",
+      "377a77f1de9389e11315c083dc25307f08895cd0aa104069a1f59e6fc203c478",
+      "bbfb04fa37bd2e4458a5d108710de29ef94d4bf3b0dcc89a02edf004f3bd7966",
+      "8a6511bd67a21ab33c2606b123a2fa31a98e17c5e8b6ade435cf439a3a6966b7",
+      "21256cdb89730facbf461a0c6a9c5433d955f0c65ca2d3cbf6fb0982a6dcf0e8",
+      "5743d8e2fd93b1384bd2e5a4eebda803efb650f5d420ef6e4628efd9237a8773",
+      "7adb783f8f46835d6e94bef39029c714f5f5f80c5444fa44c8d95ee8b634f9ea"
+    ],
+    "decoding": {
+      "do_sample": false,
+      "num_beams": 1,
+      "max_new_tokens": 384
+    },
+    "evaluator": {
+      "metrics": [
+        "bird_ex_behavior_compatible",
+        "strict_execution_accuracy"
+      ],
+      "timeout_seconds": 10.0,
+      "maximum_cpu_seconds": 12,
+      "maximum_cpu_hard_seconds": 13,
+      "maximum_result_rows": 100000,
+      "maximum_result_bytes": 67108864,
+      "maximum_vm_bytes": 2147483648,
+      "maximum_float_pair_checks": 1000000,
+      "float_absolute_tolerance": 1e-06,
+      "float_relative_tolerance": 1e-06
+    },
+    "model": {
+      "model_id": "Qwen/Qwen3-4B-Base",
+      "revision": "906bfd4b4dc7f14ee4320094d8b41684abff8539",
+      "trust_remote_code": false,
+      "dtype": "bfloat16"
+    },
+    "comparison_contract_sha256": "6137ea3ae5b41fa05e5e9f75643079fdab6519da20545747efaf1e4edffcfd8b"
+  },
+  "training": {
+    "trainable_parameter_count": 33030144,
+    "supervised_token_count": 461,
+    "initial_loss": 0.6483830809593201,
+    "final_observed_loss": 0.40970221161842346,
+    "gradient_norm": 1.3313944339752197,
+    "micro_steps": 8,
+    "optimizer_steps": 2,
+    "adapter_parameter_delta_detected": true,
+    "adapter_delta_l2_norm": 1.432494530990277,
+    "training_seconds": 6.101470455992967
+  },
+  "adapter_reload": {
+    "manifest_sha256": "f1f9f41e53e1e9a4d44d4b64d7db296c2f0ddcafa5f62bb4d9aea97ab047f883",
+    "adapter_model_bytes": 132187888,
+    "adapter_model_sha256": "f562beaedf16778347871df40e17c1edf493bde84940f071d36467d8f1095c4d",
+    "prior_process_id": 1666,
+    "reload_process_id": 4775,
+    "different_process": true
+  },
+  "base_evaluation": {
+    "example_count": 8,
+    "bird_ex_behavior_compatible": 0.0,
+    "strict_execution_accuracy": 0.0,
+    "strict_sql_only_rate": 0.0,
+    "failure_categories": {
+      "no_query": 8
+    },
+    "generated_tokens": 3072,
+    "generation_plus_evaluator_seconds": 194.31508557405323,
+    "completion_tokens_per_second": 15.80937471182218,
+    "throughput_scope": "generation_plus_evaluator_end_to_end"
+  },
+  "sft_evaluation": {
+    "example_count": 8,
+    "bird_ex_behavior_compatible": 0.375,
+    "strict_execution_accuracy": 0.375,
+    "strict_sql_only_rate": 1.0,
+    "failure_categories": {
+      "strict_correct": 3,
+      "timeout": 1,
+      "wrong_result": 4
+    },
+    "generated_tokens": 263,
+    "generation_plus_evaluator_seconds": 43.256387220928445,
+    "completion_tokens_per_second": 6.080026948546329,
+    "throughput_scope": "generation_plus_evaluator_end_to_end"
+  },
+  "memory": {
+    "base_and_train": {
+      "torch_peak_allocated_gib": 9.592116832733154,
+      "torch_peak_reserved_gib": 11.556640625,
+      "nvidia_smi_peak_used_mib": 12278
+    },
+    "reload": {
+      "torch_peak_allocated_gib": 2.953270435333252,
+      "torch_peak_reserved_gib": 3.22265625,
+      "nvidia_smi_peak_used_mib": 3734
+    }
+  },
+  "timing": {
+    "base_and_train_wall_seconds": 333.4041852899827,
+    "reload_wall_seconds": 109.33606549515389,
+    "measured_total_wall_seconds": 442.7402507851366,
+    "complete_session_elapsed_seconds": 622.617314272793,
+    "complete_session_source": "session-completion.json"
+  },
+  "cost": {
+    "source": "user_provided_provider_screenshot",
+    "billing_kind": "provider_actual_container_usage",
+    "transactions": [
+      {
+        "timestamp": "2026-08-24T04:00:17+08:00",
+        "description": "container_usage_billing",
+        "amount_cny": "1.43241388"
+      },
+      {
+        "timestamp": "2026-08-24T04:56:46+08:00",
+        "description": "container_usage_billing",
+        "amount_cny": "2.45042777"
+      }
+    ],
+    "actual_provider_cost_cny": "3.88284165",
+    "pre_m3_cumulative_cost_cny": "9.64484428",
+    "post_m3_cumulative_cost_cny": "13.52768593",
+    "provider_balance_after_transactions_cny": "24.18879004",
+    "program_wall_estimate_is_actual_cost": false
+  },
+  "evidence": {
+    "local_directory": "artifacts/m3-cloud-attempt-003",
+    "directory_mode": "0700",
+    "file_mode": "0600",
+    "required_artifact_count": 30,
+    "observed_artifact_count": 30,
+    "artifact_inventory_sha256": "829447ecef9c481f6b6c4f4eee4ffc2f0ab378319aaa0f3f32714b90e2cf7cfb",
+    "artifact_inventory": [
+      {
+        "path": "adapter-manifest.json",
+        "bytes": 1034,
+        "mode": "0600",
+        "sha256": "35bceeab417c09fb8e7e5345f7f4ac7c948981ed23bcc67b010df63fc63bb485"
+      },
+      {
+        "path": "adapter/README.md",
+        "bytes": 5190,
+        "mode": "0600",
+        "sha256": "8a06cfb8d5b623ac61ed1cb1bbfc93d7e84ad0e30055d3146e1f36fed849eace"
+      },
+      {
+        "path": "adapter/adapter_config.json",
+        "bytes": 1096,
+        "mode": "0600",
+        "sha256": "7b32523a324888fb670691cd7529ef8997fd26666ba0a53adf8064b73cdfafcc"
+      },
+      {
+        "path": "adapter/adapter_model.safetensors",
+        "bytes": 132187888,
+        "mode": "0600",
+        "sha256": "f562beaedf16778347871df40e17c1edf493bde84940f071d36467d8f1095c4d"
+      },
+      {
+        "path": "adapter/chat_template.jinja",
+        "bytes": 4116,
+        "mode": "0600",
+        "sha256": "87a2728cb8dc9fe424d624542f6060ec05a1d285ebbec578bb078900e33396b5"
+      },
+      {
+        "path": "adapter/tokenizer.json",
+        "bytes": 11422650,
+        "mode": "0600",
+        "sha256": "be75606093db2094d7cd20f3c2f385c212750648bd6ea4fb2bf507a6a4c55506"
+      },
+      {
+        "path": "adapter/tokenizer_config.json",
+        "bytes": 696,
+        "mode": "0600",
+        "sha256": "2bb0fd393ee176b31a7e718941f30e2bc4c968a4325c22c3c11ea656ce138c5e"
+      },
+      {
+        "path": "base-train.json",
+        "bytes": 27056,
+        "mode": "0600",
+        "sha256": "e7052506db40b2e279004a015fe1de0b1661fe8cf767c8e16aaa5b99ce991939"
+      },
+      {
+        "path": "environment.json",
+        "bytes": 4022,
+        "mode": "0600",
+        "sha256": "65a6df9c58bdb41993daf3d0a6f383aa5c60cba8360ea2ba86de4b0335ea85d3"
+      },
+      {
+        "path": "gpu-pip-freeze.txt",
+        "bytes": 4393,
+        "mode": "0600",
+        "sha256": "9cca8d36e71e6529ad7cfa68221cbf0773b54d0912267919bd9808afd0dd0377"
+      },
+      {
+        "path": "launch.log",
+        "bytes": 285,
+        "mode": "0600",
+        "sha256": "f04fb827e15e8f6dac6b33d3ca811716fe9f679224563eac0387dcbdf3c5c340"
+      },
+      {
+        "path": "m3-result.json",
+        "bytes": 35250,
+        "mode": "0600",
+        "sha256": "3a53626c61af53f1ea99dca11d5db57191562ae65f5c808a3dd8836da9dfe717"
+      },
+      {
+        "path": "nvidia-smi.txt",
+        "bytes": 1689,
+        "mode": "0600",
+        "sha256": "cbb14df4b5285ba9c229bb324084c869ef2ff8c53e555ec5977d0ef20f8eb22d"
+      },
+      {
+        "path": "preflight.json",
+        "bytes": 509,
+        "mode": "0600",
+        "sha256": "9ff2bd9d0f0e36feef018acb0778925131609e151e1812ba52f1b3a6c7527aed"
+      },
+      {
+        "path": "session-completion.json",
+        "bytes": 285,
+        "mode": "0600",
+        "sha256": "f04fb827e15e8f6dac6b33d3ca811716fe9f679224563eac0387dcbdf3c5c340"
+      },
+      {
+        "path": "session-progress.json",
+        "bytes": 170,
+        "mode": "0600",
+        "sha256": "848d3c1b57b71403b192b1cbc8c1fd7ee0cde92dad498a81746c4d8855859b79"
+      },
+      {
+        "path": "slice.json",
+        "bytes": 529425,
+        "mode": "0600",
+        "sha256": "6717b522fd54097c11d7591ff9f711247567b6988c0cebe8454a5b2e11cf21a5"
+      },
+      {
+        "path": "stage-base-and-train.log",
+        "bytes": 363624,
+        "mode": "0600",
+        "sha256": "cd7e50878b1defa57a78e744c952cd3d4eff8b4528bd5a4a815ee5a09b21daf5"
+      },
+      {
+        "path": "stage-environment-evidence.log",
+        "bytes": 4022,
+        "mode": "0600",
+        "sha256": "65a6df9c58bdb41993daf3d0a6f383aa5c60cba8360ea2ba86de4b0335ea85d3"
+      },
+      {
+        "path": "stage-freeze-slice.log",
+        "bytes": 175,
+        "mode": "0600",
+        "sha256": "e2ee0714b64cc0b1bbcb6cf3f79303b9537080894f8114e00b08b9dc09485295"
+      },
+      {
+        "path": "stage-fresh-reload-eval.log",
+        "bytes": 91244,
+        "mode": "0600",
+        "sha256": "8eff4f45f4eb789998fb453774f6f0f255e0a413fc87c939041735013e6f9d06"
+      },
+      {
+        "path": "stage-gpu-environment.log",
+        "bytes": 4082,
+        "mode": "0600",
+        "sha256": "71b6ea720d89c5dd98b0ba91ea579ede4dc4eb4cf78fbdbc2348e7decd02a919"
+      },
+      {
+        "path": "stage-m3-verify.log",
+        "bytes": 713,
+        "mode": "0600",
+        "sha256": "349a81c6d9d5cfdec0a3b368be9b214d59b6bfb4f81af34065880969eeeb9c39"
+      },
+      {
+        "path": "stage-nvidia-smi.log",
+        "bytes": 0,
+        "mode": "0600",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "stage-pip-freeze.log",
+        "bytes": 0,
+        "mode": "0600",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "stage-token-lengths.log",
+        "bytes": 92353,
+        "mode": "0600",
+        "sha256": "d3070ef2b0c5ec7ed4ad6492ba808fe6ea61148efdbe39de56ecd96337e6ee72"
+      },
+      {
+        "path": "stage-validate-result.log",
+        "bytes": 27,
+        "mode": "0600",
+        "sha256": "f5563eba5f6d60d9bf50d9f20f5c58697867658d585df8d4e683f9c1261ead5b"
+      },
+      {
+        "path": "token-length-report.json",
+        "bytes": 92353,
+        "mode": "0600",
+        "sha256": "d3070ef2b0c5ec7ed4ad6492ba808fe6ea61148efdbe39de56ecd96337e6ee72"
+      },
+      {
+        "path": "tokenizer-contract-preflight.json",
+        "bytes": 431,
+        "mode": "0600",
+        "sha256": "c0f28557415fe322a8ff8dec1971b2bc253f33aa2e819f6435bb3b09443ab4ab"
+      },
+      {
+        "path": "training-progress.json",
+        "bytes": 256,
+        "mode": "0600",
+        "sha256": "98c52f568f2072b4b02fb90f3aed285838e71e9e16734377cab54e1b94bf3b50"
+      }
+    ],
+    "key_file_sha256": {
+      "tokenizer-contract-preflight.json": "c0f28557415fe322a8ff8dec1971b2bc253f33aa2e819f6435bb3b09443ab4ab",
+      "token-length-report.json": "d3070ef2b0c5ec7ed4ad6492ba808fe6ea61148efdbe39de56ecd96337e6ee72",
+      "slice.json": "6717b522fd54097c11d7591ff9f711247567b6988c0cebe8454a5b2e11cf21a5",
+      "base-train.json": "e7052506db40b2e279004a015fe1de0b1661fe8cf767c8e16aaa5b99ce991939",
+      "training-progress.json": "98c52f568f2072b4b02fb90f3aed285838e71e9e16734377cab54e1b94bf3b50",
+      "adapter-manifest.json": "35bceeab417c09fb8e7e5345f7f4ac7c948981ed23bcc67b010df63fc63bb485",
+      "m3-result.json": "3a53626c61af53f1ea99dca11d5db57191562ae65f5c808a3dd8836da9dfe717",
+      "session-completion.json": "f04fb827e15e8f6dac6b33d3ca811716fe9f679224563eac0387dcbdf3c5c340"
+    }
+  },
+  "acceptance": {
+    "independent_row_metric_recomputation": "passed",
+    "tokenizer_integer_and_masking_contract": "passed",
+    "slice_identity_and_coverage": "passed",
+    "same_exam_contract": "passed",
+    "optimizer_update_and_adapter_delta": "passed",
+    "fresh_process_adapter_reload": "passed",
+    "evaluator_and_gold_preflight_errors_absent": "passed",
+    "heldout_zero": "passed",
+    "artifact_hash_and_permission_audit": "passed",
+    "actual_provider_invoice_recorded": "passed"
+  }
+}

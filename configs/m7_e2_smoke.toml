@@ -1,0 +1,85 @@
+schema_version = 1
+status = "precloud_preregistered_pending_teach_back_and_control_approval"
+experiment_id = "e2_m7_outcome_grpo_smoke_001"
+arm = "E2"
+
+[parent]
+model_id = "Qwen/Qwen3-4B-Base"
+revision = "906bfd4b4dc7f14ee4320094d8b41684abff8539"
+adapter_experiment_id = "e1_m4_formal_sft_001"
+adapter_selection = "final_primary_update_671"
+immutable = true
+
+[data]
+training_manifest_sha256 = "d90ffab32e296248376c542b736aef5ce7f547acc702a9eab41073789cf5b72a"
+split = "train"
+selector_version = "m7_e2_smoke_hash_v1"
+selector_seed = "verireason-m7-e2-smoke-v1"
+prompt_count = 8
+required_features = ["join", "aggregate", "subquery"]
+outcome_blind = true
+heldout_examples_loaded = 0
+heldout_examples_evaluated = 0
+
+[generation]
+num_generations = 4
+max_completion_length = 384
+temperature = 1.0
+top_p = 1.0
+top_k = 0
+use_vllm = false
+
+[optimization]
+maximum_optimizer_steps = 8
+per_device_train_batch_size = 1
+gradient_accumulation_steps = 4
+generation_batch_size = 4
+learning_rate = 0.000005
+optimizer = "paged_adamw_8bit"
+scheduler = "constant"
+beta = 0.0
+epsilon = 0.2
+epsilon_high = 0.28
+loss_type = "dapo"
+scale_rewards = "none"
+multi_objective_aggregation = "sum_then_normalize"
+mask_truncated_completions = true
+num_iterations = 1
+gradient_checkpointing = true
+seed = 23
+
+[reward]
+adapter = "TRLGroupRewardAdapter"
+component_scorer = "SQLiteRewardComponentScorer"
+terminal_metric = "strict_execution_accuracy"
+formal_evaluator_config = "configs/m2_data.toml"
+
+[evidence]
+require_clean_git = true
+minimum_output_free_bytes = 10737418240
+expected_session_wall_seconds = 5400
+maximum_session_wall_seconds = 7200
+planning_rate_cny_per_hour = 2.59
+maximum_session_cost_cny = 7.77
+required = [
+  "finite_loss",
+  "finite_gradient_norm",
+  "adapter_delta",
+  "checkpoint_reload",
+  "reward_group_diagnostics",
+  "peak_gpu_memory",
+  "wall_seconds",
+  "zero_heldout",
+]
+
+[stops]
+conditions = [
+  "heldout_nonzero",
+  "parent_or_manifest_identity_mismatch",
+  "nan_or_inf",
+  "reward_alignment_failure",
+  "no_adapter_delta",
+  "checkpoint_reload_failure",
+  "oom_at_minimum_batch",
+  "wall_or_cost_limit",
+]

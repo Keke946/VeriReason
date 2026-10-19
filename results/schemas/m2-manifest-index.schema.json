@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://verireason.local/schemas/m2-manifest-index.schema.json",
+  "title": "VeriReason M2 Manifest Index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "amended_config_sha256",
+    "historical_config_sha256",
+    "source_receipt",
+    "diagnostic_plan_sha256",
+    "training_manifest_sha256",
+    "heldout_manifest_sha256",
+    "operational_eligibility_audit_sha256",
+    "leakage_audit_sha256",
+    "finalization_evidence_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 2},
+    "amended_config_sha256": {"$ref": "#/$defs/sha256"},
+    "historical_config_sha256": {"$ref": "#/$defs/sha256"},
+    "diagnostic_plan_sha256": {"$ref": "#/$defs/sha256"},
+    "training_manifest_sha256": {"$ref": "#/$defs/sha256"},
+    "heldout_manifest_sha256": {"$ref": "#/$defs/sha256"},
+    "operational_eligibility_audit_sha256": {"$ref": "#/$defs/sha256"},
+    "leakage_audit_sha256": {"$ref": "#/$defs/sha256"},
+    "finalization_evidence_sha256": {"$ref": "#/$defs/sha256"},
+    "source_receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"const": "source-receipt.json"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

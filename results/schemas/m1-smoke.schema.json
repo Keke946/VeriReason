@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/verireason/m1-smoke.schema.json",
+  "title": "VeriReason M1 model smoke result",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "suite_id",
+    "status",
+    "started_at",
+    "completed_at",
+    "model",
+    "backend",
+    "wall_seconds",
+    "hourly_rate_cny",
+    "estimated_command_cost_cny",
+    "actual_cost_cny"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "experiment_id": { "type": "string", "minLength": 1 },
+    "suite_id": { "const": "m1-text2sql-smoke-v1" },
+    "status": { "enum": ["completed", "failed"] },
+    "started_at": { "type": "string", "format": "date-time" },
+    "completed_at": { "type": "string", "format": "date-time" },
+    "model": {
+      "type": "object",
+      "required": ["key", "model_id", "revision", "role", "license"]
+    },
+    "backend": { "const": "transformers" },
+    "wall_seconds": { "type": "number", "minimum": 0 },
+    "hourly_rate_cny": { "type": "number", "minimum": 0 },
+    "estimated_command_cost_cny": { "type": "number", "minimum": 0 },
+    "actual_cost_cny": { "type": ["number", "null"], "minimum": 0 },
+    "metrics": { "type": "object" },
+    "error": { "type": "string" }
+  },
+  "additionalProperties": true
+}

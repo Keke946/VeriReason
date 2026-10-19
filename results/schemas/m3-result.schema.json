@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://verireason.local/schemas/m3-result.schema.json",
+  "title": "VeriReason M3 Vertical Slice Result",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "status",
+    "experiment_id",
+    "source",
+    "slice_bundle_sha256",
+    "heldout_examples_loaded",
+    "heldout_examples_evaluated",
+    "comparison_contract",
+    "fresh_reload",
+    "base_evaluation",
+    "sft_evaluation",
+    "training",
+    "memory",
+    "timing",
+    "cost"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "status": {"const": "completed"},
+    "experiment_id": {"const": "m3_vertical_slice_001"},
+    "slice_bundle_sha256": {"$ref": "#/$defs/sha256"},
+    "heldout_examples_loaded": {"const": 0},
+    "heldout_examples_evaluated": {"const": 0},
+    "source": {"type": "object"},
+    "comparison_contract": {"type": "object"},
+    "fresh_reload": {"type": "object"},
+    "base_evaluation": {"type": "object"},
+    "sft_evaluation": {"type": "object"},
+    "training": {"type": "object"},
+    "memory": {"type": "object"},
+    "timing": {"type": "object"},
+    "cost": {"type": "object"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

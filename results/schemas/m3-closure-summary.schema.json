@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://verireason.local/schemas/m3-closure-summary.schema.json",
+  "title": "VeriReason M3 Closure Summary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "experiment_id",
+    "attempt_id",
+    "source",
+    "heldout_examples_loaded",
+    "heldout_examples_evaluated",
+    "tokenizer_preflight",
+    "slice",
+    "comparison_contract",
+    "training",
+    "adapter_reload",
+    "base_evaluation",
+    "sft_evaluation",
+    "memory",
+    "timing",
+    "cost",
+    "evidence",
+    "acceptance"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "status": {"const": "completed"},
+    "experiment_id": {"const": "m3_vertical_slice_001"},
+    "attempt_id": {"const": "m3_vertical_slice_001_attempt_003"},
+    "heldout_examples_loaded": {"const": 0},
+    "heldout_examples_evaluated": {"const": 0},
+    "source": {
+      "type": "object",
+      "required": [
+        "execution_commit",
+        "pin_commit",
+        "commits_are_distinct",
+        "model_id",
+        "model_revision",
+        "m2_training_manifest_sha256"
+      ],
+      "properties": {
+        "execution_commit": {"$ref": "#/$defs/git_sha"},
+        "pin_commit": {"$ref": "#/$defs/git_sha"},
+        "commits_are_distinct": {"const": true},
+        "model_id": {"const": "Qwen/Qwen3-4B-Base"},
+        "model_revision": {"$ref": "#/$defs/git_sha"},
+        "m2_training_manifest_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "tokenizer_preflight": {"type": "object"},
+    "slice": {
+      "type": "object",
+      "required": ["slice_bundle_sha256", "splits"],
+      "properties": {
+        "slice_bundle_sha256": {"$ref": "#/$defs/sha256"},
+        "splits": {
+          "type": "object",
+          "required": ["train", "validation"],
+          "properties": {
+            "train": {"$ref": "#/$defs/split"},
+            "validation": {"$ref": "#/$defs/split"}
+          }
+        }
+      }
+    },
+    "comparison_contract": {"type": "object"},
+    "training": {
+      "type": "object",
+      "required": [
+        "initial_loss",
+        "final_observed_loss",
+        "gradient_norm",
+        "micro_steps",
+        "optimizer_steps",
+        "adapter_parameter_delta_detected",
+        "adapter_delta_l2_norm"
+      ],
+      "properties": {
+        "micro_steps": {"const": 8},
+        "optimizer_steps": {"const": 2},
+        "gradient_norm": {"type": "number", "exclusiveMinimum": 0},
+        "adapter_parameter_delta_detected": {"const": true},
+        "adapter_delta_l2_norm": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "adapter_reload": {
+      "type": "object",
+      "required": ["manifest_sha256", "prior_process_id", "reload_process_id", "different_process"],
+      "properties": {
+        "manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "different_process": {"const": true}
+      }
+    },
+    "base_evaluation": {"$ref": "#/$defs/evaluation"},
+    "sft_evaluation": {"$ref": "#/$defs/evaluation"},
+    "memory": {"type": "object"},
+    "timing": {
+      "type": "object",
+      "required": ["complete_session_elapsed_seconds", "complete_session_source"],
+      "properties": {
+        "complete_session_elapsed_seconds": {"type": "number", "exclusiveMinimum": 0},
+        "complete_session_source": {"const": "session-completion.json"}
+      }
+    },
+    "cost": {
+      "type": "object",
+      "required": [
+        "source",
+        "transactions",
+        "actual_provider_cost_cny",
+        "pre_m3_cumulative_cost_cny",
+        "post_m3_cumulative_cost_cny",
+        "program_wall_estimate_is_actual_cost"
+      ],
+      "properties": {
+        "source": {"const": "user_provided_provider_screenshot"},
+        "transactions": {"type": "array", "minItems": 2, "maxItems": 2},
+        "actual_provider_cost_cny": {"const": "3.88284165"},
+        "pre_m3_cumulative_cost_cny": {"const": "9.64484428"},
+        "post_m3_cumulative_cost_cny": {"const": "13.52768593"},
+        "program_wall_estimate_is_actual_cost": {"const": false}
+      }
+    },
+    "evidence": {"type": "object"},
+    "acceptance": {"type": "object"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "git_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "split": {
+      "type": "object",
+      "required": ["count", "sample_ids", "slice_sha256", "feature_counts", "token_lengths"],
+      "properties": {
+        "count": {"const": 8},
+        "sample_ids": {"type": "array", "minItems": 8, "maxItems": 8, "uniqueItems": true},
+        "slice_sha256": {"$ref": "#/$defs/sha256"},
+        "feature_counts": {
+          "type": "object",
+          "required": ["join", "aggregate", "subquery"],
+          "properties": {
+            "join": {"type": "integer", "minimum": 1},
+            "aggregate": {"type": "integer", "minimum": 1},
+            "subquery": {"type": "integer", "minimum": 1}
+          }
+        },
+        "token_lengths": {"type": "object"}
+      }
+    },
+    "evaluation": {
+      "type": "object",
+      "required": [
+        "example_count",
+        "bird_ex_behavior_compatible",
+        "strict_execution_accuracy",
+        "strict_sql_only_rate",
+        "failure_categories",
+        "throughput_scope"
+      ],
+      "properties": {
+        "example_count": {"const": 8},
+        "bird_ex_behavior_compatible": {"type": "number", "minimum": 0, "maximum": 1},
+        "strict_execution_accuracy": {"type": "number", "minimum": 0, "maximum": 1},
+        "strict_sql_only_rate": {"type": "number", "minimum": 0, "maximum": 1},
+        "failure_categories": {"type": "object"},
+        "throughput_scope": {"const": "generation_plus_evaluator_end_to_end"}
+      }
+    }
+  }
+}

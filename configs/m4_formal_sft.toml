@@ -1,0 +1,122 @@
+schema_version = 1
+status = "precloud_preregistered_pending_control_approval"
+experiment_id = "e1_m4_formal_sft_001"
+
+[model]
+model_id = "Qwen/Qwen3-4B-Base"
+revision = "906bfd4b4dc7f14ee4320094d8b41684abff8539"
+trust_remote_code = false
+dtype = "bfloat16"
+
+[data]
+manifest_index_sha256 = "0e1182eb16bf5bed4b6d5505b11fcf6860689abe9f0435e3d2b3fc33bf7d1cda"
+training_manifest_sha256 = "d90ffab32e296248376c542b736aef5ce7f547acc702a9eab41073789cf5b72a"
+selector_version = "m4_full_primary_epoch_v3"
+selector_seed = "verireason-m4-formal-sft-v1"
+required_features = ["join", "aggregate", "subquery", "group_by", "order_by", "set_operation"]
+train_count = 5364
+development_validation_count = 256
+final_validation_count = 953
+full_validation_count = 1209
+selection_preregistration_sha256 = "41ed110002894c56db1c2c2e99045c51a715bc07374e91c9072f1eb29acb2a8c"
+heldout_examples_loaded = 0
+heldout_examples_evaluated = 0
+
+[prompt]
+contract_version = "m3_sqlite_sql_only_v1"
+schema_version = "m3_sqlite_schema_v1"
+target_version = "m3_sql_target_v1"
+system = "You translate questions into SQLite. Return exactly one read-only SELECT or WITH ... SELECT query. Return SQL only, with no explanation or Markdown."
+include_sample_values = false
+include_reasoning = false
+enable_thinking = false
+strip_target_trailing_semicolon = true
+append_eos = true
+max_sequence_tokens = 2048
+max_answer_tokens = 384
+schema_overflow_policy = "drop_complete_tables_from_end"
+overlength_policy = "fail_if_any_full_train_row_is_token_ineligible"
+
+[decoding]
+do_sample = false
+num_beams = 1
+max_new_tokens = 384
+
+[qlora]
+load_in_4bit = true
+bnb_4bit_quant_type = "nf4"
+bnb_4bit_use_double_quant = true
+bnb_4bit_compute_dtype = "bfloat16"
+lora_rank = 16
+lora_alpha = 32
+lora_dropout = 0.05
+target_modules = ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+bias = "none"
+task_type = "CAUSAL_LM"
+transformers_version = "5.14.1"
+primary_epochs = 1
+epoch2_extension = "control_review_required"
+automatic_extension = false
+updates_per_epoch = 671
+primary_updates = 671
+maximum_optimizer_steps = 671
+scheduler_total_optimizer_steps = 671
+learning_rate = 0.0001
+optimizer = "paged_adamw_8bit"
+scheduler = "cosine"
+warmup_ratio = 0.03
+warmup_optimizer_steps = 21
+per_device_train_batch_size = 1
+gradient_accumulation_steps = 8
+effective_batch_size = 8
+partial_accumulation_policy = "scale_real_losses_and_zero_gradient_pad"
+final_real_microbatches = 4
+final_zero_gradient_padding_microbatches = 4
+final_real_loss_multiplier = 2
+gradient_checkpointing = true
+use_cache = false
+maximum_gradient_norm = 1.0
+seed = 23
+
+[checkpoint]
+save_optimizer_steps = 64
+save_total_limit = 4
+resume_policy = "latest_complete_matching_contract"
+required_loss_checkpoint_updates = [512, 671]
+selection_rule = "final_primary_update_671"
+early_stopping = false
+atomic_adapter_publish = true
+
+[epoch_extension_diagnostic]
+validation_selection = "dev256"
+loss = "teacher_forced_answer_only_token_weighted_mean"
+loss_checkpoint_updates = [512, 671]
+advisory_relative_dev_loss_drop = 0.01
+automatic_extension = false
+decision = "control_review_required_after_primary"
+
+[evaluator]
+metrics = ["bird_ex_behavior_compatible", "strict_execution_accuracy", "strict_sql_only_rate", "valid_sql_rate", "failure_categories", "throughput", "peak_memory", "wall_time", "cost"]
+timeout_seconds = 10.0
+maximum_cpu_seconds = 12
+maximum_cpu_hard_seconds = 13
+maximum_result_rows = 100000
+maximum_result_bytes = 67108864
+maximum_vm_bytes = 2147483648
+maximum_float_pair_checks = 1000000
+float_absolute_tolerance = 0.000001
+float_relative_tolerance = 0.000001
+
+[success]
+minimum = "completed_primary_update671_adapter_and_extension_decision_packet_with_zero_heldout"
+recommended = "minimum_plus_unique_full1209_e0_e1_generation_and_same_exam_comparison"
+stop_conditions = ["heldout_nonzero", "contract_drift", "nan_or_inf", "repeated_oom_after_single_safe_retry", "cost_or_wall_hard_stop"]
+
+[evidence]
+require_clean_git = true
+minimum_output_free_bytes = 32212254720
+expected_session_wall_seconds = 43200
+maximum_session_wall_seconds = 50400
+planning_rate_cny_per_hour = 2.59
+maximum_session_cost_cny = 36.26
+terminate_grace_seconds = 30

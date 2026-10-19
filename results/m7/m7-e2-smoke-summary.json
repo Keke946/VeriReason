@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "experiment_id": "e2_m7_outcome_grpo_smoke_001",
+  "status": "completed",
+  "scope": "engineering_smoke_not_accuracy_experiment",
+  "execution_git_commit": "91a95bad2ca6c2c0cf2c083ee2d57c72cf5f35d0",
+  "hardware": "1x NVIDIA GeForce RTX 4090 D 48 GB",
+  "training_prompts": 8,
+  "completions_per_prompt": 4,
+  "rollouts": 32,
+  "optimizer_steps": 8,
+  "training_loss": -0.005681818351149559,
+  "gradient_norm_last": 0.0,
+  "gradient_norm_max": 0.6484375,
+  "adapter_delta_l2": 0.13338756984618994,
+  "reward_diagnostics": {
+    "groups": 8,
+    "mixed_reward_groups": 2,
+    "zero_variance_groups": 6,
+    "mixed_reward_group_fraction": 0.25,
+    "mean_terminal_reward": 0.21875
+  },
+  "peak_gpu_memory_mib": 11736.0,
+  "training_stage_wall_seconds": 188.3190848287195,
+  "session_wall_seconds": 313.6043039644137,
+  "adapter_manifest_sha256": "c5cc22cb6e0b06c7afb89fd36628393322e69e7b059f1c702d40cf5a3c2f6d0c",
+  "separate_process_reload_status": "passed",
+  "adapter_names_after_reload": [
+    "default"
+  ],
+  "heldout_examples_loaded": 0,
+  "heldout_examples_evaluated": 0,
+  "cloud_cost_cny": null,
+  "source_evidence": {
+    "training_result_sha256": "3fa640c4bfe37cb2ccade7b200ad429bee87849e9d9d022a3d675d4e9ca3c12e",
+    "reload_result_sha256": "c30cf779b1ea11fb5d9805a0ad1e9c694e0c1c8bc2d213268f3af02db3d2ba8f",
+    "session_completion_sha256": "a8c06225ed35abd88250e3d96a890a7db8cb8f6f19ec7dea757f8896eab6e5ff",
+    "provenance_note": "Public aggregate reconstructed from the three JSON payloads and SHA-256 values verified immediately after cloud download. The temporary local raw copies expired before Git closure; the retained cloud copies require a separately approved paid restart to recover."
+  },
+  "interpretation": "The E1-to-E2 training, checkpoint, and reload path is functional. Only two of eight groups contained relative reward signal, so this run does not establish an accuracy gain and does not by itself justify a headline model claim."
+}

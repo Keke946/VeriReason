@@ -1,0 +1,28 @@
+schema_version = 1
+finalizer_only = true
+diagnostic_plan_sha256 = "3ded2e3718c9d2d397c07dd6c2792651dbf3992113d500733fbc562dd699cd6b"
+
+[evidence]
+private_preflight_sha256 = "2408b34df2e4e55544c77c49efb5a8c42364d86ac9e018168ea4b5dfeff98e02"
+diagnostic_checkpoint_sha256 = "2e8748e29ba87ff94ecda079ae01cf7ae8105ce0965f45e01c1b02e66614c8f7"
+source_receipt_sha256 = "da189fd0f69d7713c16acfe434738e1f867074665c2b95d7d78b3ace29741ffe"
+training_labels_sha256 = "2ee64aa593e1adc59be7d5b9ce2395372a8ee27fdd94a3fb4d2fe09f3cd34bc8"
+heldout_labels_sha256 = "88ceb0710163cae46a256ecea8f0a8c98286599530b60587fda5c3cfe57d45d2"
+historical_formal_config_sha256 = "d468ca938964597832ce5fb4c23b452fa362e8b6770c9d73a0de80d6c669598b"
+amended_formal_config_sha256 = "1fa045ebf72a29d9209f5b37f1042126a81e66e3f7511b1c1fc8a8b21d553181"
+
+[expected]
+diagnostic_completed = 244
+training_unique_sql = 6524
+training_original_ok_unique_sql = 6282
+training_recovered_unique_sql = 214
+training_eligible_unique_sql = 6496
+training_ineligible_unique_sql = 28
+heldout_total_examples = 500
+heldout_eligible_examples = 498
+heldout_ineligible_examples = 2
+
+[publication]
+staging_suffix = ".finalization.partial"
+heldout_manifest_mode = "0600"
+require_same_filesystem = true

@@ -1,0 +1,1516 @@
+schema_version: 1
+project: verireason
+experiments:
+  m1_env_1x48_001:
+    objective: "Validate the locked M1 GPU environment and single-GPU topology."
+    status: completed
+    git_commit: ""
+    config: configs/environment.toml
+    dataset_version: ""
+    model: ""
+    hardware: "Xiangongyun; 1x NVIDIA GeForce RTX 4090 D; 49140 MiB; 14 CPU cores; 120 GB RAM"
+    started_at: "2026-08-13T20:37:37+00:00"
+    completed_at: "2026-08-13T20:39:02+00:00"
+    artifacts:
+      - results/m1/m1-envcheck.json
+    metrics:
+      cuda_available: true
+      cuda_device_count: 1
+      gpu_memory_gib: 47.3992919921875
+      compute_capability: "8.9"
+      driver_version: "610.43.03"
+      torch_cuda_runtime: "13.0"
+      environment_error_count: 0
+    notes: "Executed from an rsynced uncommitted working tree based on f709f3a; no exact Git commit was present on the cloud copy. Ubuntu 22.04.5; Python 3.11.15 environment at /root/.conda/envs/verireason-m1; all pinned package imports and pip check passed. The image does not include nvcc; prebuilt wheels do not require it. gpu-pip-freeze.txt was not generated before shutdown."
+  m1_qwen3_1_7b_transformers_1x48_001:
+    objective: "Measure the fallback model's tiny Text-to-SQL inference viability before the preferred model."
+    status: completed
+    git_commit: ""
+    config: configs/m1_smoke.toml
+    dataset_version: m1-text2sql-smoke-v1
+    model: Qwen/Qwen3-1.7B-Base@ea980cb0a6c2ae4b936e82123acc929f1cec04c1
+    hardware: "Xiangongyun; 1x NVIDIA GeForce RTX 4090 D; 49140 MiB; driver 610.43.03"
+    started_at: "2026-08-13T20:50:50.071626+00:00"
+    completed_at: "2026-08-13T20:52:59.250119+00:00"
+    artifacts:
+      - results/m1/m1_qwen3_1_7b_transformers_1x48_001.json
+    metrics:
+      case_count: 4
+      valid_sql_count: 4
+      execution_correct_count: 4
+      strict_sql_only_count: 1
+      strict_sql_only_rule: "trim outer whitespace; allow one trailing semicolon; entire response must be one bare SELECT/WITH query with no fences or prose"
+      completion_tokens: 309
+      completion_tokens_per_second: 34.85090731359753
+      load_seconds: 112.38073480920866
+      generation_seconds: 8.866340185049921
+      wall_seconds: 129.1784778079018
+      nvidia_smi_peak_used_mib: 3764
+      torch_peak_allocated_gib: 3.236480712890625
+      estimated_command_cost_cny: 0.0929367382006849
+    notes: "Executed from an uncommitted pre-51decb1 working tree based on f709f3a, so no exact git_commit exists. Exact executed source manifest is ed518be19adf972c20020b6d9114c2ae7212a846b411c936397bd25ef408561c. Reconstructing 51decb1 with only configs/environment.toml status restored to proposed_pending_cloud_validation reproduces it exactly. Deterministic summarizer confirms 1/4 strict SQL-only responses. This is not benchmark accuracy."
+  m1_qwen3_4b_transformers_1x48_001:
+    objective: "Measure the preferred model's tiny Text-to-SQL inference viability on the same 1x48 GB route."
+    status: completed
+    git_commit: ""
+    config: configs/m1_smoke.toml
+    dataset_version: m1-text2sql-smoke-v1
+    model: Qwen/Qwen3-4B-Base@906bfd4b4dc7f14ee4320094d8b41684abff8539
+    hardware: "Xiangongyun; 1x NVIDIA GeForce RTX 4090 D; 49140 MiB; driver 610.43.03"
+    started_at: "2026-08-13T20:59:16.371333+00:00"
+    completed_at: "2026-08-13T21:04:13.120946+00:00"
+    artifacts:
+      - results/m1/m1_qwen3_4b_transformers_1x48_001.json
+    metrics:
+      case_count: 4
+      valid_sql_count: 4
+      execution_correct_count: 4
+      strict_sql_only_count: 4
+      strict_sql_only_rule: "trim outer whitespace; allow one trailing semicolon; entire response must be one bare SELECT/WITH query with no fences or prose"
+      completion_tokens: 122
+      completion_tokens_per_second: 28.331614788948343
+      load_seconds: 284.68856815667823
+      generation_seconds: 4.306143539957702
+      wall_seconds: 296.74961290927604
+      nvidia_smi_peak_used_mib: 8158
+      torch_peak_allocated_gib: 7.523518085479736
+      estimated_command_cost_cny: 0.213494860398618
+    notes: "Executed from an uncommitted pre-51decb1 working tree based on f709f3a, so no exact git_commit exists. Exact executed source manifest is ed518be19adf972c20020b6d9114c2ae7212a846b411c936397bd25ef408561c. Reconstructing 51decb1 with only configs/environment.toml status restored to proposed_pending_cloud_validation reproduces it exactly. Deterministic summarizer confirms 4/4 strict SQL-only responses. Selected for later milestones; this is not benchmark accuracy."
+  m2_day3a_local_001:
+    objective: "Freeze and locally verify the M2 data, split, leakage, evaluator, and reward contracts without database archive download."
+    status: completed
+    git_commit: ""
+    config: configs/m2_data.toml
+    dataset_version: "birdsql/bird23-train-filtered@4068469807b255fcfc0816bdd520946fe460d256; birdsql/bird_mini_dev@f65faf4ae3b638c1fa6df1d3370c8d92c8366301"
+    model: ""
+    hardware: "Local macOS CPU; no GPU; 16.45 GiB free at disk evidence snapshot"
+    started_at: ""
+    completed_at: "2026-08-14T06:50:46+08:00"
+    artifacts:
+      - results/m2/day3a-label-precheck.json
+      - docs/M2_DAY3A_REPORT.md
+    metrics:
+      training_label_rows: 6601
+      training_database_ids: 69
+      training_label_sha256: "2ee64aa593e1adc59be7d5b9ce2395372a8ee27fdd94a3fb4d2fe09f3cd34bc8"
+      heldout_label_rows: 500
+      heldout_database_ids: 11
+      heldout_label_sha256: "88ceb0710163cae46a256ecea8f0a8c98286599530b60587fda5c3cfe57d45d2"
+      train_split_databases: 59
+      validation_split_databases: 10
+      train_split_examples: 5381
+      validation_split_examples: 1220
+      validation_example_ratio: 0.1848204817451901
+      cross_split_db_id_pairs: 0
+      cross_split_joint_sample_pairs: 0
+      training_archive_content_length: 8919543554
+      training_archive_uncompressed_bytes: 9353941605
+      minidev_archive_content_length: 799944582
+      minidev_archive_uncompressed_bytes: 3539193972
+      archive_metadata_bytes_fetched: 169222
+      local_unit_tests_passed: 38
+    notes: "Day 3A used only two small fixed-revision label files and HTTP Range ZIP metadata. No SQLite database archive, model, cloud instance, paid resource, SFT, or RL run occurred. Database SHA/schema leakage checks and final manifest hashes remain Day 3B work. git_commit is intentionally empty because this local protocol gate was verified before its containing commit; the handoff records the resulting commit."
+  m2_day3a_closure_001:
+    objective: "Repair and verify the M2 SQL analyzer, float comparator, reward contract, gold preflight, and materialization safety closure."
+    status: completed
+    git_commit: ""
+    config: configs/m2_data.toml
+    dataset_version: "birdsql/bird23-train-filtered@4068469807b255fcfc0816bdd520946fe460d256; birdsql/bird_mini_dev@f65faf4ae3b638c1fa6df1d3370c8d92c8366301"
+    model: ""
+    hardware: "Local macOS CPU; no GPU or cloud resource"
+    started_at: ""
+    completed_at: "2026-08-15T02:08:03+08:00"
+    artifacts:
+      - results/m2/day3a-gold-static-analysis.json
+      - docs/M2_DAY3A_REPORT.md
+    metrics:
+      training_gold_sql_total: 6601
+      training_static_rejected_before: 540
+      training_static_rejected_after: 0
+      training_case_end_false_rejections_before: 502
+      training_replace_false_rejections_before: 38
+      heldout_gold_sql_total: 500
+      heldout_static_rejected_before: 62
+      heldout_static_rejected_after: 0
+      heldout_case_end_false_rejections_before: 62
+      total_static_gold_sql_analyzed: 7101
+      remaining_static_rejection_categories: 0
+      local_unit_tests_passed: 71
+      cloud_gpu_hours: 0
+      cloud_cost_cny: 0
+    notes: "Static analysis used the two previously downloaded labels with their frozen SHA-256 identities. Zero static rejection does not claim execution success; all unique (db_id, gold_sql) pairs remain gated on Day 3B real-SQLite preflight. No archive was downloaded and Day 3B remains unapproved. git_commit is intentionally empty because the closure result is contained by the commit reported in the handoff."
+  m2_precloud_closure_001:
+    objective: "Eliminate large-result IPC deadlock and bound preflight/comparator/resume behavior before M2 cloud materialization."
+    status: completed
+    git_commit: ""
+    config: configs/m2_data.toml
+    dataset_version: "birdsql/bird23-train-filtered@4068469807b255fcfc0816bdd520946fe460d256; birdsql/bird_mini_dev@f65faf4ae3b638c1fa6df1d3370c8d92c8366301"
+    model: ""
+    hardware: "Local macOS CPU; no GPU or cloud resource"
+    started_at: ""
+    completed_at: "2026-08-15T02:27:29+08:00"
+    artifacts:
+      - docs/M2_DAY3A_REPORT.md
+    metrics:
+      ipc_collected_result_rows: 20000
+      preflight_status_only_result_rows: 20000
+      maximum_float_pair_checks: 1000000
+      local_unit_tests_passed: 83
+      cloud_gpu_hours: 0
+      cloud_cost_cny: 0
+    notes: "The worker Pipe is drained before join; status-only preflight still traverses complete results and enforces row/byte/time limits. HTTP 206 resume requires consistent Content-Range total. No database archive was downloaded; Day 3B remains unapproved. git_commit is intentionally empty because the handoff reports the containing closure commit."
+  m2_day3b_materialization_001:
+    objective: "Materialize fixed BIRD databases and publish M2 manifests after all gates pass."
+    status: stopped
+    git_commit: "9dc25ceaf76072a7e8a0a1ccdb12bc1bfe3f2eb8"
+    config: configs/m2_data.toml
+    dataset_version: "birdsql/bird23-train-filtered@4068469807b255fcfc0816bdd520946fe460d256; birdsql/bird_mini_dev@f65faf4ae3b638c1fa6df1d3370c8d92c8366301"
+    model: ""
+    hardware: "Xiangongyun; 1x NVIDIA GeForce RTX 4090 D 48 GB; root ZFS target"
+    started_at: "2026-08-14T18:52:52+00:00"
+    completed_at: "2026-08-14T20:24:44+00:00"
+    artifacts:
+      - docs/M2_DAY3A_REPORT.md
+    metrics:
+      rate_cny_per_hour: 2.59
+      target_free_bytes_before: 107368022016
+      target_free_bytes_after_downloads: 97638285312
+      training_archive_bytes: 8919543554
+      training_archive_sha256: "66e9e3115b59559554013aa3b124156249f30437a6b4e4f96de3d2dfb5ae8cbc"
+      heldout_archive_bytes: 799944582
+      heldout_archive_sha256: "aeb211c0e39010bbdae3838bb5e8bd27dc446ed77495b1709f85ccc9bf67f2be"
+      manifests_published: 0
+      inner_archive_bytes: 9347158408
+      inner_archive_sha256: "902fed2d1e75d42dd8c9896e006489acdc8518b2c73b21ba3ae1e42d57ea9aaa"
+      inner_archive_member_count: 1525
+      inner_archive_uncompressed_bytes: 32408008953
+      initial_capacity_free_bytes: 107369463808
+      initial_capacity_required_bytes: 75161927680
+      dynamic_capacity_free_bytes: 98791849984
+      dynamic_capacity_required_bytes: 46684621165
+      training_gold_total_sql: 6601
+      training_gold_unique_sql: 6524
+      training_gold_ok: 6282
+      training_gold_execution_error: 220
+      training_gold_resource_limit: 22
+      heldout_gold_total_sql: 500
+      heldout_gold_unique_sql: 500
+      heldout_gold_ok: 498
+      heldout_gold_execution_error: 2
+      heldout_gold_resource_limit: 0
+      cpu_signal_ipc_failures: 167
+      unstable_exitcode_ipc_failures: 55
+      result_row_limit_failures: 22
+      materialization_elapsed_seconds: 2005
+      capacity_gates_sha256: "275c525dbcd69e459f6f7cc901399b3faa57dfeafeefe4b6a7bcef3c4794c7b3"
+      source_receipt_sha256: "da189fd0f69d7713c16acfe434738e1f867074665c2b95d7d78b3ace29741ffe"
+      gold_preflight_summary_sha256: "8e1b47ff105f4db2bc0c256f1fab8296da1930c4e30e57add469db22f62c128a"
+      private_gold_preflight_sha256: "2408b34df2e4e55544c77c49efb5a8c42364d86ac9e018168ea4b5dfeff98e02"
+      first_attempt_actual_cny: 1.00987346
+      second_attempt_actual_cny: 1.78134210
+      cumulative_day3b_actual_cny: 2.79121556
+      remaining_day3b_hard_stop_cny: 10.15878444
+    notes: "The first session downloaded sources at cba44c4 and stopped before extraction; the second used 9dc25ce and safely materialized databases but gold preflight blocked publication. Private failure evidence remains mode-0600 outside Git. No final manifest exists. SIGXCPU/IPC classification and legitimate over-100k-row gold queries require control review before any code or limit change. The final Day 2-3 spend.csv row remains deferred until M2 closure as instructed."
+  m2_evaluator_diagnostic_closure_001:
+    objective: "Stabilize M2 worker-exit classification and preregister a resumable failure-only diagnostic without changing formal evaluator limits."
+    status: completed
+    git_commit: ""
+    config: configs/m2_diagnostic.toml
+    dataset_version: "No data execution; synthetic SQLite/process fixtures and accepted 96bcb4c aggregate identities only"
+    model: ""
+    hardware: "Local macOS CPU; no GPU or cloud resource"
+    started_at: ""
+    completed_at: "2026-08-15T05:00:38+08:00"
+    artifacts:
+      - docs/M2_DAY3A_REPORT.md
+    metrics:
+      prior_non_ok_unique_queries: 244
+      prior_cpu_or_ipc_queries: 222
+      prior_row_limit_queries: 22
+      profile_a_wall_seconds: 10
+      profile_a_cpu_soft_seconds: 12
+      profile_a_cpu_hard_seconds: 13
+      profile_b_wall_seconds: 30
+      profile_b_cpu_soft_seconds: 32
+      profile_b_cpu_hard_seconds: 33
+      profile_b_maximum_result_rows: 1000000
+      profile_b_maximum_result_bytes: 536870912
+      local_unit_tests_passed: 104
+      formal_config_sha256: "d468ca938964597832ce5fb4c23b452fa362e8b6770c9d73a0de80d6c669598b"
+      diagnostic_config_sha256: "2994ceff37ef2347c652dddff4a9ea44e3e6216e55e6d7889259ab42dc5a0959"
+      cloud_gpu_hours: 0
+      cloud_cost_cny: 0
+    notes: "Tooling only: no cloud start, database execution, manifest publication, gold edit, formal-limit change, spend.csv write, or M3 work. The accepted 96bcb4c stopped evidence remains unchanged. git_commit is intentionally empty because the handoff records the containing closure commit."
+  m2_diagnostic_evidence_privacy_closure_001:
+    objective: "Bind the failure-only diagnostic to accepted evidence, private output, resumable plan identity, and a program-level session wall gate."
+    status: completed
+    git_commit: ""
+    config: configs/m2_diagnostic.toml
+    dataset_version: "No data execution; synthetic evidence/privacy fixtures only"
+    model: ""
+    hardware: "Local macOS CPU; no GPU or cloud resource"
+    started_at: ""
+    completed_at: "2026-08-15T05:15:21+08:00"
+    artifacts:
+      - docs/M2_DAY3A_REPORT.md
+    metrics:
+      expected_diagnostic_queries: 244
+      frozen_input_evidence_count: 5
+      maximum_session_wall_seconds: 5400
+      checkpoint_mode: "0600"
+      local_unit_tests_passed: 113
+      formal_config_sha256: "d468ca938964597832ce5fb4c23b452fa362e8b6770c9d73a0de80d6c669598b"
+      diagnostic_config_sha256: "0dbf750c487a2fd2dcbb4f3c7cefabd16b121f9b9024ef5be452ccafeae07d37"
+      private_preflight_sha256: "2408b34df2e4e55544c77c49efb5a8c42364d86ac9e018168ea4b5dfeff98e02"
+      training_labels_sha256: "2ee64aa593e1adc59be7d5b9ce2395372a8ee27fdd94a3fb4d2fe09f3cd34bc8"
+      heldout_labels_sha256: "88ceb0710163cae46a256ecea8f0a8c98286599530b60587fda5c3cfe57d45d2"
+      source_receipt_sha256: "da189fd0f69d7713c16acfe434738e1f867074665c2b95d7d78b3ace29741ffe"
+      cloud_gpu_hours: 0
+      cloud_cost_cny: 0
+    notes: "Local closure only. No private production input was parsed, no cloud resource started, no formal limit changed, no manifest published, no spend.csv row written, and M3 remains pending. The prior 96bcb4c evidence and CNY 2.79121556 cumulative M2 cost remain unchanged. git_commit is intentionally empty because the handoff records the containing commit."
+  m2_failure_only_cloud_diagnostic_001:
+    objective: "Classify only the 244 accepted non-ok gold-preflight queries under frozen diagnostic-only profiles."
+    status: completed
+    git_commit: "e6c56af36f521b823def81126143a00c9306eb42"
+    config: configs/m2_diagnostic.toml
+    dataset_version: "Accepted private preflight and fixed BIRD label/database identities; no gold edits"
+    model: ""
+    hardware: "Xiangongyun; 1x NVIDIA GeForce RTX 4090 D 48 GB; retained ZFS database disk"
+    started_at: "2026-08-15T07:40:38+00:00"
+    completed_at: "2026-08-15T07:56:43+00:00"
+    artifacts:
+      - results/m2/m2-diagnostic-summary.json
+      - docs/M2_DAY3A_REPORT.md
+    metrics:
+      expected_queries: 244
+      completed_queries: 244
+      complete: true
+      elapsed_seconds: 965
+      plan_sha256: "3ded2e3718c9d2d397c07dd6c2792651dbf3992113d500733fbc562dd699cd6b"
+      checkpoint_mode: "0600"
+      private_checkpoint_sha256: "2e8748e29ba87ff94ecda079ae01cf7ae8105ce0965f45e01c1b02e66614c8f7"
+      training_profile_a_original: 220
+      training_profile_a_succeeded: 214
+      training_profile_a_le_3_seconds: 82
+      training_profile_a_gt_3_le_5_seconds: 82
+      training_profile_a_gt_5_le_10_seconds: 50
+      training_profile_a_wall_timeout: 5
+      training_profile_a_worker_error: 1
+      heldout_profile_a_original: 2
+      heldout_profile_a_wall_timeout: 2
+      unstable_exitcode: 0
+      training_profile_b_100k_to_250k: 9
+      training_profile_b_250k_to_500k: 6
+      training_profile_b_500k_to_1m: 4
+      training_profile_b_gt_1m: 3
+      training_profile_b_byte_limit: 0
+      session_container_cost_cny: 2.70870832
+      session_conservative_cost_cny: 2.71148100
+      cumulative_day3b_conservative_cost_cny: 5.50269656
+    notes: "Diagnostic-only run completed every selected query but hit preregistered stop conditions. Formal evaluator/RL limits and gold SQL remain unchanged; no manifest was published; .partial and private checkpoint contents remain off Git; cloud is shut down; spend.csv remains deferred until M2 closure."
+  m2_operational_eligibility_finalizer_closure_001:
+    objective: "Version the control-approved formal resource amendment and verify an evidence-only operational-eligibility finalizer without cloud execution."
+    status: completed
+    git_commit: ""
+    config: configs/m2_finalizer.toml
+    dataset_version: "Frozen BIRD sources plus accepted private preflight/diagnostic evidence identities; no SQL or label edits"
+    model: ""
+    hardware: "Local macOS CPU; no GPU or cloud resource"
+    started_at: ""
+    completed_at: "2026-08-16"
+    artifacts:
+      - configs/m2_data_v1_3s.toml
+      - configs/m2_data.toml
+      - configs/m2_finalizer.toml
+      - docs/M2_PROTOCOL.md
+      - docs/M2_DAY3A_REPORT.md
+    metrics:
+      local_unit_tests_passed: 122
+      historical_formal_config_sha256: "d468ca938964597832ce5fb4c23b452fa362e8b6770c9d73a0de80d6c669598b"
+      amended_formal_config_sha256: "1fa045ebf72a29d9209f5b37f1042126a81e66e3f7511b1c1fc8a8b21d553181"
+      finalizer_config_sha256: "67d7990a989e16824bea087a36984d294d75e960776b035fa08519907ff3a3ad"
+      protocol_sha256: "9620ed3d6c1c2e06ebaae803f757d79addd1a1018c412ae17f57a17d24e19e36"
+      formal_timeout_seconds: 10.0
+      formal_cpu_soft_seconds: 12
+      formal_cpu_hard_seconds: 13
+      formal_maximum_result_rows: 100000
+      formal_maximum_result_bytes: 67108864
+      formal_maximum_vm_bytes: 2147483648
+      expected_training_eligible_unique_sql: 6496
+      expected_training_ineligible_unique_sql: 28
+      expected_heldout_eligible_examples: 498
+      expected_heldout_ineligible_examples: 2
+      cloud_gpu_hours: 0
+      cloud_cost_cny: 0
+      cumulative_day3b_cost_cny: 5.50269656
+    notes: "Local closure only. The finalizer consumes frozen evidence, never executes gold SQL, never modifies the original materialization .partial, and publishes only after integrity/leakage/split/privacy/count gates pass. No manifest is published locally; M2 remains in_progress; spend.csv and M3 remain unchanged. git_commit is intentionally empty because the handoff reports the containing commit."
+  m2_prepublication_gate_closure_001:
+    objective: "Require exact private-evidence permissions, preserve 59/10 eligible database coverage, and prove source SQLite identity is unchanged before cloud publication."
+    status: completed
+    git_commit: ""
+    config: configs/m2_finalizer.toml
+    dataset_version: "Frozen BIRD sources and accepted private evidence identities; no SQL, label, split, or database changes"
+    model: ""
+    hardware: "Local macOS CPU; no GPU or cloud resource"
+    started_at: ""
+    completed_at: "2026-08-16"
+    artifacts:
+      - configs/m2_finalizer.toml
+      - docs/M2_PROTOCOL.md
+    metrics:
+      local_unit_tests_passed: 128
+      amended_formal_config_sha256: "1fa045ebf72a29d9209f5b37f1042126a81e66e3f7511b1c1fc8a8b21d553181"
+      finalizer_config_sha256: "67d7990a989e16824bea087a36984d294d75e960776b035fa08519907ff3a3ad"
+      protocol_sha256: "5eed062689dbf904a2e38555700538a56ac3a207a93323a8e87887ef1dcca7b5"
+      required_private_preflight_mode: "0600"
+      required_diagnostic_checkpoint_mode: "0600"
+      expected_eligible_train_databases: 59
+      expected_eligible_validation_databases: 10
+      cloud_gpu_hours: 0
+      cloud_cost_cny: 0
+      cumulative_day3b_cost_cny: 5.50269656
+    notes: "Local gate closure only. Correct hashes do not override private-file permission failures; post-exclusion publication requires exact 59/10 database coverage; read-only integrity and simulated publication failure preserve source SQLite hashes, sizes, and bytes. Formal limits, finalizer config, gold, spend.csv, cloud state, and M3 remain unchanged. git_commit is intentionally empty because the handoff reports the containing commit."
+  m2_manifest_finalization_001:
+    objective: "Publish frozen M2 manifests from accepted preflight and diagnostic evidence without re-executing gold SQL."
+    status: completed
+    git_commit: "75557aa5fc2cfd6f108210da0f5dfda69b481394"
+    config: configs/m2_finalizer.toml
+    dataset_version: "birdsql/bird23-train-filtered@4068469807b255fcfc0816bdd520946fe460d256; birdsql/bird_mini_dev@f65faf4ae3b638c1fa6df1d3370c8d92c8366301; manifest-index 0e1182eb16bf5bed4b6d5505b11fcf6860689abe9f0435e3d2b3fc33bf7d1cda"
+    model: ""
+    hardware: "Xiangongyun; 1x NVIDIA GeForce RTX 4090 D 48 GB; retained ZFS database disk"
+    started_at: "2026-08-15T16:59:53+00:00"
+    completed_at: "2026-08-15T17:30:58+00:00"
+    artifacts:
+      - results/m2/m2-finalization-summary.json
+      - docs/M2_PROTOCOL.md
+    metrics:
+      local_unit_tests_passed: 135
+      finalizer_elapsed_seconds: 289
+      training_examples_total: 6601
+      training_databases_total: 69
+      training_eligible_unique_sql: 6496
+      training_ineligible_unique_sql: 28
+      excluded_train_example_rows: 17
+      excluded_validation_example_rows: 11
+      eligible_train_examples: 5364
+      eligible_validation_examples: 1209
+      eligible_train_databases: 59
+      eligible_validation_databases: 10
+      validation_example_ratio: 0.18393427658603378
+      heldout_examples_total: 500
+      heldout_eligible_examples: 498
+      heldout_ineligible_examples: 2
+      sqlite_integrity_ok: 80
+      leakage_hard_cross_split_pairs: 0
+      leakage_passed: true
+      gold_sql_reexecuted: 0
+      heldout_manifest_mode: "0600"
+      ignored_non_database_sql_symlinks: 2
+      source_database_file_count: 1603
+      source_database_identity_unchanged: true
+      source_database_identity_sha256: "c7b65515238fd1262d60e56619b2555892a0e9c10d76000e0b99aa981aed4279"
+      manifest_index_sha256: "0e1182eb16bf5bed4b6d5505b11fcf6860689abe9f0435e3d2b3fc33bf7d1cda"
+      training_manifest_sha256: "d90ffab32e296248376c542b736aef5ce7f547acc702a9eab41073789cf5b72a"
+      heldout_manifest_sha256: "2f6257d2ceef020587183b18105ed7e7899c84dd2010161f4dc41a4d01faa3a1"
+      eligibility_audit_sha256: "fd9a3873c2f819d4e0d29eafceb7a6586abeb8cecb7215b91c5e619426634b57"
+      leakage_audit_sha256: "266c47959d3f250971a64cbcc87650299af44b903f3f10f512ff8a13cdeb3db2"
+      finalization_evidence_sha256: "d72f933523ef854f19255e1d3aaee65954427c1d9dddb0d4f98f3ebd5cf09888"
+      source_receipt_sha256: "da189fd0f69d7713c16acfe434738e1f867074665c2b95d7d78b3ace29741ffe"
+      protocol_sha256: "2788d8be1b68de1ec4d16dbe54b448f7cb61b0fef0b1a85418d4dd7e6da3820d"
+      public_finalization_summary_sha256: "6212765dac3d9c7bc54d9a6cc9f27dd6f60616e081541cb1a9c7e690a0321538"
+      session_container_cost_cny: 1.48709165
+      session_visible_disk_cost_cny: 0.00390330
+      session_conservative_cost_cny: 1.49099495
+      cumulative_day3b_cost_cny: 6.99369151
+    notes: "Finalization consumed frozen evidence only and published atomically after eligibility, 59/10 coverage, feature, integrity, leakage, privacy, path, and hash gates passed. Two unreferenced non-SQLite .sql symlinks were not followed or copied; every database/other symlink remains fatal. The original materialization .partial and private checkpoint remain preserved off Git. Provider shutdown released the GPU. M2 is completed and M3 remains pending."
+  m2_nested_archive_closure_001:
+    objective: "Close the nested BIRD training archive gap without cloud execution."
+    status: completed
+    git_commit: ""
+    config: configs/m2_data.toml
+    dataset_version: "synthetic two-level ZIP fixtures; frozen BIRD source identities unchanged"
+    model: ""
+    hardware: "Local macOS CPU; no GPU or cloud resource"
+    started_at: ""
+    completed_at: "2026-08-15T03:15:59+08:00"
+    artifacts:
+      - docs/M2_DAY3A_REPORT.md
+    metrics:
+      local_unit_tests_passed: 91
+      static_gold_sql_analyzed: 7101
+      static_gold_sql_rejected: 0
+      nested_archive_member_cap: 10000
+      nested_archive_uncompressed_byte_cap: 10737418240
+      minimum_target_free_bytes: 42949672960
+      cloud_gpu_hours: 0
+      cloud_cost_cny: 0
+    notes: "Synthetic tests cover bounded observation, unsafe members, two-level extraction, and unique/ambiguous database-root discovery. git_commit is filled by the handoff rather than self-referenced."
+  m2_precloud_capacity_closure_001:
+    objective: "Close nested expansion capacity and cumulative spend gates before a second Day 3B start."
+    status: completed
+    git_commit: ""
+    config: configs/m2_data.toml
+    dataset_version: "synthetic ZIP metadata and mocked filesystem capacity; frozen BIRD source identities unchanged"
+    model: ""
+    hardware: "Local macOS CPU; no GPU or cloud resource"
+    started_at: ""
+    completed_at: "2026-08-15T03:33:50+08:00"
+    artifacts:
+      - docs/M2_DAY3A_REPORT.md
+    metrics:
+      local_unit_tests_passed: 99
+      static_gold_sql_analyzed: 7101
+      static_gold_sql_rejected: 0
+      nested_archive_member_cap: 10000
+      nested_archive_uncompressed_byte_cap: 53687091200
+      initial_minimum_target_free_bytes: 75161927680
+      dynamic_capacity_reserve_bytes: 10737418240
+      config_sha256: "d468ca938964597832ce5fb4c23b452fa362e8b6770c9d73a0de80d6c669598b"
+      first_session_actual_charge_cny: null
+      remaining_day3b_hard_stop_cny: null
+      cloud_gpu_hours: 0
+      cloud_cost_cny: 0
+    notes: "The 50 GiB value is only a safety ceiling, not observed BIRD size. Dynamic required bytes equal observed inner expansion plus heldout expected expansion plus 10 GiB. A second paid start remains forbidden until the first provider charge is verified."
+
+  m3_day4a_local_001:
+    objective: "Freeze and locally verify the M3 vertical-slice implementation and pre-cloud contract."
+    status: completed
+    git_commit: "3243a273e1751e8d6b49fa95adb24614fb41ff99"
+    config: configs/m3_vertical_slice.toml
+    dataset_version: "Synthetic SQLite/tokenizer fixtures only; frozen real M2 manifest identities referenced but not locally read"
+    model: "Qwen/Qwen3-4B-Base@906bfd4b4dc7f14ee4320094d8b41684abff8539 (identity validation only; model not loaded)"
+    hardware: "Local macOS CPU; no GPU or cloud resource"
+    started_at: ""
+    completed_at: "2026-08-24"
+    artifacts:
+      - configs/m3_vertical_slice.toml
+      - docs/M3_RUNBOOK.md
+      - docs/M3_LEARNING.md
+      - results/schemas/m3-result.schema.json
+    metrics:
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      cloud_gpu_hours: 0
+      cloud_cost_cny: 0
+      real_optimizer_steps: 0
+      real_evaluation_examples: 0
+      local_unit_tests_passed: 156
+      local_m3_contract_tests_passed: 21
+    notes: "Day 4A code and synthetic contracts only. Real manifest/SQLite/model were unavailable locally, so no real slice size, optimizer update, adapter, metric, VRAM, throughput, time, or cost is claimed. git_commit is filled by the handoff."
+  m3_vertical_slice_001:
+    objective: "Run the frozen eligible-data -> Base -> tiny QLoRA -> fresh reload -> same-validation safe-evaluation vertical slice."
+    status: completed
+    git_commit: "530a0f22f491882def5e13b8344d1310c1a7960d"
+    config: configs/m3_vertical_slice.toml
+    dataset_version: "M2 manifest-index 0e1182eb16bf5bed4b6d5505b11fcf6860689abe9f0435e3d2b3fc33bf7d1cda; training manifest d90ffab32e296248376c542b736aef5ce7f547acc702a9eab41073789cf5b72a; 8/8 slice bundle 3b18e7d1e59e42cbb12d7d61c08e3031602c9bcf7e1d8e8c3161c6002b6d58e5"
+    model: "Qwen/Qwen3-4B-Base@906bfd4b4dc7f14ee4320094d8b41684abff8539"
+    hardware: "Xiangongyun; 1x NVIDIA GeForce RTX 4090 D 48 GB; CUDA 13.0; driver 610.43.03"
+    started_at: "2026-08-24T04:34:32+08:00"
+    completed_at: "2026-08-24T04:44:53.591008+08:00"
+    artifacts:
+      - results/m3/m3-vertical-slice-summary.json
+      - artifacts/m3-cloud-attempt-003/tokenizer-contract-preflight.json
+      - artifacts/m3-cloud-attempt-003/token-length-report.json
+      - artifacts/m3-cloud-attempt-003/slice.json
+      - artifacts/m3-cloud-attempt-003/base-train.json
+      - artifacts/m3-cloud-attempt-003/training-progress.json
+      - artifacts/m3-cloud-attempt-003/adapter-manifest.json
+      - artifacts/m3-cloud-attempt-003/m3-result.json
+      - artifacts/m3-cloud-attempt-003/session-completion.json
+    metrics:
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      train_examples: 8
+      validation_examples: 8
+      slice_bundle_sha256: "3b18e7d1e59e42cbb12d7d61c08e3031602c9bcf7e1d8e8c3161c6002b6d58e5"
+      comparison_contract_sha256: "6137ea3ae5b41fa05e5e9f75643079fdab6519da20545747efaf1e4edffcfd8b"
+      trainable_parameter_count: 33030144
+      supervised_token_count: 461
+      initial_loss: 0.6483830809593201
+      final_observed_loss: 0.40970221161842346
+      gradient_norm: 1.3313944339752197
+      micro_steps: 8
+      optimizer_steps: 2
+      adapter_parameter_delta_detected: true
+      adapter_delta_l2_norm: 1.432494530990277
+      adapter_manifest_sha256: "f1f9f41e53e1e9a4d44d4b64d7db296c2f0ddcafa5f62bb4d9aea97ab047f883"
+      fresh_reload_process: true
+      base_behavior_compatible_accuracy: 0.0
+      base_strict_execution_accuracy: 0.0
+      base_strict_sql_only_rate: 0.0
+      sft_behavior_compatible_accuracy: 0.375
+      sft_strict_execution_accuracy: 0.375
+      sft_strict_sql_only_rate: 1.0
+      base_failure_categories: "no_query=8"
+      sft_failure_categories: "strict_correct=3;timeout=1;wrong_result=4"
+      evaluator_errors: 0
+      gold_preflight_failures: 0
+      base_completion_tokens_per_second_end_to_end: 15.80937471182218
+      sft_completion_tokens_per_second_end_to_end: 6.080026948546329
+      base_and_train_nvidia_smi_peak_mib: 12278
+      reload_nvidia_smi_peak_mib: 3734
+      training_seconds: 6.101470455992967
+      complete_session_elapsed_seconds: 622.617314272793
+      cloud_billed_hours_derived_from_actual_cost: 1.4991666602316602
+      provider_charge_1_cny: 1.43241388
+      provider_charge_2_cny: 2.45042777
+      cloud_cost_cny: 3.88284165
+      cumulative_m1_m2_m3_cost_cny: 13.52768593
+    notes: "Accepted engineering vertical slice, not an accuracy estimate. Execution commit 530a0f22f491882def5e13b8344d1310c1a7960d and pin commit f1a50c463c011153fbe6ea098e5c8a72e53af150 are intentionally separate. Independent closure rebuilt slice/token/masking identities, recomputed both metrics and failure categories from all rows, matched adapter manifests and distinct PIDs, and audited 30 private artifacts. Throughput includes generation plus evaluator time. Actual provider cost is the sum of two user-verified container invoices, never the program wall estimate."
+
+  m3_precloud_hardening_001:
+    objective: "Remove the paid-session pause and automatically enforce M3 identity, path, disk, and cumulative wall gates."
+    status: completed
+    git_commit: "1cb5431ecbada21968dff2659ad66d3f9e02af98"
+    config: configs/m3_vertical_slice.toml
+    dataset_version: "Synthetic/mock gate fixtures only; frozen M2 manifest identities unchanged"
+    model: "Qwen/Qwen3-4B-Base@906bfd4b4dc7f14ee4320094d8b41684abff8539 (not loaded)"
+    hardware: "Local macOS CPU; no GPU or cloud resource"
+    started_at: ""
+    completed_at: "2026-08-24"
+    artifacts:
+      - configs/m3_vertical_slice.toml
+      - docs/M3_RUNBOOK.md
+      - docs/M3_LEARNING.md
+    metrics:
+      fixed_train_examples: 8
+      fixed_validation_examples: 8
+      maximum_optimizer_steps: 2
+      maximum_session_wall_seconds: 14400
+      maximum_session_cost_cny: 10.36
+      minimum_output_free_bytes: 21474836480
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      cloud_gpu_hours: 0
+      cloud_cost_cny: 0
+      local_unit_tests_passed: 162
+      local_m3_contract_tests_passed: 27
+    notes: "Supersedes commit 3243a273e1751e8d6b49fa95adb24614fb41ff99 for paid execution. Local synthetic/mock closure only: no real manifest, database, tokenizer, model, optimizer update, cloud resource, or heldout input was used. The approved hardened commit is pinned externally after commit creation to avoid self-reference. Critical JSON and progress evidence use atomic/incremental persistence; expected runtime stays 1.5–3 hours despite the 4-hour completion ceiling."
+
+  m3_vertical_slice_001_attempt_001:
+    objective: "Execute the approved M3 vertical slice on real operationally eligible M2 data."
+    status: failed
+    git_commit: "1cb5431ecbada21968dff2659ad66d3f9e02af98"
+    config: configs/m3_vertical_slice.toml
+    dataset_version: "M2 manifest-index 0e1182eb16bf5bed4b6d5505b11fcf6860689abe9f0435e3d2b3fc33bf7d1cda"
+    model: "Qwen/Qwen3-4B-Base@906bfd4b4dc7f14ee4320094d8b41684abff8539 (cache verified; model not loaded)"
+    hardware: "Xiangongyun; 1x NVIDIA GeForce RTX 4090 D 48 GB"
+    started_at: "2026-08-24T03:35:28+08:00"
+    completed_at: "2026-08-24T03:35:49+08:00"
+    artifacts:
+      - artifacts/m3-cloud-attempt-001/stage-token-lengths.log
+      - artifacts/m3-cloud-attempt-001/preflight.json
+    metrics:
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      real_optimizer_steps: 0
+      real_evaluation_examples: 0
+      model_loaded: false
+      adapter_saved: false
+    notes: "Stopped at the token-length stage before model loading. A legal SQLite REFERENCES parent_table declaration produced PRAGMA foreign_key_list.to=NULL, exposing a schema serializer compatibility bug. No seed/sample/prompt/evaluator/model change occurred in attempt 001. Provider cost is accounted only at the combined M3 cloud-session level."
+
+  m3_nullable_fk_compatibility_closure_001:
+    objective: "Render SQLite foreign keys with nullable PRAGMA referenced columns deterministically without inventing a parent column."
+    status: completed
+    git_commit: "5475d185a547d5ef3f2faab2e211cff43fdb248c"
+    config: configs/m3_vertical_slice.toml
+    dataset_version: "Synthetic SQLite DDL regression fixture plus attempt-001 failure evidence; frozen M2 identities unchanged"
+    model: "Qwen/Qwen3-4B-Base@906bfd4b4dc7f14ee4320094d8b41684abff8539 (not loaded locally)"
+    hardware: "Local macOS CPU; no GPU"
+    started_at: ""
+    completed_at: "2026-08-24"
+    artifacts:
+      - artifacts/m3-cloud-attempt-001/stage-token-lengths.log
+    metrics:
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      cloud_gpu_hours: 0
+      cloud_cost_cny: 0
+      local_unit_tests_passed: 163
+      local_m3_contract_tests_passed: 28
+    notes: "Compatibility-only change. Explicit REFERENCES parent(column) output is unchanged; PRAGMA to=NULL renders as column-free REFERENCES parent. No parent column is guessed and the string None is forbidden by regression test. The containing execution commit is pinned after creation to avoid self-reference."
+
+  m3_vertical_slice_001_attempt_002:
+    objective: "Execute M3 after the nullable SQLite foreign-key compatibility fix."
+    status: failed
+    git_commit: "5475d185a547d5ef3f2faab2e211cff43fdb248c"
+    config: configs/m3_vertical_slice.toml
+    dataset_version: "Frozen M2 manifest; real token report and fixed 8/8 slice produced"
+    model: "Qwen/Qwen3-4B-Base@906bfd4b4dc7f14ee4320094d8b41684abff8539"
+    hardware: "Xiangongyun; 1x NVIDIA GeForce RTX 4090 D 48 GB"
+    started_at: "2026-08-24T03:53:53+08:00"
+    completed_at: "2026-08-24T03:56:49+08:00"
+    artifacts:
+      - artifacts/m3-cloud-attempt-002/token-length-report.json
+      - artifacts/m3-cloud-attempt-002/slice.json
+      - artifacts/m3-cloud-attempt-002/stage-base-and-train.log
+    metrics:
+      fixed_train_examples: 8
+      fixed_validation_examples: 8
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      real_optimizer_steps: 0
+      real_evaluation_examples: 0
+      adapter_saved: false
+    notes: "Nullable FK handling passed. Stopped after offline model load and before Base generation because BatchEncoding keys were stored as token IDs. Provider cost is accounted only at the combined M3 cloud-session level."
+
+  m3_tokenizer_contract_compatibility_closure_001:
+    objective: "Normalize real Transformers single-example chat-template outputs and reject malformed token slices before model loading."
+    status: completed
+    git_commit: "530a0f22f491882def5e13b8344d1310c1a7960d"
+    config: configs/m3_vertical_slice.toml
+    dataset_version: "Synthetic tokenizer-shape fixtures plus attempt-002 evidence; frozen M2 identity unchanged"
+    model: "Qwen/Qwen3-4B-Base@906bfd4b4dc7f14ee4320094d8b41684abff8539 (local model not loaded)"
+    hardware: "Local macOS CPU; no GPU"
+    started_at: ""
+    completed_at: "2026-08-24"
+    artifacts:
+      - scripts/preflight_m3_tokenizer_contract.py
+      - artifacts/m3-cloud-attempt-002/stage-base-and-train.log
+    metrics:
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      cloud_gpu_hours: 0
+      cloud_cost_cny: 0
+      local_unit_tests_passed: 178
+      local_m3_contract_tests_passed: 43
+    notes: "Supports flat list/tuple, mapping input_ids, single-batch nested input_ids, and tolist array-like values. Missing keys, empty/multiple batches, strings, bools, and non-integers fail closed. Prompt/masking/selection/model/evaluator contracts are unchanged. Commit is pinned after creation."
+
+  m3_vertical_slice_001_attempt_003:
+    objective: "Complete the frozen M3 vertical slice after real tokenizer-output normalization."
+    status: completed
+    git_commit: "530a0f22f491882def5e13b8344d1310c1a7960d"
+    config: configs/m3_vertical_slice.toml
+    dataset_version: "Frozen M2 manifest and fixed slice bundle 3b18e7d1e59e42cbb12d7d61c08e3031602c9bcf7e1d8e8c3161c6002b6d58e5"
+    model: "Qwen/Qwen3-4B-Base@906bfd4b4dc7f14ee4320094d8b41684abff8539"
+    hardware: "Xiangongyun; 1x NVIDIA GeForce RTX 4090 D 48 GB"
+    started_at: "2026-08-24T04:34:32+08:00"
+    completed_at: "2026-08-24T04:44:53.591008+08:00"
+    artifacts:
+      - results/m3/m3-vertical-slice-summary.json
+      - artifacts/m3-cloud-attempt-003
+    metrics:
+      fixed_train_examples: 8
+      fixed_validation_examples: 8
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      micro_steps: 8
+      optimizer_steps: 2
+      adapter_parameter_delta_detected: true
+      fresh_reload_process: true
+      base_behavior_compatible_accuracy: 0.0
+      base_strict_execution_accuracy: 0.0
+      sft_behavior_compatible_accuracy: 0.375
+      sft_strict_execution_accuracy: 0.375
+      complete_session_elapsed_seconds: 622.617314272793
+      cloud_cost_cny: 3.88284165
+    notes: "Successful attempt. Independent local closure passed tokenizer, slice, update, adapter, same-exam, row-metric, heldout, artifact hash/permission, and invoice checks. Combined provider-session cost includes attempts 001-003 and is not allocated per attempt."
+
+# Each experiment must eventually contain:
+  e1_m4_formal_sft_001:
+    objective: "Train and fairly evaluate the pre-registered formal QLoRA SFT adapter."
+    status: completed
+    git_commit: "f187167a882bf6b9fd2b152220fabbf770e92960"
+    config: configs/m4_formal_sft.toml
+    dataset_version: "Frozen M2 operationally eligible train/validation; selection deferred to deterministic real-token preflight"
+    model: "Qwen/Qwen3-4B-Base@906bfd4b4dc7f14ee4320094d8b41684abff8539"
+    hardware: "Xiangongyun; 1x NVIDIA GeForce RTX 4090 D 48 GB; NVIDIA driver 610.43.03"
+    started_at: ""
+    completed_at: ""
+    artifacts:
+      - docs/M4_DAY5A_REPORT.md
+      - docs/M4_RUNBOOK.md
+      - results/schemas/m4-result.schema.json
+      - results/m4/m4-public-summary.json
+    metrics:
+      default_train_examples: 5364
+      default_train_epochs: 1
+      default_train_example_passes: 5364
+      development_validation_examples: 256
+      final_validation_examples: 953
+      full_validation_examples: 1209
+      default_optimizer_steps: 671
+      diagnostic_loss_updates: [512, 671]
+      automatic_epoch2_extension: false
+      trainer_loss_normalization: "Transformers 5.14.1: force model_accepts_loss_kwargs=false after Qwen3 **kwargs inference; real Trainer regression required before cloud"
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      real_optimizer_steps: 671
+      program_elapsed_seconds: 41804.53827302402
+      base_behavior_compatible_accuracy: 0.0
+      base_strict_execution_accuracy: 0.0
+      sft_behavior_compatible_accuracy: 0.42349048800661704
+      sft_strict_execution_accuracy: 0.40694789081885857
+      sft_sql_only_rate: 1.0
+      sft_valid_sql_rate: 0.8759305210918115
+      dev256_loss_update_512: 0.22349428634325968
+      dev256_loss_update_671: 0.2230926230287384
+      dev256_relative_loss_drop: 0.0017971972397736785
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      cloud_gpu_hours: 11.61237174028445
+      cloud_cost_cny: null
+    notes: "Completed primary E1 only: full5364x1/671-update QLoRA with the exact Transformers 5.14.1 Trainer preflight and final-four partial-window contract. Base/SFT used the identical unique full1209 validation generation under greedy decoding and the unchanged M2 evaluator; the reconstructed public summary byte-matches downloaded cloud evidence. The 1% dev-loss reference is advisory; no epoch 2 occurred. cloud_gpu_hours is program elapsed divided by 3600, not provider billing. Actual provider invoice remains pending before spend-ledger/M4 formal closure."
+
+  m5_error_analysis_001:
+    objective: "Quantify M4 SFT validation failures without exposing row-level SQL or heldout data."
+    status: completed
+    git_commit: ""
+    config: ""
+    dataset_version: "M4 full1209 validation selection 3dc2fcbd371ff287049db6e7cfebbdee182d5cb10aabd328704231e90070f0b1"
+    model: "Qwen/Qwen3-4B-Base plus e1_m4_formal_sft_001 adapter"
+    hardware: "Local macOS CPU; no GPU or paid resource"
+    started_at: ""
+    completed_at: "2026-09-02"
+    artifacts:
+      - results/m5/m5-error-analysis.json
+      - results/m5/m5-audit-selection.json
+      - results/m5/m5-independent-review-status.json
+      - results/m5/m5-data-v2-candidate-receipt.json
+      - docs/M5_ERROR_ANALYSIS.md
+      - docs/M5_TAXONOMY.md
+      - docs/M5_DATA_V2.md
+    metrics:
+      validation_examples: 1209
+      strict_correct: 492
+      wrong_result: 567
+      execution_error: 142
+      other_failure_tail: 8
+      data_v2_candidate_examples: 1678
+      data_v2_candidate_databases: 59
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      cloud_cost_cny: 0
+    notes: "First-pass deterministic aggregate plus a frozen SQL-private 60-row audit selection and validated taxonomy. Independent blind review closed three benchmark/Gold defects and left three cases pending targeted database evidence. A deterministic training-only, outcome-blind 1,678-row candidate pool covers all 59 train databases; its consumer roles were subsequently frozen by m5_consumer_policy_001. No epoch 2, training, RL, or heldout use occurred."
+
+  m5_consumer_policy_001:
+    objective: "Freeze causal roles for targeted SFT, RL, and conditional correction without premature training parameters."
+    status: completed
+    git_commit: ""
+    config: configs/m5_consumer_policy.toml
+    dataset_version: "M5 data-v2 candidate selection 5bca7a995aa2f4d56cc2403164ed0719b51bda7393cfcd8a83fbb3a43f5116ef"
+    model: "Immutable e1_m4_formal_sft_001 common parent"
+    hardware: "Local policy closure; no GPU"
+    started_at: ""
+    completed_at: "2026-09-05"
+    artifacts:
+      - configs/m5_consumer_policy.toml
+      - docs/M5_CONSUMER_DECISION.md
+    metrics:
+      targeted_sft_candidate_count: 1678
+      rl_common_parent_count: 1
+      correction_sft_trigger_count: 4
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      cloud_cost_cny: 0
+    notes: "E1T is a bounded control and cannot replace E1 as the E2-E4 parent. Correction SFT is conditional. Training and cloud parameters remain unapproved pending preflight."
+
+  m6_reward_group_math_001:
+    objective: "Implement and verify the frozen E2, E3, and E4 group reward equations independently of TRL."
+    status: completed
+    git_commit: ""
+    config: configs/m6_reward.toml
+    dataset_version: "Synthetic unit fixtures only"
+    model: ""
+    hardware: "Local macOS CPU; no GPU"
+    started_at: ""
+    completed_at: "2026-09-05"
+    artifacts:
+      - configs/m6_reward.toml
+      - src/verireason/reward_contract.py
+      - tests/test_reward_contract.py
+      - docs/M6_LEARNING.md
+    metrics:
+      reward_arms_implemented: 3
+      focused_tests_passed: 9
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      cloud_cost_cny: 0
+    notes: "Implements population z-scores, constant-group zero signal, E2 terminal reward, E3 sum-then-normalize, E4 per-component normalize-then-sum, and confidence-gated dense inputs. SQL structural extraction and TRL integration remain pending."
+
+  m6_dense_extractor_local_001:
+    objective: "Implement the frozen eleven-dimensional SQLite structural extractor and confidence gate with local adversarial tests."
+    status: completed
+    git_commit: "fcab4f1"
+    config: configs/m6_reward.toml
+    dataset_version: "Synthetic schema fixtures; frozen training-label static parse audit only"
+    model: ""
+    hardware: "Local macOS CPU plus retained Xiangongyun data disk; no model/GPU computation"
+    started_at: "2026-09-05"
+    completed_at: "2026-09-12"
+    artifacts:
+      - src/verireason/sql_features.py
+      - src/verireason/m6_audit.py
+      - scripts/audit_m6_training_schema.py
+      - tests/test_m6_sql_features.py
+      - tests/test_m6_audit.py
+      - tests/test_reward_contract.py
+      - docs/M6_LEARNING.md
+      - results/m6/m6-training-schema-audit.json
+    metrics:
+      frozen_feature_dimensions: 11
+      focused_tests_passed: 37
+      training_labels_static_supported: 6594
+      training_labels_static_total: 6601
+      training_labels_sha256: "2ee64aa593e1adc59be7d5b9ce2395372a8ee27fdd94a3fb4d2fe09f3cd34bc8"
+      e4_group_sizes_exhaustively_checked: 3
+      real_schema_eligible_examples: 6573
+      real_schema_unique_sql: 6496
+      real_schema_supported_unique_sql: 6488
+      real_schema_unsupported_unique_sql: 8
+      real_schema_support_rate: 0.9987684729064039
+      real_schema_database_count: 69
+      nondeterministic_fail_closed: 7
+      ambiguous_duplicate_alias_fail_closed: 1
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      cloud_cost_cny: null
+    notes: "Real-schema audit executed on the retained cloud data disk from fcab4f1; provider invoice for this short session is not yet recorded. Seven nondeterministic queries and one duplicate-alias Gold query intentionally fail closed for dense structure while retaining terminal execution reward. TRL integration remains pending."
+
+  m6_trl_adapter_local_001:
+    objective: "Verify exact E2/E3/E4 reward parity and row alignment at the pinned TRL callback boundary."
+    status: completed
+    git_commit: "22d9d70"
+    config: configs/m6_reward.toml
+    dataset_version: "Synthetic completion groups only"
+    model: ""
+    hardware: "Local macOS CPU; no GPU"
+    started_at: "2026-09-12"
+    completed_at: "2026-09-12"
+    artifacts:
+      - src/verireason/trl_reward_adapter.py
+      - tests/test_trl_reward_adapter.py
+      - docs/M6_LEARNING.md
+    metrics:
+      reward_arms_verified: 3
+      synthetic_groups_per_arm: 2
+      adapter_tests_passed: 10
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      cloud_cost_cny: 0
+    notes: "Pinned TRL 1.9.0 wheel source was inspected without installing its model stack. The adapter validates contiguous explicit group identity, metadata alignment, token IDs, standard completion format, and scorer output before delegating all reward math. Production SQLite component scoring is recorded separately."
+
+  m6_component_scorer_local_001:
+    objective: "Connect the frozen SQLite evaluator and structural gate to TRL-aligned RewardComponents."
+    status: completed
+    git_commit: "77624b9c252c84815a7a9d1e9529f3396fb93d55"
+    config: configs/m6_reward.toml
+    dataset_version: "Synthetic SQLite fixtures only; no heldout"
+    model: ""
+    hardware: "Local macOS CPU; no GPU"
+    started_at: "2026-09-12"
+    completed_at: "2026-09-12"
+    artifacts:
+      - src/verireason/m6_component_scorer.py
+      - src/verireason/sqlite_schema.py
+      - tests/test_m6_component_scorer.py
+      - docs/M6_LEARNING.md
+    metrics:
+      end_to_end_synthetic_groups: 1
+      focused_m6_tests_passed: 51
+      gold_executions_per_four_completion_group: 1
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      cloud_cost_cny: 0
+    notes: "The scorer derives terminal correctness, execution validity, gated structure, and confidence from the frozen read-only evaluator. Gold execution/schema are reused within a contiguous group; unsupported Gold structure disables only dense feedback. M6 is technically complete; M7 teach-back and preregistration remain pending."
+
+  e2_m7_outcome_grpo_smoke_001:
+    objective: "Prove the immutable E1-to-outcome-only-GRPO checkpoint path on eight training prompts without making an accuracy claim."
+    status: completed
+    git_commit: "91a95bad2ca6c2c0cf2c083ee2d57c72cf5f35d0"
+    config: configs/m7_e2_smoke.toml
+    dataset_version: "M2 training manifest d90ffab32e296248376c542b736aef5ce7f547acc702a9eab41073789cf5b72a"
+    model: "Qwen/Qwen3-4B-Base plus immutable e1_m4_formal_sft_001 adapter"
+    hardware: "Xiangongyun; 1x NVIDIA GeForce RTX 4090 D 48 GB"
+    started_at: "2026-09-13"
+    completed_at: "2026-09-13"
+    artifacts:
+      - configs/m7_e2_smoke.toml
+      - docs/M7_SMOKE_PLAN.md
+      - scripts/orchestrate_m7_smoke.py
+      - scripts/prepare_m7_smoke.py
+      - scripts/run_m7_smoke_train.py
+      - scripts/reload_m7_smoke_adapter.py
+      - scripts/run_m7_cloud.sh
+      - src/verireason/m7_contract.py
+      - src/verireason/m7_runtime.py
+      - results/m7/m7-e2-smoke-summary.json
+    metrics:
+      planned_training_prompts: 8
+      planned_completions_per_prompt: 4
+      planned_rollouts: 32
+      planned_optimizer_steps: 8
+      actual_training_prompts: 8
+      actual_completions_per_prompt: 4
+      actual_rollouts: 32
+      actual_optimizer_steps: 8
+      training_loss: -0.005681818351149559
+      gradient_norm_last: 0.0
+      gradient_norm_max: 0.6484375
+      adapter_delta_l2: 0.13338756984618994
+      reward_groups: 8
+      mixed_reward_groups: 2
+      zero_variance_groups: 6
+      mixed_reward_group_fraction: 0.25
+      mean_terminal_reward: 0.21875
+      peak_gpu_memory_mib: 11736.0
+      training_stage_wall_seconds: 188.3190848287195
+      session_wall_seconds: 313.6043039644137
+      separate_process_reload_passed: true
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      cloud_cost_cny: null
+    notes: "Engineering smoke only, not an accuracy claim. The E1-to-E2 path trained and independently reloaded successfully. Two of eight groups supplied relative signal; six were zero-variance. The public aggregate records SHA-256 identities for the three raw JSON files verified immediately after download; their temporary local copies expired before closure, while cloud recovery would require a separately approved paid restart. Actual provider invoice remains pending."
+
+  e2_m7_outcome_grpo_formal_001:
+    objective: "Train the fixed-budget outcome-only E2 baseline from immutable E1 and retain signal/reward-hacking diagnostics for M8."
+    status: completed
+    git_commit: "98ea3c0c795e7b5300a09348573b2795ba17ef29"
+    config: configs/m7_e2_formal.toml
+    dataset_version: "M2 training manifest d90ffab32e296248376c542b736aef5ce7f547acc702a9eab41073789cf5b72a"
+    model: "Qwen/Qwen3-4B-Base plus immutable e1_m4_formal_sft_001 adapter"
+    hardware: "Xiangongyun; 1x NVIDIA GeForce RTX 4090 D 48 GB"
+    started_at: "2026-09-19"
+    completed_at: "2026-09-19"
+    artifacts:
+      - configs/m7_e2_formal.toml
+      - docs/M7_FORMAL_PLAN.md
+      - scripts/orchestrate_m7_smoke.py
+      - scripts/prepare_m7_smoke.py
+      - scripts/run_m7_smoke_train.py
+      - scripts/reload_m7_smoke_adapter.py
+      - scripts/run_m7_cloud.sh
+      - src/verireason/m7_contract.py
+      - src/verireason/m7_runtime.py
+      - src/verireason/m6_component_scorer.py
+      - results/m7/m7-e2-formal-summary.json
+    metrics:
+      planned_training_prompts: 256
+      planned_completions_per_prompt: 4
+      planned_rollouts: 1024
+      planned_optimizer_steps: 256
+      checkpoint_steps: 64
+      minimum_mixed_reward_groups: 32
+      minimum_mixed_reward_group_fraction: 0.125
+      expected_session_wall_seconds: 5400
+      maximum_session_wall_seconds: 10800
+      maximum_session_cost_cny: 7.77
+      actual_training_prompts: 256
+      actual_completions_per_prompt: 4
+      actual_rollouts: 1024
+      actual_optimizer_steps: 256
+      training_loss: 0.003520595419104211
+      gradient_norm_last: 0.0
+      gradient_norm_max: 1.578125
+      adapter_delta_l2: 0.522397708320303
+      mixed_reward_groups: 102
+      zero_variance_groups: 154
+      mixed_reward_group_fraction: 0.3984375
+      mean_terminal_reward: 0.326171875
+      strict_correct_count: 334
+      valid_completion_count: 795
+      unsafe_completion_count: 1
+      resource_limit_completion_count: 1
+      clipped_completion_count: 0
+      signal_gate_passed: true
+      reward_hacking_review_status: "passed_with_blocked_anomalies"
+      peak_gpu_memory_mib: 19804.0
+      training_wall_seconds: 3307.9018170991912
+      session_wall_seconds: 3413.738069885876
+      adapter_manifest_sha256: "3492a3ec870f7c6e8e672459f025fc96a9a8cba543b27b7df4fc5f6c6bfbd3b7"
+      separate_process_reload_passed: true
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      validation_examples_evaluated: 0
+      cloud_cost_cny: null
+    notes: "Completed the fixed outcome-blind formal E2 budget and passed the preregistered signal and reload gates. One unsafe and one resource-limit completion were blocked; no truncation, quarterly entropy collapse, or length explosion was observed. Training reward is not validation accuracy. The 75 MiB final adapter and raw SQL-free evidence are retained under ignored artifacts/m7-e2-formal-001. Actual provider invoice remains pending; common model-quality comparison remains M8."
+
+  e2_m8_common_validation_001:
+    objective: "Evaluate formal E2 against its immutable E1 parent on the same frozen full1209 validation protocol without regenerating E1."
+    status: completed
+    git_commit: "95da8873c7631e028d149bcde0e1d8ee9ce2c993"
+    config: configs/m8_common_eval.toml
+    dataset_version: "M4 full1209 validation selection 3dc2fcbd371ff287049db6e7cfebbdee182d5cb10aabd328704231e90070f0b1"
+    model: "Qwen/Qwen3-4B-Base plus e2_m7_outcome_grpo_formal_001 adapter"
+    hardware: "Xiangongyun; 1x NVIDIA GeForce RTX 4090 D 48 GB"
+    started_at: "2026-09-23T00:14:50+08:00"
+    completed_at: "2026-09-23T02:09:26+08:00"
+    artifacts:
+      - configs/m8_common_eval.toml
+      - docs/M8_PLAN.md
+      - scripts/run_m8_eval.py
+      - scripts/summarize_m8_common_eval.py
+      - src/verireason/m8_contract.py
+      - results/m8/m8-common-eval-summary.json
+    metrics:
+      planned_validation_examples: 1209
+      e1_regeneration_allowed: false
+      expected_session_wall_seconds: 7200
+      maximum_session_wall_seconds: 14400
+      maximum_session_cost_cny: 10.36
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      actual_validation_examples: 1209
+      e1_strict_execution_accuracy: 0.40694789081885857
+      e2_strict_execution_accuracy: 0.42349048800661704
+      strict_accuracy_delta: 0.016542597187758468
+      strict_e1_correct_e2_wrong: 19
+      strict_e1_wrong_e2_correct: 39
+      strict_exact_mcnemar_p: 0.011928139715763175
+      e1_behavior_compatible_accuracy: 0.42349048800661704
+      e2_behavior_compatible_accuracy: 0.4425144747725393
+      behavior_accuracy_delta: 0.019023986765922263
+      behavior_exact_mcnemar_p: 0.0037937056353716074
+      e1_valid_sql_rate: 0.8759305210918115
+      e2_valid_sql_rate: 0.9073614557485525
+      valid_sql_rate_delta: 0.03143093465674107
+      e2_generated_tokens: 57638
+      e2_generation_seconds: 6786.298684735782
+      e2_completion_tokens_per_second: 8.49328959387588
+      result_sha256: "2c60531e40c842dc098966980fb6ebbba82913146ebf59c7bf6e16e25f5b7db5"
+      raw_evaluation_sha256: "735c29258fab1da6736cd56786f66f2a4c79eb0fbeb8ba2efb3346b274a8b165"
+      cloud_cost_cny: null
+    notes: "Completed the identical full1209 E1/E2 comparison with existing raw E1 paired evidence and zero heldout use. One zero-compute startup attempt failed because HF_HOME was omitted; the successful attempt used the retained offline cache. The positive result is validation evidence only. Actual provider invoice remains pending; E3/E4 remain unstarted."
+
+  e3_m8_dense_grpo_smoke_001:
+    objective: "Prove E3 dense-reward arm dispatch and checkpoint viability on the same eight training prompts used by the E2 smoke."
+    status: completed
+    git_commit: "5579446c3479e459ab9605d204227ec28f0d64c9"
+    config: configs/m8_e3_smoke.toml
+    dataset_version: "M2 training manifest d90ffab32e296248376c542b736aef5ce7f547acc702a9eab41073789cf5b72a"
+    model: "Qwen/Qwen3-4B-Base plus immutable e1_m4_formal_sft_001 adapter"
+    hardware: "Xiangongyun; 1x NVIDIA GeForce RTX 4090 D 48 GB"
+    started_at: "2026-09-25"
+    completed_at: "2026-09-25"
+    artifacts:
+      - configs/m8_e3_smoke.toml
+      - docs/M8_E3_PLAN.md
+      - src/verireason/m8_rl_contract.py
+      - src/verireason/posttraining_contract.py
+      - src/verireason/posttraining_result.py
+      - results/m8/m8-e3-smoke-summary.json
+    metrics:
+      training_prompts: 8
+      completions_per_prompt: 4
+      rollouts: 32
+      optimizer_steps: 8
+      training_loss: 0.01566976960748434
+      gradient_norm_max: 1.421875
+      adapter_delta_l2: 0.10633105591170525
+      mixed_reward_groups: 7
+      zero_variance_groups: 1
+      mixed_reward_group_fraction: 0.875
+      strict_correct_count: 7
+      valid_count: 21
+      confidence_gate_count: 21
+      mean_structure_score: 0.3602971521328356
+      peak_gpu_memory_mib: 11736.0
+      training_wall_seconds: 188.92383371666074
+      session_wall_seconds: 304.9121831525117
+      maximum_session_wall_seconds: 1800
+      maximum_session_cost_cny: 1.30
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      cloud_cost_cny: null
+    notes: "Engineering smoke passed from immutable E1. The adapter changed and independently reloaded with matching identity; 7/8 groups had mixed dense rewards and one group had zero variance. The first attempt failed before model load because xgrammar 0.2.3 lacked its RECORD-listed shared library; exact-package reinstall fixed the environment without dependency changes. This smoke is not an accuracy result. Actual provider billing remains pending, and formal E3 requires separate approval."
+
+  e3_m8_dense_grpo_formal_001:
+    objective: "Measure reliability-gated dense E3 post-training under the exact formal E2 prompt, rollout, and optimizer budget."
+    status: completed
+    git_commit: "1732ea19e08460422c2d75bb19b4f356638c1993"
+    config: configs/m8_e3_formal.toml
+    dataset_version: "M2 training manifest d90ffab32e296248376c542b736aef5ce7f547acc702a9eab41073789cf5b72a"
+    model: "Qwen/Qwen3-4B-Base plus immutable e1_m4_formal_sft_001 adapter"
+    hardware: "Xiangongyun; 1x NVIDIA GeForce RTX 4090 D 48 GB"
+    started_at: "2026-09-25"
+    completed_at: "2026-09-25"
+    artifacts:
+      - configs/m8_e3_formal.toml
+      - docs/M8_E3_PLAN.md
+      - results/m8/m8-e3-formal-summary.json
+    metrics:
+      planned_training_prompts: 256
+      planned_completions_per_prompt: 4
+      planned_rollouts: 1024
+      planned_optimizer_steps: 256
+      checkpoint_steps: 64
+      maximum_session_wall_seconds: 10800
+      maximum_session_cost_cny: 7.77
+      training_prompts: 256
+      completions_per_prompt: 4
+      rollouts: 1024
+      optimizer_steps: 256
+      training_loss: 0.034689569256443065
+      gradient_norm_max: 3.671875
+      adapter_delta_l2: 0.3096649523160628
+      mixed_reward_groups: 239
+      zero_variance_groups: 17
+      mixed_reward_group_fraction: 0.93359375
+      strict_correct_count: 363
+      valid_count: 786
+      confidence_gate_count: 785
+      mean_structure_score: 0.4882467183721607
+      peak_gpu_memory_mib: 19804.0
+      training_wall_seconds: 3387.6710022641346
+      session_wall_seconds: 3506.2669530352578
+      adapter_manifest_sha256: "890d84cd56922681e2fc4cbe207db201ea3f756964e4fbba2ed8ca2627f6d5f1"
+      separate_process_reload_passed: true
+      signal_gate_passed: true
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      validation_examples_evaluated: 0
+      cloud_cost_cny: null
+    notes: "Completed the fixed E3 budget from immutable E1 and passed signal, adapter-change, and separate-reload gates. Dense feedback produced 239/256 mixed groups versus 102/256 in E2, but sampled training outcomes are not validation accuracy. The low final-step entropy is disclosed for downstream review. Actual provider invoice and common full1209 E3 validation remain pending; E4 and heldout remain unstarted."
+
+  e3_m8_common_validation_001:
+    objective: "Evaluate formal E3 against the accepted E1/E2 conditions on the identical frozen full1209 validation protocol without regenerating prior arms."
+    status: completed
+    git_commit: "9a5f8debae01d345f4623c4e4f8afc528d70208b"
+    config: configs/m8_e3_common_eval.toml
+    dataset_version: "M4 full1209 validation selection 3dc2fcbd371ff287049db6e7cfebbdee182d5cb10aabd328704231e90070f0b1"
+    model: "Qwen/Qwen3-4B-Base plus e3_m8_dense_grpo_formal_001 adapter"
+    hardware: "Xiangongyun; 1x NVIDIA GeForce RTX 4090 D 48 GB"
+    started_at: "2026-10-01T20:07:04+08:00"
+    completed_at: "2026-10-01T21:58:58+08:00"
+    artifacts:
+      - configs/m8_e3_common_eval.toml
+      - docs/M8_E3_PLAN.md
+      - scripts/run_m8_eval.py
+      - scripts/summarize_m8_e3_eval.py
+      - src/verireason/m8_contract.py
+      - results/m8/m8-e3-common-eval-summary.json
+    metrics:
+      planned_validation_examples: 1209
+      e1_regeneration_allowed: false
+      e2_regeneration_allowed: false
+      expected_session_wall_seconds: 7200
+      maximum_session_wall_seconds: 14400
+      maximum_session_cost_cny: 10.36
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      actual_validation_examples: 1209
+      e3_strict_execution_accuracy: 0.41687344913151364
+      e3_behavior_compatible_accuracy: 0.43424317617866004
+      e3_valid_sql_rate: 0.8982630272952854
+      e3_strict_sql_only_rate: 1.0
+      strict_e3_minus_e1: 0.00992555831265507
+      strict_e3_minus_e2: -0.006617038875103398
+      strict_e1_correct_e3_wrong: 15
+      strict_e1_wrong_e3_correct: 27
+      strict_e1_e3_exact_mcnemar_p: 0.08842954698775429
+      strict_e2_correct_e3_wrong: 25
+      strict_e2_wrong_e3_correct: 17
+      strict_e2_e3_exact_mcnemar_p: 0.27995623852893914
+      raw_evaluation_sha256: "db638a33ef217f3dbc908d208a74ed08c1b7c8e364e04089c9d71346d70ecf2e"
+      raw_evaluation_local_path: "results/m8/raw/e3_m8_common_validation_001-e3-full.json"
+      result_sha256: "fe5b86e83f8bb7938d8b60edd2f1cbec2bda1ef07b379cbf8a640ef65d53827f"
+      cloud_cost_cny: null
+    notes: "Completed one frozen full1209 E3 pass with E1/E2 reused and paired raw evidence available at no inference cost. E3 improved strict accuracy by 0.99 points over E1 (p=0.08843) but trailed E2 by 0.66 points (p=0.27996); neither paired contrast crossed 0.05. Heldout use was 0/0. The exact SQL-free summary was locally reconstructed from validated output and matches the cloud SHA-256. The 1.2 MiB raw E3 file was retrieved at the next approved start without rerunning inference; its local SHA-256 matches the recorded cloud identity and it remains ignored outside Git. Actual provider invoice remains pending."
+
+  e4_m8_gdpo_smoke_001:
+    objective: "Verify the E4 normalize-then-sum execution path while preserving the accepted E3 smoke's parent, prompts, reward components, weights, optimizer, decoding, and budget."
+    status: completed
+    git_commit: "8376c5739680550e642b6c0f0aafeef6a8599fe8"
+    config: configs/m8_e4_smoke.toml
+    dataset_version: "M2 training manifest d90ffab32e296248376c542b736aef5ce7f547acc702a9eab41073789cf5b72a; retained E3 smoke bundle 82cfce66c7728820f22ba4f759f8cbb18ca49abe0c55e96c10f2be1d275c3265"
+    model: "Qwen/Qwen3-4B-Base plus immutable e1_m4_formal_sft_001 adapter"
+    hardware: "Xiangongyun; 1x NVIDIA GeForce RTX 4090 D 48 GB"
+    started_at: "2026-10-02T19:01:15+08:00"
+    completed_at: "2026-10-02T19:09:50+08:00"
+    artifacts:
+      - configs/m8_e4_smoke.toml
+      - docs/M8_E4_PLAN.md
+      - src/verireason/m8_rl_contract.py
+      - src/verireason/posttraining_contract.py
+      - src/verireason/posttraining_result.py
+      - tests/test_m8_rl_contract.py
+      - tests/test_posttraining_result.py
+      - tests/test_m6_component_scorer.py
+      - results/m8/m8-e4-smoke-summary.json
+    metrics:
+      planned_training_prompts: 8
+      planned_completions_per_prompt: 4
+      planned_rollouts: 32
+      planned_optimizer_steps: 8
+      reference_prepared_bundle_sha256: "82cfce66c7728820f22ba4f759f8cbb18ca49abe0c55e96c10f2be1d275c3265"
+      preflight_prepared_bundle_sha256: "82cfce66c7728820f22ba4f759f8cbb18ca49abe0c55e96c10f2be1d275c3265"
+      preflight_prepared_bundle_file_sha256: "7dc212564a1af2082f47db7ee0aef1d2d8451f53199adc50d1570057ad59ccf2"
+      preflight_prompt_count: 8
+      complete_tests_passed: 300
+      focused_tests_passed: 75
+      pinned_python_version: "3.11.15"
+      pinned_trl_version: "1.9.0"
+      expected_session_wall_seconds: 600
+      maximum_session_wall_seconds: 1800
+      maximum_session_cost_cny: 1.30
+      training_prompts: 8
+      completions_per_prompt: 4
+      rollouts: 32
+      optimizer_steps: 8
+      training_loss: 0.011858987621963024
+      gradient_norm_last: 0.74609375
+      gradient_norm_max: 1.21875
+      adapter_delta_l2: 0.10458169214276547
+      mixed_reward_groups: 7
+      zero_variance_groups: 1
+      mixed_reward_group_fraction: 0.875
+      mean_group_relative_reward: -1.5612511283791264e-17
+      strict_correct_count: 7
+      valid_count: 21
+      confidence_gate_count: 21
+      mean_structure_score: 0.3589578664185499
+      peak_gpu_memory_mib: 11736.0
+      training_wall_seconds: 184.35651603713632
+      session_wall_seconds: 314.7241520518437
+      adapter_manifest_sha256: "e16ce695ca6bd347ba9c40ce8f125f1f751c05a2ba3b92a16cfffb371b5ba5d5"
+      separate_process_reload_passed: true
+      environment_failures_before_model_load: 1
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      validation_examples_evaluated: 0
+      preflight_sha256: "85b7f40882234f0e565d2ebcabd65728eedaaf2d6d977aeaef1d44a0e04e3dc9"
+      training_result_sha256: "59da99f6d373bae74606ea9abb4b9ff77fa2331ad8afa1f936602cc96096f468"
+      reload_result_sha256: "eb1f6904c50de798b09f4da86fdb62c1caece527e9ed077c9773ba320527b23f"
+      posttraining_summary_sha256: "dfacb9b5515279972e3509bf0763752d4c33647d8d6ab92af3ad6418bca9eb61"
+      session_completion_sha256: "dda969f181e408d1c8d1e4836011f36a7c7a26b06ff3885bc261521004292f9b"
+      result_sha256: "ccb61148017fe8f2d41dc534537fc4504a475d9915a043dd9cf243dc6cd06e1c"
+      cloud_cost_cny: null
+    notes: "Completed the parity-locked E4 normalize-then-sum engineering smoke from immutable E1. Attempt 001 stopped before model load because the retained xgrammar 0.2.3 installation lacked libxgrammar_bindings.so; force-reinstalling only the same wheel restored xgrammar and GRPOTrainer imports and pip check. Attempt 002 completed 8/8 updates, changed and independently reloaded the adapter, produced 7/8 mixed groups, and kept heldout/validation at zero. Downloaded SQL-free evidence matches every cloud SHA-256. This tiny stochastic smoke proves execution viability, not accuracy or E4 superiority; formal E4 remains separately gated. Actual provider invoice remains pending."
+
+  e4_m8_gdpo_formal_001:
+    objective: "Test whether per-component normalize-then-sum improves the controlled E3 dense-reward optimization path without changing parent, data, budget, optimizer, decoding, reward components, or weights."
+    status: completed
+    git_commit: "359a673ab9c8b7e3ad3cf67c482fd3b1dac1de9c"
+    config: configs/m8_e4_formal.toml
+    dataset_version: "M2 training manifest d90ffab32e296248376c542b736aef5ce7f547acc702a9eab41073789cf5b72a; exact retained formal-E3 selection and prepared-bundle identity required before model load"
+    model: "Qwen/Qwen3-4B-Base plus immutable e1_m4_formal_sft_001 adapter"
+    hardware: "1x NVIDIA GeForce RTX 4090 D 48 GB"
+    started_at: "2026-10-04T04:34:19+08:00"
+    completed_at: "2026-10-04T05:31:35+08:00"
+    artifacts:
+      - configs/m8_e4_formal.toml
+      - docs/M8_E4_PLAN.md
+      - src/verireason/m8_rl_contract.py
+      - tests/test_m8_rl_contract.py
+      - results/m8/m8-e4-formal-summary.json
+    metrics:
+      training_prompts: 256
+      completions_per_prompt: 4
+      rollouts: 1024
+      optimizer_steps: 256
+      checkpoint_steps: 64
+      minimum_mixed_reward_groups: 32
+      minimum_mixed_reward_group_fraction: 0.125
+      expected_session_wall_seconds: 5400
+      maximum_session_wall_seconds: 10800
+      maximum_session_cost_cny: 7.77
+      training_loss: 0.030053809321543667
+      gradient_norm_last: 0.37109375
+      gradient_norm_max: 3.234375
+      adapter_delta_l2: 0.355759139373064
+      mixed_reward_groups: 235
+      zero_variance_groups: 21
+      mixed_reward_group_fraction: 0.91796875
+      mean_group_relative_reward: 1.2427667402115095e-17
+      strict_correct_count: 366
+      valid_count: 796
+      confidence_gate_count: 796
+      mean_structure_score: 0.4980290166493261
+      peak_gpu_memory_mib: 19804.0
+      training_wall_seconds: 3314.8471053349786
+      session_wall_seconds: 3436.652393253986
+      adapter_manifest_sha256: "719bed30fdff4676cb741832432337a312c1492a316d1aeed020477769003522"
+      separate_process_reload_passed: true
+      environment_failures_before_model_load: 2
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      validation_examples_evaluated: 0
+      preflight_sha256: "fea7183c2bb07df0b0083e5d7e1f8e7d40c958a70637a6e96f60ca3a8578495f"
+      training_result_sha256: "88273d0d97bc2960fd75f4b0143f0da01240e5a7f704e48ce3c7d6d18485488e"
+      reload_result_sha256: "daf64e0e280c41c013db239b8698a332c20d8c30d4fd29aaa090dc1be3944537"
+      posttraining_summary_sha256: "1bc4f69b1752b70028d0bdded18bb84c192abf51a1befa334a31b26b80045b47"
+      session_completion_sha256: "5b439103ee7f5d82ec59b757b2e6073b9aba86f044d65bcaeb38954dcd34c8f1"
+      cloud_cost_cny: null
+    notes: "Completed the parity-locked E4 normalize-then-sum training budget from immutable E1. Attempt 001 stopped during prepare because the invocation supplied a database root that duplicated the manifest prefix. Attempt 002 stopped during import because the provider-managed xgrammar native-library symlink target was missing. Neither loaded a model. Attempt 003 completed 256/256 updates and 1024 rollouts, changed and independently reloaded the adapter, produced 235/256 mixed groups, and kept validation/heldout at zero. The exact xgrammar 0.2.3 wheel library was loaded from an external runtime directory without changing dependencies. Local SQL-free evidence is internally consistent; exact remote/local hash comparison and provider billing remain pending. Training diagnostics are not validation accuracy; E4 common validation remains separate."
+
+  e4_m8_common_validation_001:
+    objective: "Evaluate the accepted formal E4 adapter once on the unchanged full1209 validation exam and compare E4 with reused E1/E2/E3 evidence."
+    status: completed
+    git_commit: "eb1e132f71fde2091f9f937b52d29efe802b6671"
+    config: configs/m8_e4_common_eval.toml
+    dataset_version: "M2 validation selection 3dc2fcbd371ff287049db6e7cfebbdee182d5cb10aabd328704231e90070f0b1; 1209 operationally eligible examples"
+    model: "Qwen/Qwen3-4B-Base plus e4_m8_gdpo_formal_001 adapter 719bed30fdff4676cb741832432337a312c1492a316d1aeed020477769003522"
+    hardware: "1x NVIDIA GeForce RTX 4090 D 48 GB"
+    started_at: "2026-10-05T04:07:17+08:00"
+    completed_at: "2026-10-05T05:55:00+08:00"
+    artifacts:
+      - configs/m8_e4_common_eval.toml
+      - scripts/run_m8_eval.py
+      - scripts/summarize_m8_e4_eval.py
+      - src/verireason/m8_contract.py
+      - tests/test_m8_contract.py
+      - results/m8/m8-e4-common-eval-summary.json
+      - results/m8/raw/e4_m8_common_validation_001-e4-full.json
+    metrics:
+      validation_examples: 1209
+      prior_conditions_reused: [E1, E2, E3]
+      strict_execution_correct: 501
+      strict_execution_accuracy: 0.4143920595533499
+      bird_ex_behavior_compatible: 0.4334160463192721
+      valid_sql_rate: 0.8949545078577337
+      strict_sql_only_rate: 1.0
+      generated_tokens: 56662
+      generation_seconds: 6432.094692504965
+      completion_tokens_per_second: 8.809260856502272
+      e4_minus_e1_strict_accuracy: 0.00744416873449133
+      e4_minus_e2_strict_accuracy: -0.009098428453267138
+      e4_minus_e3_strict_accuracy: -0.0024813895781637396
+      e1_vs_e4_strict_mcnemar_p: 0.21102359760880063
+      e2_vs_e4_strict_mcnemar_p: 0.10812902140605729
+      e3_vs_e4_strict_mcnemar_p: 0.7283324808813632
+      raw_result_sha256: "0aba50f12a8b2ce9ca9cd036d7b58b6e2897ea7c774860d1d3497a98cca57cdb"
+      summary_sha256: "cdf0d84b22ddc9d6da77cd817ac059a6510302582fab58fca490cfcd02ec77e4"
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      cloud_cost_cny: null
+    notes: "Completed the single preregistered E4 pass on the unchanged full1209 exam. E1/E2/E3 evidence was reused without regeneration, all adapter/selection/prompt/evaluator identities passed, and heldout use remained zero. E4 did not outperform E2 or E3; none of its paired strict contrasts crossed p=0.05. M8 closes with E2 as the best validation arm and E3/E4 as controlled negative dense-reward results. completed_at is the approximate publication minute reconstructed from the retained result file; provider billing remains pending."
+
+  m9_e2_vllm_serving_001:
+    objective: "Serve the best measured E2 adapter through vLLM and jointly benchmark correctness, TTFT, latency, throughput, and GPU memory."
+    status: completed
+    git_commit: "b47fa465c2301351072d0816d10ad0ef33d66019"
+    config: configs/m9_serving.toml
+    dataset_version: "M2 validation selection 3dc2fcbd371ff287049db6e7cfebbdee182d5cb10aabd328704231e90070f0b1; deterministic hash64 serving slice 10d2280ba50930ba9b40b2273d7b8b1edf801748df6e1c403a9f8a9c469ff13a"
+    model: "Qwen/Qwen3-4B-Base plus e2_m7_outcome_grpo_formal_001 adapter 3492a3ec870f7c6e8e672459f025fc96a9a8cba543b27b7df4fc5f6c6bfbd3b7"
+    hardware: "1x NVIDIA GeForce RTX 4090 D 48 GB"
+    started_at: "2026-10-06T04:13:18+08:00"
+    completed_at: "2026-10-06T04:17:42+08:00"
+    artifacts:
+      - configs/m9_serving.toml
+      - docs/M9_PLAN.md
+      - scripts/preflight_m9_serving.py
+      - scripts/benchmark_m9_serving.py
+      - scripts/summarize_m9_serving.py
+      - scripts/run_m9_cloud.sh
+      - src/verireason/m9_serving.py
+      - tests/test_m9_serving.py
+      - results/m9/m9-serving-summary.json
+    metrics:
+      planned_validation_examples: 64
+      planned_warmup_requests: 2
+      planned_measured_requests: 192
+      planned_concurrencies: [1, 4, 8]
+      expected_session_wall_seconds: 1800
+      maximum_session_wall_seconds: 3600
+      maximum_session_cost_cny: 2.59
+      server_startup_seconds: 155.0
+      ready_gpu_memory_mib: 28972.0
+      peak_gpu_memory_mib: 29246.0
+      concurrency_1_request_throughput: 1.7313715932956075
+      concurrency_4_request_throughput: 4.506211443650426
+      concurrency_8_request_throughput: 6.513191151284299
+      concurrency_1_ttft_p50_seconds: 0.09399321652017534
+      concurrency_4_ttft_p50_seconds: 0.09323628700803965
+      concurrency_8_ttft_p50_seconds: 0.11570764699717984
+      successful_measured_requests: 192
+      serving_slice_strict_execution_accuracy: 0.46875
+      serving_slice_behavior_compatible_accuracy: 0.5
+      serving_slice_valid_sql_rate: 0.953125
+      serving_slice_strict_sql_only_rate: 1.0
+      raw_result_sha256: "9fc7343c50d55e029a9595d8bb621fac23ddc49e5a5b8ea0e5e735eaa9c96ce1"
+      summary_sha256: "85b20f1445140380de356f5c28ad944ba493ec420aa01077dca1de3a0f8607b8"
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      cloud_cost_cny: null
+    notes: "Completed on attempt 003 with static E2 LoRA, deterministic validation-only hash64 workload, unchanged SQLite evaluator, and zero heldout. Attempts 001/002 stopped before endpoint readiness or benchmark requests due to effective prefix-cache drift and provider-restored non-executable CUDA cicc during optional FlashInfer sampler JIT. Attempt 003 explicitly disabled both paths and completed 192/192 requests. The 64-example correctness result is a serving integration check, not a replacement for full1209 model selection. Provider billing remains pending."
+
+  m10_cleanroom_reproduction_001:
+    objective: "Prove that Git-tracked VeriReason code and public evidence install and verify in a fresh exact Python 3.11.15 CPU environment without private data or GPU artifacts."
+    status: completed
+    git_commit: "392b8a3155fac3c83b50745517b3c32dca3b6874"
+    config: configs/m10_public_artifacts.toml
+    dataset_version: "19 allowlisted SQL-free public result summaries; no raw dataset or heldout rows"
+    model: "none"
+    hardware: "local macOS x86_64 CPU-only clean virtual environment"
+    started_at: "2026-10-06"
+    completed_at: "2026-10-06"
+    artifacts:
+      - Dockerfile
+      - requirements/m10-cpu-lock.txt
+      - configs/m10_public_artifacts.toml
+      - docs/M10_RUNBOOK.md
+      - results/m10/release-manifest.json
+      - scripts/run_m10_cleanroom.sh
+      - scripts/verify_m10_release.py
+      - src/verireason/release.py
+      - tests/test_release.py
+    metrics:
+      python_version: "3.11.15"
+      public_artifact_count: 19
+      tests_passed: 314
+      tests_skipped: 4
+      release_manifest_sha256: "67f10d78549c70ad1b5d52a583d5017f1301c34a6b90499fc54544e58d95f7f2"
+      public_artifact_config_sha256: "ccd8595d89b530b55fa40431597ceba28fc68953b50b183fae669d7190ce020f"
+      cpu_lock_sha256: "acb1fa1e250aa82a02a0a5fbb985dea65e537d93e9740f61263ea4211bdc7561"
+      gpu_packages_loaded: 0
+      model_artifacts_loaded: 0
+      database_artifacts_loaded: 0
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      cloud_cost_cny: 0.0
+    notes: "A Git-only archive of the implementation commit was installed into a newly created managed CPython 3.11.15 environment. Guard, full tests, Ruff, compileall, environment validation, pip check, and all 19 evidence hashes passed. Local Docker was unavailable, so Docker execution remains a first-public-CI gate and is not claimed as locally measured."
+
+  m11_release_candidate_001:
+    objective: "Assemble and locally verify the public report, cards, demo, reproducibility, release, and research-follow-up surface without changing accepted experiment evidence."
+    status: running
+    git_commit: null
+    config: configs/m11_release.toml
+    dataset_version: "19 allowlisted SQL-free public summaries; no benchmark rows, private manifests, raw SQL, or heldout content"
+    model: "Qwen/Qwen3-4B-Base plus selected E2 adapter identity only; no model loaded"
+    hardware: "local macOS CPU; clean CPython 3.11.13 incremental verification"
+    started_at: "2026-10-19"
+    completed_at: null
+    artifacts:
+      - LICENSE
+      - CITATION.cff
+      - README.md
+      - configs/m11_release.toml
+      - docs/TECHNICAL_REPORT.md
+      - docs/MODEL_CARD.md
+      - docs/DATA_CARD.md
+      - docs/REPRODUCIBILITY.md
+      - docs/RESEARCH_FOLLOWUP.md
+      - docs/RELEASE_PACKET.md
+      - src/verireason/demo.py
+      - scripts/verify_m11_release.py
+      - tests/test_demo.py
+      - tests/test_m11_release.py
+    metrics:
+      tests_passed: 320
+      tests_skipped: 4
+      release_required_files: 13
+      public_artifacts_verified: 19
+      selected_adapter_manifest_sha256: "3492a3ec870f7c6e8e672459f025fc96a9a8cba543b27b7df4fc5f6c6bfbd3b7"
+      selected_adapter_archive_sha256: "9e17b2a5acb5ecbe78c778465dd8920ea3fd643340847243ba3892fbd366bcf8"
+      validation_examples_bound: 1209
+      serving_requests_bound: 192
+      model_artifacts_loaded: 0
+      database_artifacts_loaded: 0
+      heldout_examples_loaded: 0
+      heldout_examples_evaluated: 0
+      cloud_cost_cny: 0.0
+    notes: "Local release-candidate guard, full tests, and headline-evidence verifier pass. The incremental run uses clean CPython 3.11.13 because the installed macOS 3.11.7 exits 139 under pytest; the accepted M10 base receipt remains exact 3.11.15. M11 stays running until GitHub publication, E2 release upload, public exact-3.11.15 CI, cloud-only artifact migration, and teach-backs are complete."
+
+# experiment_id:
+#   objective: ""
+#   status: planned | running | completed | failed | stopped
+#   git_commit: ""
+#   config: ""
+#   dataset_version: ""
+#   model: ""
+#   hardware: ""
+#   started_at: ""
+#   completed_at: ""
+#   artifacts: []
+#   metrics: {}
+#   notes: ""

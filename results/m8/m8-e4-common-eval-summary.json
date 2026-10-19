@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "experiment_id": "e4_m8_common_validation_001",
+  "validation_selection_sha256": "3dc2fcbd371ff287049db6e7cfebbdee182d5cb10aabd328704231e90070f0b1",
+  "example_count": 1209,
+  "primary_metric": "strict_execution_accuracy",
+  "E1": {
+    "example_count": 1209,
+    "bird_ex_behavior_compatible": 0.42349048800661704,
+    "strict_execution_accuracy": 0.40694789081885857,
+    "strict_sql_only_rate": 1.0,
+    "valid_sql_rate": 0.8759305210918115,
+    "failure_categories": {
+      "execution_error": 142,
+      "resource_limit": 2,
+      "strict_correct": 492,
+      "syntax_error": 3,
+      "timeout": 2,
+      "unsafe": 1,
+      "wrong_result": 567
+    }
+  },
+  "E2": {
+    "example_count": 1209,
+    "bird_ex_behavior_compatible": 0.4425144747725393,
+    "strict_execution_accuracy": 0.42349048800661704,
+    "strict_sql_only_rate": 1.0,
+    "valid_sql_rate": 0.9073614557485525,
+    "failure_categories": {
+      "execution_error": 101,
+      "resource_limit": 3,
+      "strict_correct": 512,
+      "syntax_error": 4,
+      "timeout": 4,
+      "wrong_result": 585
+    }
+  },
+  "E3": {
+    "example_count": 1209,
+    "bird_ex_behavior_compatible": 0.43424317617866004,
+    "strict_execution_accuracy": 0.41687344913151364,
+    "strict_sql_only_rate": 1.0,
+    "valid_sql_rate": 0.8982630272952854,
+    "failure_categories": {
+      "execution_error": 115,
+      "resource_limit": 1,
+      "strict_correct": 504,
+      "syntax_error": 3,
+      "timeout": 3,
+      "unsafe": 1,
+      "wrong_result": 582
+    }
+  },
+  "E4": {
+    "example_count": 1209,
+    "bird_ex_behavior_compatible": 0.4334160463192721,
+    "strict_execution_accuracy": 0.4143920595533499,
+    "strict_sql_only_rate": 1.0,
+    "valid_sql_rate": 0.8949545078577337,
+    "failure_categories": {
+      "execution_error": 117,
+      "resource_limit": 4,
+      "strict_correct": 501,
+      "syntax_error": 3,
+      "timeout": 2,
+      "unsafe": 1,
+      "wrong_result": 581
+    }
+  },
+  "E4_minus_E1": {
+    "strict_execution_accuracy": 0.00744416873449133,
+    "bird_ex_behavior_compatible": 0.00992555831265507,
+    "valid_sql_rate": 0.019023986765922207,
+    "strict_sql_only_rate": 0.0
+  },
+  "E4_minus_E2": {
+    "strict_execution_accuracy": -0.009098428453267138,
+    "bird_ex_behavior_compatible": -0.009098428453267193,
+    "valid_sql_rate": -0.012406947890818865,
+    "strict_sql_only_rate": 0.0
+  },
+  "E4_minus_E3": {
+    "strict_execution_accuracy": -0.0024813895781637396,
+    "bird_ex_behavior_compatible": -0.0008271298593879317,
+    "valid_sql_rate": -0.003308519437551727,
+    "strict_sql_only_rate": 0.0
+  },
+  "paired_analysis": {
+    "E1_vs_E4": {
+      "status": "completed_from_existing_raw_evidence",
+      "strict_execution_accuracy": {
+        "e1_correct_e4_wrong": 16,
+        "e1_wrong_e4_correct": 25,
+        "discordant_pairs": 41,
+        "exact_two_sided_mcnemar_p": 0.21102359760880063
+      },
+      "bird_ex_behavior_compatible": {
+        "e1_correct_e4_wrong": 13,
+        "e1_wrong_e4_correct": 25,
+        "discordant_pairs": 38,
+        "exact_two_sided_mcnemar_p": 0.07295138851623051
+      },
+      "reference_condition": "E1",
+      "candidate_condition": "E4"
+    },
+    "E2_vs_E4": {
+      "status": "completed_from_existing_raw_evidence",
+      "strict_execution_accuracy": {
+        "e2_correct_e4_wrong": 25,
+        "e2_wrong_e4_correct": 14,
+        "discordant_pairs": 39,
+        "exact_two_sided_mcnemar_p": 0.10812902140605729
+      },
+      "bird_ex_behavior_compatible": {
+        "e2_correct_e4_wrong": 25,
+        "e2_wrong_e4_correct": 14,
+        "discordant_pairs": 39,
+        "exact_two_sided_mcnemar_p": 0.10812902140605729
+      },
+      "reference_condition": "E2",
+      "candidate_condition": "E4"
+    },
+    "E3_vs_E4": {
+      "status": "completed_from_existing_raw_evidence",
+      "strict_execution_accuracy": {
+        "e3_correct_e4_wrong": 18,
+        "e3_wrong_e4_correct": 15,
+        "discordant_pairs": 33,
+        "exact_two_sided_mcnemar_p": 0.7283324808813632
+      },
+      "bird_ex_behavior_compatible": {
+        "e3_correct_e4_wrong": 17,
+        "e3_wrong_e4_correct": 16,
+        "discordant_pairs": 33,
+        "exact_two_sided_mcnemar_p": 1.0
+      },
+      "reference_condition": "E3",
+      "candidate_condition": "E4"
+    }
+  },
+  "heldout_examples_loaded": 0,
+  "heldout_examples_evaluated": 0
+}

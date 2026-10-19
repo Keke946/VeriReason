@@ -1,0 +1,33 @@
+{
+  "database_count": 69,
+  "eligible_example_count": 6573,
+  "eligible_unique_sql_count": 6496,
+  "heldout_examples_evaluated": 0,
+  "heldout_examples_loaded": 0,
+  "nonempty_dimension_counts": {
+    "columns": 6488,
+    "group_by": 631,
+    "having": 76,
+    "join_signatures": 4950,
+    "limit": 1165,
+    "order_by": 1097,
+    "predicate_signatures": 5752,
+    "select_signatures": 6488,
+    "set_operations": 11,
+    "subquery_profile": 480,
+    "tables": 6488
+  },
+  "private_row_outcome_digest_sha256": "ced898533299ea125240d4384b1c0a7a8e77a37b2aebb49cd86e5a668f4d2ad4",
+  "reason_counts": {
+    "schema_resolution_error:OptimizeError": 1,
+    "supported": 6488,
+    "unsupported_nondeterministic_function": 7
+  },
+  "schema_version": 1,
+  "scope": "training_only_operationally_eligible_unique_sql",
+  "status": "completed",
+  "support_rate": 0.9987684729064039,
+  "supported_unique_sql_count": 6488,
+  "training_manifest_sha256": "d90ffab32e296248376c542b736aef5ce7f547acc702a9eab41073789cf5b72a",
+  "unsupported_unique_sql_count": 8
+}

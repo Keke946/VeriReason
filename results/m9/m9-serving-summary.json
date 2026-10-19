@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "experiment_id": "m9_e2_vllm_serving_001",
+  "backend": "vllm_openai_compatible",
+  "served_model_name": "verireason-e2",
+  "adapter_experiment_id": "e2_m7_outcome_grpo_formal_001",
+  "adapter_manifest_sha256": "3492a3ec870f7c6e8e672459f025fc96a9a8cba543b27b7df4fc5f6c6bfbd3b7",
+  "benchmark_selection_sha256": "10d2280ba50930ba9b40b2273d7b8b1edf801748df6e1c403a9f8a9c469ff13a",
+  "benchmark_example_count": 64,
+  "server_startup_seconds": 155.0,
+  "ready_gpu_memory_mib": 28972.0,
+  "peak_gpu_memory_mib": 29246.0,
+  "scenarios": [
+    {
+      "concurrency": 1,
+      "request_count": 64,
+      "successful_requests": 64,
+      "request_success_rate": 1.0,
+      "wall_seconds": 36.96491281699855,
+      "ttft_p50_seconds": 0.09399321652017534,
+      "ttft_p95_seconds": 0.14885987854213453,
+      "e2e_latency_p50_seconds": 0.5842321750242263,
+      "e2e_latency_p95_seconds": 0.9310914103931281,
+      "completion_tokens": 2925,
+      "request_throughput_per_second": 1.7313715932956075,
+      "completion_token_throughput_per_second": 79.12909234983832
+    },
+    {
+      "concurrency": 4,
+      "request_count": 64,
+      "successful_requests": 64,
+      "request_success_rate": 1.0,
+      "wall_seconds": 14.202618052950129,
+      "ttft_p50_seconds": 0.09323628700803965,
+      "ttft_p95_seconds": 0.1611347983125597,
+      "e2e_latency_p50_seconds": 0.8045356835355051,
+      "e2e_latency_p95_seconds": 1.468165782745927,
+      "completion_tokens": 3200,
+      "request_throughput_per_second": 4.506211443650426,
+      "completion_token_throughput_per_second": 225.3105721825213
+    },
+    {
+      "concurrency": 8,
+      "request_count": 64,
+      "successful_requests": 64,
+      "request_success_rate": 1.0,
+      "wall_seconds": 9.826212453073822,
+      "ttft_p50_seconds": 0.11570764699717984,
+      "ttft_p95_seconds": 0.3777496166527271,
+      "e2e_latency_p50_seconds": 1.0782305055181496,
+      "e2e_latency_p95_seconds": 1.7719805897388137,
+      "completion_tokens": 3229,
+      "request_throughput_per_second": 6.513191151284299,
+      "completion_token_throughput_per_second": 328.61084730464063
+    }
+  ],
+  "correctness": {
+    "example_count": 64,
+    "bird_ex_behavior_compatible": 0.5,
+    "strict_execution_accuracy": 0.46875,
+    "strict_sql_only_rate": 1.0,
+    "valid_sql_rate": 0.953125,
+    "failure_categories": {
+      "execution_error": 3,
+      "strict_correct": 30,
+      "wrong_result": 31
+    }
+  },
+  "raw_result_sha256": "9fc7343c50d55e029a9595d8bb621fac23ddc49e5a5b8ea0e5e735eaa9c96ce1",
+  "heldout_examples_loaded": 0,
+  "heldout_examples_evaluated": 0
+}

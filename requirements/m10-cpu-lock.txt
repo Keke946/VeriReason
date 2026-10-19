@@ -1,0 +1,10 @@
+# CPU-only M10 verification lock. GPU/post-training packages remain in the separate `gpu` extra.
+iniconfig==2.3.0
+packaging==26.3
+pluggy==1.6.0
+Pygments==2.21.0
+pytest==9.0.2
+ruff==0.12.8
+setuptools==80.9.0
+sqlglot==30.17.0
+wheel==0.45.1

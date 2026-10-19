@@ -1,0 +1,73 @@
+{
+  "complete": true,
+  "completed_count": 244,
+  "diagnostic_only": true,
+  "expected_count": 244,
+  "input_evidence_sha256": {
+    "formal_config_sha256": "d468ca938964597832ce5fb4c23b452fa362e8b6770c9d73a0de80d6c669598b",
+    "heldout_labels_sha256": "88ceb0710163cae46a256ecea8f0a8c98286599530b60587fda5c3cfe57d45d2",
+    "private_preflight_sha256": "2408b34df2e4e55544c77c49efb5a8c42364d86ac9e018168ea4b5dfeff98e02",
+    "source_receipt_sha256": "da189fd0f69d7713c16acfe434738e1f867074665c2b95d7d78b3ace29741ffe",
+    "training_labels_sha256": "2ee64aa593e1adc59be7d5b9ce2395372a8ee27fdd94a3fb4d2fe09f3cd34bc8"
+  },
+  "plan_sha256": "3ded2e3718c9d2d397c07dd6c2792651dbf3992113d500733fbc562dd699cd6b",
+  "schema_version": 1,
+  "splits": {
+    "heldout": {
+      "cpu_ipc": {
+        "completed_count": 2,
+        "cpu_limit": 0,
+        "duration_buckets": {
+          "gt_10_seconds": 0,
+          "gt_3_le_5_seconds": 0,
+          "gt_5_le_10_seconds": 0,
+          "le_3_seconds": 0
+        },
+        "original_failure_count": 2,
+        "succeeded": 0,
+        "unstable_exitcode": 0,
+        "wall_timeout": 2,
+        "worker_error": 0
+      },
+      "large_result": {
+        "100k_to_250k": 0,
+        "250k_to_500k": 0,
+        "500k_to_1m": 0,
+        "byte_limit": 0,
+        "completed_count": 0,
+        "gt_1m": 0,
+        "original_failure_count": 0,
+        "timeout": 0,
+        "worker_error": 0
+      }
+    },
+    "training": {
+      "cpu_ipc": {
+        "completed_count": 220,
+        "cpu_limit": 0,
+        "duration_buckets": {
+          "gt_10_seconds": 0,
+          "gt_3_le_5_seconds": 82,
+          "gt_5_le_10_seconds": 50,
+          "le_3_seconds": 82
+        },
+        "original_failure_count": 220,
+        "succeeded": 214,
+        "unstable_exitcode": 0,
+        "wall_timeout": 5,
+        "worker_error": 1
+      },
+      "large_result": {
+        "100k_to_250k": 9,
+        "250k_to_500k": 6,
+        "500k_to_1m": 4,
+        "byte_limit": 0,
+        "completed_count": 22,
+        "gt_1m": 3,
+        "original_failure_count": 22,
+        "timeout": 0,
+        "worker_error": 0
+      }
+    }
+  }
+}

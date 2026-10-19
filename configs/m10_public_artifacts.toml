@@ -1,0 +1,25 @@
+schema_version = 1
+status = "accepted_public_artifact_set"
+python_version = "3.11.15"
+
+artifacts = [
+  "results/m2/m2-diagnostic-summary.json",
+  "results/m2/m2-finalization-summary.json",
+  "results/m3/m3-vertical-slice-summary.json",
+  "results/m4/m4-public-summary.json",
+  "results/m5/m5-audit-selection.json",
+  "results/m5/m5-data-v2-candidate-receipt.json",
+  "results/m5/m5-error-analysis.json",
+  "results/m5/m5-independent-review-status.json",
+  "results/m6/m6-training-schema-audit.json",
+  "results/m7/m7-e2-formal-summary.json",
+  "results/m7/m7-e2-smoke-summary.json",
+  "results/m8/m8-common-eval-summary.json",
+  "results/m8/m8-e3-common-eval-summary.json",
+  "results/m8/m8-e3-formal-summary.json",
+  "results/m8/m8-e3-smoke-summary.json",
+  "results/m8/m8-e4-common-eval-summary.json",
+  "results/m8/m8-e4-formal-summary.json",
+  "results/m8/m8-e4-smoke-summary.json",
+  "results/m9/m9-serving-summary.json",
+]

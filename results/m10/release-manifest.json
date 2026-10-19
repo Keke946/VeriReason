@@ -1,0 +1,122 @@
+{
+  "artifact_count": 19,
+  "artifacts": [
+    {
+      "path": "results/m2/m2-diagnostic-summary.json",
+      "sha256": "edeba5145f7ed6f6d40adba8d7f7a6a18cf46eb0b9635e683372491bcd7c7c4e",
+      "size_bytes": 2142,
+      "sql_free_privacy_check": "passed"
+    },
+    {
+      "path": "results/m2/m2-finalization-summary.json",
+      "sha256": "6212765dac3d9c7bc54d9a6cc9f27dd6f60616e081541cb1a9c7e690a0321538",
+      "size_bytes": 3451,
+      "sql_free_privacy_check": "passed"
+    },
+    {
+      "path": "results/m3/m3-vertical-slice-summary.json",
+      "sha256": "ff9ea5f886610a35b8c21ddbef3de241cf4cf88c5c45623b6692e69b3c59cffa",
+      "size_bytes": 16514,
+      "sql_free_privacy_check": "passed"
+    },
+    {
+      "path": "results/m4/m4-public-summary.json",
+      "sha256": "78348da5f336dcbb7972a42b984eb03e3d703668877eaaba6283622142ed0136",
+      "size_bytes": 57335,
+      "sql_free_privacy_check": "passed"
+    },
+    {
+      "path": "results/m5/m5-audit-selection.json",
+      "sha256": "4a56a91f9034e9146a8e8826230cfc598786aea9ec5394af56b7302fce3575df",
+      "size_bytes": 1451,
+      "sql_free_privacy_check": "passed"
+    },
+    {
+      "path": "results/m5/m5-data-v2-candidate-receipt.json",
+      "sha256": "d9fec4fe61c5e35bfe145754538a4330c5a6f559a2471945020143eb217878a0",
+      "size_bytes": 996,
+      "sql_free_privacy_check": "passed"
+    },
+    {
+      "path": "results/m5/m5-error-analysis.json",
+      "sha256": "47f71b02e808fc00f8dbbd031be1e5851b0a0502270b768fb537b002fabc0cb0",
+      "size_bytes": 7205,
+      "sql_free_privacy_check": "passed"
+    },
+    {
+      "path": "results/m5/m5-independent-review-status.json",
+      "sha256": "2e107611f0e245039db4caa39adc42d41c87aa5cf30094cd90c9d02f326bd9df",
+      "size_bytes": 679,
+      "sql_free_privacy_check": "passed"
+    },
+    {
+      "path": "results/m6/m6-training-schema-audit.json",
+      "sha256": "2a9811e3f44101698b0441012a33db13f0a4afc819595a863e2a4250f8677586",
+      "size_bytes": 1044,
+      "sql_free_privacy_check": "passed"
+    },
+    {
+      "path": "results/m7/m7-e2-formal-summary.json",
+      "sha256": "59e7af758f7799dffb149037534eb6673241dadfa405aeb5e0f7121fc4689630",
+      "size_bytes": 3788,
+      "sql_free_privacy_check": "passed"
+    },
+    {
+      "path": "results/m7/m7-e2-smoke-summary.json",
+      "sha256": "90dda8ec51c4d78e26d493352c60e88a604628a9827f21c6877195dffc90fd30",
+      "size_bytes": 1993,
+      "sql_free_privacy_check": "passed"
+    },
+    {
+      "path": "results/m8/m8-common-eval-summary.json",
+      "sha256": "2c60531e40c842dc098966980fb6ebbba82913146ebf59c7bf6e16e25f5b7db5",
+      "size_bytes": 1874,
+      "sql_free_privacy_check": "passed"
+    },
+    {
+      "path": "results/m8/m8-e3-common-eval-summary.json",
+      "sha256": "fe5b86e83f8bb7938d8b60edd2f1cbec2bda1ef07b379cbf8a640ef65d53827f",
+      "size_bytes": 3211,
+      "sql_free_privacy_check": "passed"
+    },
+    {
+      "path": "results/m8/m8-e3-formal-summary.json",
+      "sha256": "d89a98b1551369f03f5cf307c9d62211fc10ac5e17c20150f47ca37476df30a2",
+      "size_bytes": 3082,
+      "sql_free_privacy_check": "passed"
+    },
+    {
+      "path": "results/m8/m8-e3-smoke-summary.json",
+      "sha256": "ab67130c804d39699400b1ea1fba531b9074b643d43a0e474b710ec1bf1fbb3f",
+      "size_bytes": 2842,
+      "sql_free_privacy_check": "passed"
+    },
+    {
+      "path": "results/m8/m8-e4-common-eval-summary.json",
+      "sha256": "cdf0d84b22ddc9d6da77cd817ac059a6510302582fab58fca490cfcd02ec77e4",
+      "size_bytes": 4407,
+      "sql_free_privacy_check": "passed"
+    },
+    {
+      "path": "results/m8/m8-e4-formal-summary.json",
+      "sha256": "98e99057114438adc5dcedcc9c9b87600e52494d9a9f9aa7d39a85982bc47596",
+      "size_bytes": 3906,
+      "sql_free_privacy_check": "passed"
+    },
+    {
+      "path": "results/m8/m8-e4-smoke-summary.json",
+      "sha256": "ccb61148017fe8f2d41dc534537fc4504a475d9915a043dd9cf243dc6cd06e1c",
+      "size_bytes": 3094,
+      "sql_free_privacy_check": "passed"
+    },
+    {
+      "path": "results/m9/m9-serving-summary.json",
+      "sha256": "85b20f1445140380de356f5c28ad944ba493ec420aa01077dca1de3a0f8607b8",
+      "size_bytes": 2649,
+      "sql_free_privacy_check": "passed"
+    }
+  ],
+  "canonical_python": "3.11.15",
+  "project": "VeriReason",
+  "schema_version": 1
+}

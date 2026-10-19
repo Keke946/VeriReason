@@ -1,0 +1,43 @@
+schema_version = 1
+diagnostic_only = true
+source_attempt_commit = "9dc25ceaf76072a7e8a0a1ccdb12bc1bfe3f2eb8"
+maximum_session_wall_seconds = 5400
+
+[evidence]
+private_preflight_sha256 = "2408b34df2e4e55544c77c49efb5a8c42364d86ac9e018168ea4b5dfeff98e02"
+training_labels_sha256 = "2ee64aa593e1adc59be7d5b9ce2395372a8ee27fdd94a3fb4d2fe09f3cd34bc8"
+heldout_labels_sha256 = "88ceb0710163cae46a256ecea8f0a8c98286599530b60587fda5c3cfe57d45d2"
+formal_config_sha256 = "d468ca938964597832ce5fb4c23b452fa362e8b6770c9d73a0de80d6c669598b"
+source_receipt_sha256 = "da189fd0f69d7713c16acfe434738e1f867074665c2b95d7d78b3ace29741ffe"
+
+[selection]
+training_profile_a = 220
+training_profile_b = 22
+heldout_profile_a = 2
+heldout_profile_b = 0
+
+[profile_a]
+name = "cpu_ipc_diagnostic"
+timeout_seconds = 10.0
+progress_steps = 1000
+maximum_vm_bytes = 2147483648
+maximum_cpu_seconds = 12
+maximum_cpu_hard_seconds = 13
+maximum_result_rows = 100000
+maximum_result_bytes = 67108864
+maximum_float_pair_checks = 1000000
+float_absolute_tolerance = 1e-6
+float_relative_tolerance = 1e-6
+
+[profile_b]
+name = "large_result_diagnostic"
+timeout_seconds = 30.0
+progress_steps = 1000
+maximum_vm_bytes = 2147483648
+maximum_cpu_seconds = 32
+maximum_cpu_hard_seconds = 33
+maximum_result_rows = 1000000
+maximum_result_bytes = 536870912
+maximum_float_pair_checks = 1000000
+float_absolute_tolerance = 1e-6
+float_relative_tolerance = 1e-6

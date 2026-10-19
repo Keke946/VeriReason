@@ -1,0 +1,79 @@
+schema_version = 1
+status = "local_preregistered_pending_control_approval"
+experiment_id = "m9_e2_vllm_serving_001"
+
+[sources]
+m4_config = "configs/m4_formal_sft.toml"
+m4_config_sha256 = "61744444736ddc2b8c98c0177b4f051cfddf6bb78eba51d277b76f23d00a22ac"
+m2_config = "configs/m2_data.toml"
+m2_config_sha256 = "1fa045ebf72a29d9209f5b37f1042126a81e66e3f7511b1c1fc8a8b21d553181"
+e2_training_summary = "results/m7/m7-e2-formal-summary.json"
+e2_training_summary_sha256 = "59e7af758f7799dffb149037534eb6673241dadfa405aeb5e0f7121fc4689630"
+e2_evaluation_summary = "results/m8/m8-common-eval-summary.json"
+e2_evaluation_summary_sha256 = "2c60531e40c842dc098966980fb6ebbba82913146ebf59c7bf6e16e25f5b7db5"
+
+[model]
+model_id = "Qwen/Qwen3-4B-Base"
+revision = "906bfd4b4dc7f14ee4320094d8b41684abff8539"
+adapter_experiment_id = "e2_m7_outcome_grpo_formal_001"
+adapter_manifest_sha256 = "3492a3ec870f7c6e8e672459f025fc96a9a8cba543b27b7df4fc5f6c6bfbd3b7"
+served_model_name = "verireason-e2"
+lora_rank = 16
+
+[data]
+split = "validation"
+source_example_count = 1209
+source_selection_sha256 = "3dc2fcbd371ff287049db6e7cfebbdee182d5cb10aabd328704231e90070f0b1"
+selector_version = "m9_hash64_v1"
+selector_seed = "verireason-m9-serving-v1"
+benchmark_example_count = 64
+benchmark_selection_sha256 = "10d2280ba50930ba9b40b2273d7b8b1edf801748df6e1c403a9f8a9c469ff13a"
+heldout_examples_loaded = 0
+heldout_examples_evaluated = 0
+
+[server]
+backend = "vllm_openai_compatible"
+host = "127.0.0.1"
+port = 8000
+dtype = "bfloat16"
+max_model_len = 4096
+gpu_memory_utilization = 0.60
+max_num_seqs = 8
+max_loras = 1
+max_lora_rank = 16
+dynamic_lora_loading = false
+enable_prefix_caching = false
+
+[decoding]
+temperature = 0.0
+top_p = 1.0
+max_tokens = 384
+stream = true
+include_usage = true
+enable_thinking = false
+
+[benchmark]
+warmup_requests = 2
+requests_per_scenario = 64
+concurrencies = [1, 4, 8]
+request_timeout_seconds = 120
+metrics = ["ttft_p50", "ttft_p95", "e2e_latency_p50", "e2e_latency_p95", "request_throughput", "completion_token_throughput", "ready_gpu_memory", "peak_gpu_memory"]
+
+[correctness]
+scenario_concurrency = 1
+metrics = ["strict_execution_accuracy", "bird_ex_behavior_compatible", "strict_sql_only_rate", "valid_sql_rate", "failure_categories"]
+minimum_request_success_rate = 1.0
+minimum_strict_sql_only_rate = 0.95
+formal_evaluator_config = "configs/m2_data.toml"
+
+[evidence]
+require_clean_git = true
+minimum_output_free_bytes = 5368709120
+expected_session_wall_seconds = 1800
+maximum_session_wall_seconds = 3600
+planning_rate_cny_per_hour = 2.59
+maximum_session_cost_cny = 2.59
+required = ["adapter_identity", "endpoint_model_identity", "warmup", "three_concurrency_scenarios", "ttft", "latency", "throughput", "gpu_memory", "execution_correctness", "zero_heldout"]
+
+[stops]
+conditions = ["heldout_nonzero", "adapter_or_selection_drift", "server_start_failure", "request_failure", "missing_usage", "nonfinite_metric", "output_filesystem_low", "wall_or_cost_limit"]

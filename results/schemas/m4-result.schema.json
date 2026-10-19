@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VeriReason M4 Formal SFT Result",
+  "type": "object",
+  "required": ["schema_version", "status", "experiment_id", "selection", "training", "trainer_contract", "epoch_extension_decision", "base_evaluation", "sft_evaluation", "generation", "heldout_examples_loaded", "heldout_examples_evaluated", "timing", "memory", "cost"],
+  "properties": {
+    "schema_version": {"const": 1}, "status": {"enum": ["running", "stopped", "failed", "completed"]},
+    "experiment_id": {"const": "e1_m4_formal_sft_001"}, "heldout_examples_loaded": {"const": 0}, "heldout_examples_evaluated": {"const": 0},
+    "training": {"type": "object", "required": ["checkpoint_selection", "real_example_passes", "optimizer_steps", "final_real_microbatches", "zero_gradient_padding_microbatches", "trainer_loss_normalization"], "properties": {"checkpoint_selection": {"const": "final_primary_update_671"}, "real_example_passes": {"const": 5364}, "optimizer_steps": {"const": 671}, "final_real_microbatches": {"const": 4}, "zero_gradient_padding_microbatches": {"const": 4}, "trainer_loss_normalization": {"type": "object", "required": ["transformers_model_accepts_loss_kwargs_original", "transformers_model_accepts_loss_kwargs_forced", "gradient_accumulation_steps"], "properties": {"transformers_model_accepts_loss_kwargs_original": {"const": true}, "transformers_model_accepts_loss_kwargs_forced": {"const": false}, "gradient_accumulation_steps": {"const": 8}}}}},
+    "trainer_contract": {"type": "object", "required": ["status", "torch_version", "transformers_version", "training_step_source_sha256"], "properties": {"status": {"const": "verified"}, "transformers_version": {"const": "5.14.1"}}},
+    "epoch_extension_decision": {"type": "object", "required": ["raw_losses", "relative_dev_loss_drop", "advisory_reference_threshold", "automatic_extension"], "properties": {"advisory_reference_threshold": {"const": 0.01}, "automatic_extension": {"const": false}}},
+    "generation": {"type": "object", "properties": {"unique_e0_full1209": {"const": true}, "unique_e1_full1209": {"const": true}, "no_separate_dev_generation": {"const": true}}}
+  }, "additionalProperties": true
+}
