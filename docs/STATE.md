@@ -5,8 +5,8 @@ Last updated: 2026-10-19
 ## Current phase
 
 - Milestone: M11 — Release and interview gate
-- Status: in progress; GitHub v1.0.0 is published and public CI passes; cloud-artifact migration
-  and the outstanding teach-backs remain
+- Status: in progress; GitHub v1.0.0, public CI, and the minimal cloud-artifact migration are
+  complete; the outstanding teach-backs remain
 - Final M2 cloud source commit: `75557aa5fc2cfd6f108210da0f5dfda69b481394`
 
 ## Accepted facts
@@ -430,6 +430,10 @@ Last updated: 2026-10-19
   migration audit passes or the user explicitly accepts retraining instead of no-retraining replay.
 - `docs/WEB_HANDOFF.md` gives a new web or CLI task the minimum reading order, CPU-only setup,
   accepted headline result, E5 feasibility gate, and privacy/compute boundaries.
+- The minimal cloud archive is now local under ignored `artifacts/cloud-backup/`: final E1, E3,
+  and E4 adapters plus the final M2 manifest/receipt/audit JSONs. Databases, base weights, caches,
+  environments, intermediate checkpoints, and optimizer state were intentionally not copied. The
+  provider disk remains available for possible E5 work.
 - Current literature review selects an EXPO-SQL-inspired terminal-anchored clause/token-localized
   credit experiment as the only strong E5 candidate. DAPO-style informative-group filtering is a
   secondary efficiency ablation. Further E3/E4 scalar-weight tuning and Mini-Dev access remain
@@ -437,5 +441,5 @@ Last updated: 2026-10-19
 
 ## Exactly one next action
 
-Inventory and copy the remaining cloud-only E1/E3/E4 adapters and private M2 manifests/receipts,
-then decide whether E5 passes its local feasibility gate before deleting the provider disk.
+Complete the outstanding training/evaluation/serving teach-backs, then close M11 and decide whether
+E5 passes its CPU-only feasibility gate before any new GPU experiment.

@@ -765,7 +765,7 @@ Decisions are append-only. If a decision changes, add a superseding entry rather
 ## ADR-058 — Separate the Git release, model asset, and reconstructible upstream data
 
 - Date: 2026-10-19
-- Status: accepted locally; public GitHub publication and CI pending
+- Status: accepted, published, and minimally archived
 - Decision: Publish source, configs, tests, cards, runbooks, and SQL-free aggregate evidence in the
   Git repository. Publish the selected E2 adapter as a versioned release asset whose extracted
   directory must match manifest `3492a3ec...bd3b7`. Do not commit base weights, BIRD databases,
@@ -774,10 +774,11 @@ Decisions are append-only. If a decision changes, add a superseding entry rather
 - Rationale: This makes the useful release cloneable and independently verifiable without turning
   Git history into an unsafe multi-gigabyte data store. The adapter is small enough for a release
   asset, while the base and BIRD sources already have immutable upstream identities.
-- Consequence: A Git push alone does not authorize deleting the provider disk. E1/E3/E4 adapters
-  and private manifest/receipt evidence must first have two verified durable copies, or the user
-  must explicitly accept that those arms require retraining for full replay. Exact Python 3.11.15
-  CI and the release-asset checksum remain M11 gates.
+- Consequence: Final E1/E3/E4 adapters and private M2 manifest/receipt/audit JSONs now have a local
+  ignored backup with symlinked weights dereferenced. Reconstructible databases, base weights,
+  caches, environments, intermediate checkpoints, and optimizer state remain cloud/upstream only.
+  Exact Python 3.11.15 CI, the E2 release asset, and the minimal migration gate are satisfied. The
+  provider disk is retained for possible E5 work; teach-backs remain the only M11 completion gate.
 
 ## ADR-059 — Prefer localized execution credit over further scalar reward tuning
 

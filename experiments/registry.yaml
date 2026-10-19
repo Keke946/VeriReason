@@ -1502,7 +1502,12 @@ experiments:
       cloud_cost_cny: 0.0
       public_python_3_11_15_ci_passed: true
       public_docker_ci_passed: true
-    notes: "GitHub v1.0.0 is public, public commit dc133fc passes exact-Python-3.11.15 and Docker CI, and GitHub reports the expected SHA-256 for the E2 release asset. The first public snapshot omitted five ignored SQL-free files and failed only the evidence-manifest gate; dc133fc added exactly those files and passed. A Web/CLI handoff now supports continuation from GitHub without original chat history. M11 stays running until cloud-only artifact migration or waiver and teach-backs are complete."
+      cloud_artifact_migration_complete: true
+      archived_e1_adapter_bytes: 132187888
+      archived_e3_adapter_bytes: 66127776
+      archived_e4_adapter_bytes: 66127776
+      archived_private_heldout_manifest_bytes: 425412
+    notes: "GitHub v1.0.0 is public, public commit 95138a7 passes exact-Python-3.11.15 and Docker CI, and the release contains the selected E2 adapter. A Web/CLI handoff supports continuation from GitHub without original chat history. The ignored local cloud archive contains dereferenced final E1/E3/E4 adapters and final M2 manifest/receipt/audit JSONs; reconstructible databases, base weights, caches, environments, checkpoints, and optimizer state were not copied. The provider disk is retained for possible E5 work. M11 stays running only for the outstanding teach-backs."
 
 # experiment_id:
 #   objective: ""

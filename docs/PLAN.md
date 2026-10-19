@@ -165,9 +165,10 @@ M11 has published GitHub v1.0.0 with license/citation metadata, public README,
 technical report, model/data cards, reproducibility guide, follow-up literature review,
 release/interview packet, an E2 demo CLI, and a gate that locks headline documentation to accepted
 result JSON. Public commit `dc133fc` passes exact Python 3.11.15 and Docker CI; the release contains
-the selected E2 adapter. M11 remains `in_progress` until cloud-only replay artifacts are migrated
-or explicitly waived and the outstanding teach-backs occur. No E5 experiment is authorized by
-publication.
+the selected E2 adapter. Final E1/E3/E4 adapters and private M2 manifest/receipt evidence are now
+backed up locally without copying reconstructible databases, base weights, caches, or intermediate
+checkpoints. M11 remains `in_progress` until the outstanding teach-backs occur. No E5 experiment
+is authorized by publication or archival.
 
 ## Fifteen-day core experiment ladder
 

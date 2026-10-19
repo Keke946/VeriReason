@@ -71,7 +71,7 @@ These are study prompts, not completed teach-backs. Mastery remains recorded onl
 - [x] Publish `Keke946/VeriReason` as a public repository.
 - [x] Confirm public CI passes the CPU job and Docker job.
 - [x] Upload the selected E2 adapter as the `v1.0.0` release asset.
-- [ ] Copy E1, E3, E4 adapters and private manifest/receipt evidence to a second durable location if
+- [x] Copy E1, E3, E4 adapters and private manifest/receipt evidence to a second durable location if
       no-retraining replay of every arm is desired.
 - [ ] Capture missing provider invoices or leave the documented accounting limitation unchanged.
 - [ ] Only after the migration audit, delete the retained provider disk; never treat Git push alone
