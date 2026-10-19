@@ -2,6 +2,10 @@
 
 This file records explanations the user has personally reviewed and can defend. Do not treat generated answers as mastered until a teach-back has occurred.
 
+Interview readiness is intentionally independent from the completed M0–M11 technical release.
+The unchecked items below remain honest learning debt and will be handled in a dedicated teaching
+task; technical closure does not imply that the user has mastered them.
+
 ## Status rules
 
 - `not_started`: neither explained nor reviewed together.

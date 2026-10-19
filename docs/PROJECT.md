@@ -61,7 +61,9 @@ Clause-token credit assignment, dynamic resampling, and multi-turn execution cor
 
 ## Definition of done
 
-The project is resume-ready when all of the following are true:
+The technical project is release-ready when items 1–8 are true. Item 9 is a separate
+interview-readiness gate: it is tracked in `docs/INTERVIEW.md`, but it does not reopen or block a
+technically complete release.
 
 1. A clean environment can run a documented smoke path from data to evaluation.
 2. Dataset versions and frozen splits are reproducible and checked for leakage.
@@ -71,7 +73,8 @@ The project is resume-ready when all of the following are true:
 6. Every headline number maps to an experiment ID, Git commit, config, and result file.
 7. A serving endpoint is benchmarked for correctness, memory, latency, and throughput.
 8. README, technical report, model/data cards, architecture diagram, and demo are complete.
-9. The user can explain the central training, reward, evaluation, and serving trade-offs in a mock interview.
+9. For interview readiness, the user can explain the central training, reward, evaluation, and
+   serving trade-offs in a mock interview.
 
 The result does not have to show a positive gain to be complete. A well-controlled negative result is acceptable when the implementation, diagnostics, attack analysis, and conclusion are reproducible.
 

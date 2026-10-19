@@ -15,7 +15,7 @@ Status values: `pending`, `in_progress`, `blocked`, `completed`.
 | M8 Research comparison | 11–12 | completed | Dense-reward and multi-reward-normalization runs | The frozen E1–E4 ladder has measured same-exam accuracy, paired comparisons, sample-efficiency evidence, and reward diagnostics |
 | M9 Serving and benchmark | 13 | completed | Efficient E2 API and serving report | Correctness checked; memory, TTFT/latency, and throughput recorded |
 | M10 Reproduction and engineering | 14 | completed | Docker/Make/CI and clean-room smoke reproduction | A fresh environment follows README successfully |
-| M11 Release and interview gate | 15 | in_progress | Report, cards, demo, resume bullets, mock interview | All definition-of-done items pass |
+| M11 Release and interview gate | 15 | completed | Report, cards, demo, resume bullets, mock-interview curriculum | Technical definition-of-done items 1–8 pass; outstanding personal teach-backs remain tracked separately in `docs/INTERVIEW.md` |
 
 M2 completed its fixed-source materialization, failure-only diagnostic, versioned resource
 amendment, and evidence-only publication. The finalizer published manifests under the 10-second
@@ -161,14 +161,15 @@ files. Docker and CI entry points use the same CPU-only lock; local Docker execu
 so the container build remains a first-public-CI check rather than an unreported local result. M11
 now owns the technical report, cards, demo/release surface, resume packet, and mock-interview gate.
 
-M11 has published GitHub v1.0.0 with license/citation metadata, public README,
+M11 published GitHub v1.0.0 with license/citation metadata, public README,
 technical report, model/data cards, reproducibility guide, follow-up literature review,
 release/interview packet, an E2 demo CLI, and a gate that locks headline documentation to accepted
 result JSON. Public commit `dc133fc` passes exact Python 3.11.15 and Docker CI; the release contains
-the selected E2 adapter. Final E1/E3/E4 adapters and private M2 manifest/receipt evidence are now
-backed up locally without copying reconstructible databases, base weights, caches, or intermediate
-checkpoints. M11 remains `in_progress` until the outstanding teach-backs occur. No E5 experiment
-is authorized by publication or archival.
+the selected E2 adapter with a GitHub-verified SHA-256. Final E1/E3/E4 adapters and the private M2
+manifest/receipt evidence are now backed up locally without copying reconstructible databases,
+base weights, caches, or intermediate checkpoints. M11 is technically complete. Outstanding
+teach-backs remain explicit interview-readiness debt in `docs/INTERVIEW.md` and will be handled as
+a separate learning task. No E5 experiment is authorized by publication or archival.
 
 ## Fifteen-day core experiment ladder
 

@@ -1462,14 +1462,14 @@ experiments:
 
   m11_release_candidate_001:
     objective: "Assemble and locally verify the public report, cards, demo, reproducibility, release, and research-follow-up surface without changing accepted experiment evidence."
-    status: running
+    status: completed
     git_commit: "public dc133fca512361213d8c6ca62766a4fbdee582a7; local bf83b4d8b1d41751c8530f576368c460fa99d86c"
     config: configs/m11_release.toml
     dataset_version: "19 allowlisted SQL-free public summaries; no benchmark rows, private manifests, raw SQL, or heldout content"
     model: "Qwen/Qwen3-4B-Base plus selected E2 adapter identity only; no model loaded"
     hardware: "local macOS CPU; clean CPython 3.11.13 incremental verification"
     started_at: "2026-10-19"
-    completed_at: null
+    completed_at: "2026-10-20"
     artifacts:
       - LICENSE
       - CITATION.cff
@@ -1493,6 +1493,7 @@ experiments:
       public_artifacts_verified: 19
       selected_adapter_manifest_sha256: "3492a3ec870f7c6e8e672459f025fc96a9a8cba543b27b7df4fc5f6c6bfbd3b7"
       selected_adapter_archive_sha256: "9e17b2a5acb5ecbe78c778465dd8920ea3fd643340847243ba3892fbd366bcf8"
+      selected_adapter_archive_bytes: 54304343
       validation_examples_bound: 1209
       serving_requests_bound: 192
       model_artifacts_loaded: 0
@@ -1507,7 +1508,7 @@ experiments:
       archived_e3_adapter_bytes: 66127776
       archived_e4_adapter_bytes: 66127776
       archived_private_heldout_manifest_bytes: 425412
-    notes: "GitHub v1.0.0 is public, public commit 95138a7 passes exact-Python-3.11.15 and Docker CI, and the release contains the selected E2 adapter. A Web/CLI handoff supports continuation from GitHub without original chat history. The ignored local cloud archive contains dereferenced final E1/E3/E4 adapters and final M2 manifest/receipt/audit JSONs; reconstructible databases, base weights, caches, environments, checkpoints, and optimizer state were not copied. The provider disk is retained for possible E5 work. M11 stays running only for the outstanding teach-backs."
+    notes: "GitHub v1.0.0 is public, public commit 95138a7 passes exact-Python-3.11.15 and Docker CI, and the release contains the selected E2 adapter. A Web/CLI handoff supports continuation from GitHub without original chat history. The ignored local cloud archive contains dereferenced final E1/E3/E4 adapters and final M2 manifest/receipt/audit JSONs; reconstructible databases, base weights, caches, environments, checkpoints, and optimizer state were not copied. The provider disk is retained for possible E5 work. M11 is technically complete; outstanding personal teach-backs remain separately tracked in docs/INTERVIEW.md and are not marked mastered."
 
 # experiment_id:
 #   objective: ""

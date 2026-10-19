@@ -1,12 +1,13 @@
 # Current Project State
 
-Last updated: 2026-10-19
+Last updated: 2026-10-20
 
 ## Current phase
 
 - Milestone: M11 — Release and interview gate
-- Status: in progress; GitHub v1.0.0, public CI, and the minimal cloud-artifact migration are
-  complete; the outstanding teach-backs remain
+- Status: completed technically; GitHub v1.0.0, public CI, minimal cloud-artifact migration, and
+  reproducibility gates are complete. Personal teach-backs are tracked as a separate learning task
+  and are not falsely marked mastered.
 - Final M2 cloud source commit: `75557aa5fc2cfd6f108210da0f5dfda69b481394`
 
 ## Accepted facts
@@ -424,22 +425,27 @@ Last updated: 2026-10-19
   because five ignored SQL-free summaries were absent, and the follow-up commit added them.
 - The selected E2 adapter is already backed up locally with manifest
   `3492a3ec...bd3b7`. GitHub Release `v1.0.0` contains the 54,304,343-byte
-  `verireason-e2-adapter.tar.gz`; GitHub reports its SHA-256 as
+  `verireason-e2-adapter.tar.gz`; GitHub's remote digest exactly matches SHA-256
   `9e17b2a5...bcf8`. E1, E3, E4 adapters and private M2 manifest/receipt evidence have not yet been
   proven to have two durable copies. The retained provider disk must not be deleted until that
   migration audit passes or the user explicitly accepts retraining instead of no-retraining replay.
-- `docs/WEB_HANDOFF.md` gives a new web or CLI task the minimum reading order, CPU-only setup,
-  accepted headline result, E5 feasibility gate, and privacy/compute boundaries.
+- `docs/WEB_HANDOFF.md` now gives a new web or CLI task the minimum reading order, CPU-only setup,
+  accepted headline result, E5 feasibility gate, and privacy/compute boundaries. Codex CLI 0.163.0
+  was also verified on this Intel macOS 12.7 host with a real read-only GPT-6.1-Sol response.
 - The minimal cloud archive is now local under ignored `artifacts/cloud-backup/`: final E1, E3,
-  and E4 adapters plus the final M2 manifest/receipt/audit JSONs. Databases, base weights, caches,
-  environments, intermediate checkpoints, and optimizer state were intentionally not copied. The
-  provider disk remains available for possible E5 work.
+  and E4 adapters plus the final M2 manifest/receipt/audit JSONs. The dereferenced adapter weights
+  are 132,187,888, 66,127,776, and 66,127,776 bytes; the private heldout manifest retained mode
+  `0600`. Databases, base weights, caches, environments, intermediate checkpoints, and optimizer
+  state were intentionally not copied. The provider disk remains available for possible E5 work.
 - Current literature review selects an EXPO-SQL-inspired terminal-anchored clause/token-localized
   credit experiment as the only strong E5 candidate. DAPO-style informative-group filtering is a
   secondary efficiency ablation. Further E3/E4 scalar-weight tuning and Mini-Dev access remain
   rejected; E5 is a recommendation, not GPU authorization.
+- M11 technical closure separates artifact readiness from personal interview readiness. All release
+  gates are complete; `docs/INTERVIEW.md` preserves the outstanding teach-backs without blocking or
+  reopening the v1 milestone.
 
 ## Exactly one next action
 
-Complete the outstanding training/evaluation/serving teach-backs, then close M11 and decide whether
-E5 passes its CPU-only feasibility gate before any new GPU experiment.
+Run the CPU-only E5 feasibility gate for conservative clause/token-localized execution credit; do
+not start a GPU experiment unless that local gate passes and the user separately approves it.

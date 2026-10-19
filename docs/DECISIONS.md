@@ -797,3 +797,18 @@ Decisions are append-only. If a decision changes, add a superseding entry rather
   and an eight-prompt smoke are separately reviewed. It uses the same E1 parent, formal prompt
   budget, evaluator, and full1209 exam and never opens Mini-Dev. Failure of the conservative local
   gate ends the upgrade without weakening the complete v1 result.
+
+## ADR-060 — Close the technical release independently from personal teach-backs
+
+- Date: 2026-10-20
+- Status: accepted
+- Decision: Mark M11 and the M0–M11 core technically complete because the release, evidence,
+  reproducibility, CI, adapter publication, and minimal artifact-archive gates have passed. Keep all
+  unmastered training, evaluation, reward, and serving teach-backs open in `docs/INTERVIEW.md` as a
+  separate learning task.
+- Rationale: Artifact correctness and personal interview fluency are both important but are
+  different outcomes. Coupling them made an already published and verified release appear
+  technically unfinished, while marking the lessons mastered without a real teach-back would be
+  dishonest.
+- Consequence: v1 stays closed and reproducible. The teaching task can proceed independently, and
+  post-v1 E5 work still requires its CPU-only feasibility gate and separate GPU authorization.
