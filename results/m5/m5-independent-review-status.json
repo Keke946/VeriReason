@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "review_scope": "six ambiguity-or-equivalence-sensitive cases from the frozen M5 audit",
+  "reviewed_examples": 6,
+  "clear_model_errors": 0,
+  "closed_as_benchmark_ambiguity_or_gold_defect": 3,
+  "requires_targeted_database_evidence": 3,
+  "recommended_primary_label": {
+    "ambiguous_or_equivalent": 6
+  },
+  "database_evidence_available_locally": false,
+  "heldout_examples_loaded": 0,
+  "heldout_examples_evaluated": 0,
+  "privacy": {
+    "questions_included": false,
+    "sql_included": false,
+    "sample_ids_included": false,
+    "database_ids_included": false
+  },
+  "status": "three_closed_three_pending_targeted_read_only_database_checks"
+}

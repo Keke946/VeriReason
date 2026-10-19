@@ -1,0 +1,68 @@
+{
+  "privacy": {
+    "private_rows_published": false,
+    "public_row_identifiers_included": false
+  },
+  "schema_version": 1,
+  "seed": "m5-audit-v1",
+  "selected_examples": 60,
+  "selected_failure_categories": {
+    "execution_error": 20,
+    "resource_limit": 2,
+    "syntax_error": 3,
+    "timeout": 2,
+    "unsafe": 1,
+    "wrong_result": 32
+  },
+  "selection_sha256": "438287c056bfd9725c74ce84f450da9659144214c865f970636ae27aef3e888a",
+  "strata": {
+    "execution_error:complex": {
+      "population": 13,
+      "selected": 5
+    },
+    "execution_error:highly_complex": {
+      "population": 5,
+      "selected": 5
+    },
+    "execution_error:moderate": {
+      "population": 54,
+      "selected": 5
+    },
+    "execution_error:simple": {
+      "population": 70,
+      "selected": 5
+    },
+    "tail_all:resource_limit": {
+      "population": 2,
+      "selected": 2
+    },
+    "tail_all:syntax_error": {
+      "population": 3,
+      "selected": 3
+    },
+    "tail_all:timeout": {
+      "population": 2,
+      "selected": 2
+    },
+    "tail_all:unsafe": {
+      "population": 1,
+      "selected": 1
+    },
+    "wrong_result:complex": {
+      "population": 56,
+      "selected": 8
+    },
+    "wrong_result:highly_complex": {
+      "population": 17,
+      "selected": 8
+    },
+    "wrong_result:moderate": {
+      "population": 214,
+      "selected": 8
+    },
+    "wrong_result:simple": {
+      "population": 280,
+      "selected": 8
+    }
+  }
+}

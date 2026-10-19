@@ -1,0 +1,278 @@
+{
+  "by_gold_complexity": {
+    "complex": {
+      "behavior_accuracy": 0.23333333333333334,
+      "behavior_correct": 21,
+      "examples": 90,
+      "failure_categories": {
+        "execution_error": 13,
+        "strict_correct": 20,
+        "timeout": 1,
+        "wrong_result": 56
+      },
+      "strict_accuracy": 0.2222222222222222,
+      "strict_correct": 20
+    },
+    "highly_complex": {
+      "behavior_accuracy": 0.3888888888888889,
+      "behavior_correct": 14,
+      "examples": 36,
+      "failure_categories": {
+        "execution_error": 5,
+        "strict_correct": 14,
+        "wrong_result": 17
+      },
+      "strict_accuracy": 0.3888888888888889,
+      "strict_correct": 14
+    },
+    "moderate": {
+      "behavior_accuracy": 0.3922902494331066,
+      "behavior_correct": 173,
+      "examples": 441,
+      "failure_categories": {
+        "execution_error": 54,
+        "resource_limit": 1,
+        "strict_correct": 171,
+        "unsafe": 1,
+        "wrong_result": 214
+      },
+      "strict_accuracy": 0.3877551020408163,
+      "strict_correct": 171
+    },
+    "simple": {
+      "behavior_accuracy": 0.4735202492211838,
+      "behavior_correct": 304,
+      "examples": 642,
+      "failure_categories": {
+        "execution_error": 70,
+        "resource_limit": 1,
+        "strict_correct": 287,
+        "syntax_error": 3,
+        "timeout": 1,
+        "wrong_result": 280
+      },
+      "strict_accuracy": 0.4470404984423676,
+      "strict_correct": 287
+    }
+  },
+  "by_gold_feature": {
+    "aggregate": {
+      "behavior_accuracy": 0.4184168012924071,
+      "behavior_correct": 259,
+      "examples": 619,
+      "failure_categories": {
+        "execution_error": 58,
+        "strict_correct": 258,
+        "timeout": 2,
+        "unsafe": 1,
+        "wrong_result": 300
+      },
+      "strict_accuracy": 0.4168012924071082,
+      "strict_correct": 258
+    },
+    "group_by": {
+      "behavior_accuracy": 0.2751677852348993,
+      "behavior_correct": 41,
+      "examples": 149,
+      "failure_categories": {
+        "execution_error": 17,
+        "resource_limit": 1,
+        "strict_correct": 40,
+        "wrong_result": 91
+      },
+      "strict_accuracy": 0.2684563758389262,
+      "strict_correct": 40
+    },
+    "having": {
+      "behavior_accuracy": 0.21428571428571427,
+      "behavior_correct": 3,
+      "examples": 14,
+      "failure_categories": {
+        "strict_correct": 3,
+        "wrong_result": 11
+      },
+      "strict_accuracy": 0.21428571428571427,
+      "strict_correct": 3
+    },
+    "join": {
+      "behavior_accuracy": 0.3957597173144876,
+      "behavior_correct": 336,
+      "examples": 849,
+      "failure_categories": {
+        "execution_error": 115,
+        "resource_limit": 1,
+        "strict_correct": 318,
+        "syntax_error": 2,
+        "timeout": 1,
+        "unsafe": 1,
+        "wrong_result": 411
+      },
+      "strict_accuracy": 0.3745583038869258,
+      "strict_correct": 318
+    },
+    "order_by": {
+      "behavior_accuracy": 0.3694581280788177,
+      "behavior_correct": 75,
+      "examples": 203,
+      "failure_categories": {
+        "execution_error": 30,
+        "strict_correct": 74,
+        "wrong_result": 99
+      },
+      "strict_accuracy": 0.3645320197044335,
+      "strict_correct": 74
+    },
+    "set_operation": {
+      "behavior_accuracy": 0.0,
+      "behavior_correct": 0,
+      "examples": 1,
+      "failure_categories": {
+        "wrong_result": 1
+      },
+      "strict_accuracy": 0.0,
+      "strict_correct": 0
+    },
+    "subquery": {
+      "behavior_accuracy": 0.330188679245283,
+      "behavior_correct": 35,
+      "examples": 106,
+      "failure_categories": {
+        "execution_error": 16,
+        "strict_correct": 34,
+        "timeout": 1,
+        "wrong_result": 55
+      },
+      "strict_accuracy": 0.32075471698113206,
+      "strict_correct": 34
+    },
+    "window": {
+      "behavior_accuracy": 0.0,
+      "behavior_correct": 0,
+      "examples": 2,
+      "failure_categories": {
+        "wrong_result": 2
+      },
+      "strict_accuracy": 0.0,
+      "strict_correct": 0
+    }
+  },
+  "database_aggregate": {
+    "database_count": 10,
+    "examples_per_database": {
+      "max": 223,
+      "min": 64
+    },
+    "strict_accuracy_quantiles": {
+      "max": 0.5948275862068966,
+      "median": 0.358695652173913,
+      "min": 0.1794871794871795,
+      "p25": 0.2734375,
+      "p75": 0.5112107623318386
+    }
+  },
+  "gold_prediction_feature_confusion": {
+    "aggregate": {
+      "false_negative": 67,
+      "false_positive": 44,
+      "precision": 0.9261744966442953,
+      "recall": 0.8917609046849758,
+      "true_negative": 546,
+      "true_positive": 552
+    },
+    "group_by": {
+      "false_negative": 60,
+      "false_positive": 18,
+      "precision": 0.8317757009345794,
+      "recall": 0.5973154362416108,
+      "true_negative": 1042,
+      "true_positive": 89
+    },
+    "having": {
+      "false_negative": 9,
+      "false_positive": 2,
+      "precision": 0.7142857142857143,
+      "recall": 0.35714285714285715,
+      "true_negative": 1193,
+      "true_positive": 5
+    },
+    "join": {
+      "false_negative": 83,
+      "false_positive": 107,
+      "precision": 0.8774341351660939,
+      "recall": 0.9022379269729093,
+      "true_negative": 253,
+      "true_positive": 766
+    },
+    "order_by": {
+      "false_negative": 18,
+      "false_positive": 42,
+      "precision": 0.8149779735682819,
+      "recall": 0.9113300492610837,
+      "true_negative": 964,
+      "true_positive": 185
+    },
+    "set_operation": {
+      "false_negative": 1,
+      "false_positive": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "true_negative": 1207,
+      "true_positive": 0
+    },
+    "subquery": {
+      "false_negative": 92,
+      "false_positive": 31,
+      "precision": 0.3111111111111111,
+      "recall": 0.1320754716981132,
+      "true_negative": 1072,
+      "true_positive": 14
+    },
+    "window": {
+      "false_negative": 2,
+      "false_positive": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "true_negative": 1207,
+      "true_positive": 0
+    }
+  },
+  "overall": {
+    "behavior_accuracy": 0.42349048800661704,
+    "behavior_correct": 512,
+    "examples": 1209,
+    "failure_categories": {
+      "execution_error": 142,
+      "resource_limit": 2,
+      "strict_correct": 492,
+      "syntax_error": 3,
+      "timeout": 2,
+      "unsafe": 1,
+      "wrong_result": 567
+    },
+    "strict_accuracy": 0.40694789081885857,
+    "strict_correct": 492
+  },
+  "privacy": {
+    "excluded_fields": [
+      "sample_id",
+      "question",
+      "gold_sql",
+      "prediction_sql",
+      "database_id",
+      "database_path"
+    ],
+    "row_level_content_included": false
+  },
+  "schema_version": 1,
+  "source_contract": {
+    "condition": "sft",
+    "evaluation_sha256": "7fb73511767fca72288214362131c637c78d55389447fa2f81b814a541b0c10c",
+    "heldout_examples_evaluated": 0,
+    "heldout_examples_loaded": 0,
+    "prepared_sha256": [
+      "1c7363959877de3821d4a98169ef8e96d8c107134b6c12eba96598375cb062e8",
+      "2ac34ee7f5e4d47c8d6cc4bf9fafab92970d2b39522bffe0eb33ba26bf61a822"
+    ],
+    "validation_selection_sha256": "3dc2fcbd371ff287049db6e7cfebbdee182d5cb10aabd328704231e90070f0b1"
+  }
+}

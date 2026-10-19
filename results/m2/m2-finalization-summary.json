@@ -1,0 +1,112 @@
+{
+  "cloud_source_commit": "75557aa5fc2cfd6f108210da0f5dfda69b481394",
+  "database_source_identity_sha256": "c7b65515238fd1262d60e56619b2555892a0e9c10d76000e0b99aa981aed4279",
+  "elapsed_seconds": 289,
+  "eligibility": {
+    "excluded_example_rows": {
+      "total": 28,
+      "train": 17,
+      "validation": 11
+    },
+    "heldout": {
+      "eligible": 498,
+      "ineligible": 2,
+      "total": 500
+    },
+    "post_exclusion_split": {
+      "complexity_distribution": {
+        "train": {
+          "complex": 396,
+          "highly_complex": 66,
+          "moderate": 2059,
+          "simple": 2843
+        },
+        "validation": {
+          "complex": 90,
+          "highly_complex": 36,
+          "moderate": 441,
+          "simple": 642
+        }
+      },
+      "database_counts": {
+        "train": 59,
+        "validation": 10
+      },
+      "example_counts": {
+        "train": 5364,
+        "validation": 1209
+      },
+      "feature_distribution": {
+        "train": {
+          "aggregate": 2374,
+          "group_by": 495,
+          "join": 4150,
+          "order_by": 916,
+          "set_operation": 16,
+          "subquery": 393
+        },
+        "validation": {
+          "aggregate": 619,
+          "group_by": 149,
+          "join": 849,
+          "order_by": 203,
+          "set_operation": 1,
+          "subquery": 106
+        }
+      },
+      "gate_errors": [],
+      "passed": true,
+      "validation_example_ratio": 0.18393427658603378
+    },
+    "training_eligible_unique_sql": 6496,
+    "training_ineligible_unique_sql": 28
+  },
+  "final_directory_exists": true,
+  "gold_sql_reexecuted": 0,
+  "heldout_databases": 11,
+  "heldout_examples": 500,
+  "heldout_manifest_mode": "0600",
+  "ignored_non_database_sql_symlinks": 2,
+  "leakage": {
+    "hard_cross_split_pairs": {
+      "database_sha256": 0,
+      "db_id": 0,
+      "heldout_gold_interface_exposure": 0,
+      "joint_sample_fingerprint": 0,
+      "renamed_identical_database": 0
+    },
+    "passed": true,
+    "pending_checks": [],
+    "review_cross_split_pairs": {
+      "normalized_question": 0,
+      "normalized_sql": 0,
+      "question_jaccard_gte_0_90": 0,
+      "schema_fingerprint": 0,
+      "schema_jaccard_gte_0_90": 0
+    },
+    "within_split_pairs": {
+      "joint_sample_fingerprint": 2,
+      "normalized_question": 3,
+      "normalized_sql": 91,
+      "question_jaccard_gte_0_90": 12
+    }
+  },
+  "manifest_index_sha256": "0e1182eb16bf5bed4b6d5505b11fcf6860689abe9f0435e3d2b3fc33bf7d1cda",
+  "original_materialization_partial_exists": true,
+  "referenced_manifest_sha256": {
+    "finalization_evidence_sha256": "d72f933523ef854f19255e1d3aaee65954427c1d9dddb0d4f98f3ebd5cf09888",
+    "heldout_manifest_sha256": "2f6257d2ceef020587183b18105ed7e7899c84dd2010161f4dc41a4d01faa3a1",
+    "leakage_audit_sha256": "266c47959d3f250971a64cbcc87650299af44b903f3f10f512ff8a13cdeb3db2",
+    "operational_eligibility_audit_sha256": "fd9a3873c2f819d4e0d29eafceb7a6586abeb8cecb7215b91c5e619426634b57",
+    "training_manifest_sha256": "d90ffab32e296248376c542b736aef5ce7f547acc702a9eab41073789cf5b72a"
+  },
+  "schema_validation": "passed",
+  "source_database_file_count": 1603,
+  "source_database_identity_unchanged": true,
+  "source_receipt_sha256": "da189fd0f69d7713c16acfe434738e1f867074665c2b95d7d78b3ace29741ffe",
+  "sqlite_integrity_ok": 80,
+  "staging_directory_exists": false,
+  "status": "published",
+  "training_databases": 69,
+  "training_examples": 6601
+}

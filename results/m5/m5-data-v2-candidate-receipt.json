@@ -1,0 +1,39 @@
+{
+  "candidate_databases": 59,
+  "candidate_examples": 1678,
+  "candidate_ratio": 0.31282624906785983,
+  "complexity_distribution": {
+    "complex": 394,
+    "highly_complex": 66,
+    "moderate": 725,
+    "simple": 493
+  },
+  "policy": {
+    "allowed_split": "train",
+    "minimum_join_count": 2,
+    "target_features": [
+      "group_by",
+      "having",
+      "subquery"
+    ],
+    "uses_heldout_rows": false,
+    "uses_model_outcomes": false,
+    "uses_validation_rows": false
+  },
+  "prepared_bundle_sha256": "2c81a8297378b9b5dd62f798d721c9eef28c94e47f38801fd0437556a8e21ad7",
+  "privacy": {
+    "database_ids_included": false,
+    "questions_included": false,
+    "sample_ids_included": false,
+    "sql_included": false
+  },
+  "schema_version": 1,
+  "selection_reason_counts": {
+    "group_by": 495,
+    "having": 62,
+    "multi_join_gte_2": 1048,
+    "subquery": 393
+  },
+  "selection_sha256": "5bca7a995aa2f4d56cc2403164ed0719b51bda7393cfcd8a83fbb3a43f5116ef",
+  "source_examples": 5364
+}
