@@ -847,3 +847,27 @@ Decisions are append-only. If a decision changes, add a superseding entry rather
 - Consequence: Keep **Revise**, with zero real-coverage claims and no GPU smoke. Obtain only an
   already retained local training-only bundle; explicitly record missing original IDs rather than
   replacing them with re-encodings. No new inference, cloud, validation, Mini-Dev, or GitHub push.
+
+## ADR-063 — Close historical replay recovery and preregister prospective pre-update capture
+
+- Date: 2026-10-21
+- Status: design accepted for review; implementation and GPU launch unauthorized
+- Supersedes: ADR-062's replay-recovery next action and no-push restriction, following BiBo's
+  actual local-client archive report and explicit branch-publication instruction.
+- Decision: Record historical real training rollouts as unrecoverable from retained evidence.
+  Keep **Revise** and unknown real coverage. Publish only the current code/docs/SQL-free receipts
+  on `codex/e5-cpu-feasibility`, without merging main. Propose a future fixed-E1 8-prompt/32-rollout
+  capture with original IDs and terminal rewards, an all-rollout audit before any update, frozen
+  coverage/attribution/abstention/fallback gates, and zero updates on failure; allow at most eight
+  saved-rollout updates only after all gates pass in a separately authorized smoke.
+- Rationale: Adapters, a 6,601-source-record manifest and aggregate training statistics cannot
+  recover generated IDs that were never saved. Neither validation output nor re-encoding can
+  replace them. New prospective evidence must be captured before learning changes the actor.
+- Consequence: `docs/E5_SMOKE_PLAN.md` owns the design and budget. It explicitly discloses the
+  fixed-rollout versus historical online-E2 difference, unscaled negative-mass confound and
+  required private attribution review. No new trainer, GPU job, cloud search, validation/heldout
+  access or paid spend occurs. Local control reviews the branch before implementation/launch.
+- Publication limitation: the shell has no GitHub HTTPS credential and connector tree creation
+  returns 403 `Resource not accessible by integration`. No remote branch was created. Preserve
+  the local commit chain in a review bundle for authenticated local-client publication; do not
+  claim a successful push or invent a remote commit URL.

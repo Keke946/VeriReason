@@ -201,6 +201,14 @@ contains only SQL-free historical training aggregates, not row-level training re
 original generated IDs. Obtain a minimal existing local training-only replay bundle before any
 smoke decision; do not start cloud or new inference to fill that gap. See `docs/E5_INTERFACE.md`.
 
+2026-10-21 archive closure supersedes that recovery action: the local client confirmed that raw
+historical rollouts/IDs were not retained. E5 remains **Revise**, with real coverage unknown.
+`docs/E5_SMOKE_PLAN.md` defines a prospective 8-prompt/32-rollout capture, mandatory pre-update
+audit and at most eight conditional updates. It is design-only; the next action is local-control
+publication/review of the branch packet, before separate CPU implementation and launch approval.
+Current publication is blocked by missing shell credentials and connector write permission;
+the local control client can import the Git bundle and publish with its existing credentials.
+
 | Upgrade | Extra time | Entry gate | Research content | Failure-safe outcome |
 |---|---:|---|---|---|
 | U1 Clause-aware credit and informative-group sampling | 4–6 days | E2 and E4 are stable and the reward parser passes adversarial tests | EXPO-SQL-inspired clause/token credit plus DAPO/ReViSQL-inspired filtering of constant-reward groups | Core report remains complete; publish the failed/negative ablation |

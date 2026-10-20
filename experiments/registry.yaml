@@ -1592,6 +1592,21 @@ experiments:
       cloud_cost_cny: 0
     notes: "Decision Revise: CPU geometry and analytical loss seam feasible, but no real training replay payloads/IDs are local, and no live trainer or model gradients were run. Current runner exports aggregates, not raw SQL/IDs. N/K is an explicit diagnostic control, not selected training behavior. Parent 631b4a2; containing commit is returned in the handoff rather than circularly self-referenced. Same local branch, no GitHub push."
 
+  e5_capture_audit_smoke_001:
+    objective: "Prospectively capture fixed-E1 training rollouts, audit localization before any update, and conditionally test at most eight saved-rollout updates."
+    status: planned
+    git_commit: ""
+    config: docs/E5_SMOKE_PLAN.md
+    dataset_version: "Proposed reuse of fixed E2 smoke eight eligible split=train prompts; no new payload read"
+    model: "Immutable final E1 on fixed Qwen3-4B-Base; not loaded"
+    hardware: "Proposed 1x RTX 4090 D 48 GB; no resource started"
+    started_at: ""
+    completed_at: null
+    artifacts:
+      - docs/E5_SMOKE_PLAN.md
+    metrics: {}
+    notes: "Design only, not implemented or launch-authorized; current decision Revise. On 2026-10-21 BiBo reported an actual local-client archive inspection: historical rollout SQL/original IDs/replay bundles absent, so real historical coverage remains unknown, not synthetic 33.33%. Plan requires 32 saved rollouts and all gates before any update, at most eight fixed-rollout updates, and separate CPU implementation/control review/launch approval. No validation, heldout, GPU, cloud search or spend. Branch publication only is authorized."
+
 # experiment_id:
 #   objective: ""
 #   status: planned | running | completed | failed | stopped

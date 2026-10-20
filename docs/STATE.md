@@ -1,6 +1,6 @@
 # Current Project State
 
-Last updated: 2026-10-20
+Last updated: 2026-10-21
 
 ## Current phase
 
@@ -11,7 +11,8 @@ Last updated: 2026-10-20
 - Final M2 cloud source commit: `75557aa5fc2cfd6f108210da0f5dfda69b481394`
 - Post-v1: E5 CPU-only feasibility implementation and synthetic audit completed; decision
   **Revise**, not ready for GPU smoke. The subsequent real-tokenizer/analytical-loss CPU gate
-  passes its bounded interface checks; real training replay evidence is missing locally.
+  passes its bounded interface checks; historical real training rollouts were not retained and
+  cannot be recovered from the checked Mac archive. A new capture/audit/update smoke is design-only.
   Preferred project-owner name: **BiBo**.
 
 ## Accepted facts
@@ -486,8 +487,27 @@ Last updated: 2026-10-20
 - Decision stays **Revise**; no eight-prompt smoke, cloud start, validation/heldout payload read,
   or change to E1–E4. Evidence: `results/e5/e5-cpu-interface.json`; `docs/E5_INTERFACE.md`.
 
+## E5 historical evidence closure and prospective smoke
+
+- On 2026-10-21 BiBo relayed the local client's actual Mac `artifacts/cloud-backup` inspection:
+  M2 manifest with 6,601 source records, final E1/E3/E4 adapters and SQL-free E2/E3/E4 aggregates
+  exist; historical rollout SQL, original completion IDs and replay bundles do not. This executor
+  did not independently open that Mac archive. The historical real training rollout evidence is
+  not recoverable from retained artifacts. Do not restart cloud merely to search for it.
+- Source-manifest size is not eligible `split=train` size. New selection must still restrict to
+  operationally eligible train rows; no validation raw substitution or Mini-Dev access is allowed.
+- Decision remains **Revise**. Real historical coverage stays unknown/null; synthetic 11/33 is
+  not a real-rollout estimate. The earlier CPU JSON receipts remain unchanged.
+- `docs/E5_SMOKE_PLAN.md` preregisters 8 fixed E1 training prompts / 32 captured rollouts, with all
+  localization and token/credit gates before any optimizer update. Failure means zero updates;
+  success allows at most eight fixed-rollout updates in the same later-authorized session.
+  The design is not a runnable E5 trainer and does not authorize a cloud/GPU start.
+- BiBo explicitly authorized publishing this branch for local-control review, without merging main.
+- Publication attempt is blocked: shell push has no HTTPS credential, and the GitHub connector's
+  tree-write request returns 403 `Resource not accessible by integration`. No remote review branch
+  was created. A Git bundle preserves the local commit chain for authenticated local publication.
+
 ## Exactly one next action
 
-Obtain and audit a minimal existing local training-only replay bundle from the original retained
-artifacts, explicitly recording whether original generated IDs were ever retained; no cloud/GPU,
-new inference, validation, or heldout access to fill missing evidence.
+Local control imports the review Git bundle, publishes `codex/e5-cpu-feasibility` with its existing
+GitHub credentials, and reviews `docs/E5_SMOKE_PLAN.md` before CPU runner implementation or launch.

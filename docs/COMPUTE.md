@@ -1,6 +1,6 @@
 # Compute and Cost Policy
 
-Last updated: 2026-08-24
+Last updated: 2026-10-21
 
 ## Known environment
 
@@ -236,5 +236,14 @@ Any post-core upgrade has a separate estimate and approval. A preliminary planni
 - Secrets belong in environment variables or an ignored `.env`, never Git.
 
 ## Spend accounting
+
+Post-v1 E5 proposal `e5_capture_audit_smoke_001` is design-only in `docs/E5_SMOKE_PLAN.md`.
+It plans 20-40 minutes on one 48-GB 4090 D, approximately 12-20 GiB peak memory (unmeasured for
+E5), and CNY 0.86-1.73 GPU charge at the historical CNY 2.59/hour. A single 60-minute paid-start
+deadline includes capture, pre-update audit/review, at most eight conditional updates, reload and
+shutdown; its reference-rate GPU ceiling is CNY 2.59, excluding disk charges. Reconfirm price,
+retained inputs, exact implemented commit and auto-shutdown before separate launch approval.
+Gate failure stops with zero updates; no cloud restart is permitted just to search for missing
+historical rollout evidence. No E5 GPU session has started and no spend row is added.
 
 Every paid session is appended to `experiments/spend.csv` with provider, GPU, purpose, experiment IDs, start/end time, and actual cost. Planned and actual cost are separate fields.

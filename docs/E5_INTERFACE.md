@@ -141,6 +141,13 @@ is resolved, do not promote to an eight-prompt GPU smoke.
 
 ## Measured receipt
 
+2026-10-21 follow-up: BiBo's local client inspected the original Mac archive and confirmed that
+historical rollout SQL and original completion IDs were not retained. The old replay-recovery
+action is closed as an evidence limitation; no cloud search or validation substitute is allowed.
+Real historical coverage remains unknown. `docs/E5_SMOKE_PLAN.md` proposes prospective capture
+and a mandatory pre-update audit, with no launch authorization. This later external report does
+not change the historical CPU receipt below.
+
 `results/e5/e5-cpu-interface.json` records eight successful geometry cases, five exact uncertain
 fallbacks, 11/11 mapped synthetic execution-localized candidates, and zero semantic-abstention
 overrides. There are 27 numerical-gradient coordinates, maximum absolute error
