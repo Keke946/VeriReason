@@ -45,6 +45,15 @@ e5-verify:
 	PYTHONPATH=src $(PYTHON) -m pytest tests/test_e5_credit.py
 	PYTHONPATH=src $(PYTHON) scripts/diagnose_e5.py --output results/e5/e5-cpu-feasibility.json
 
+.PHONY: e5-interface-verify
+E5_TOKENIZER_JSON ?= artifacts/e5-interface/qwen3-tokenizer/tokenizer.json
+E5_TRL_WHEEL ?= artifacts/e5-interface/trl-1.9.0-py3-none-any.whl
+e5-interface-verify:
+	PYTHONPATH=src $(PYTHON) scripts/diagnose_e5_interface.py \
+	  --tokenizer-json "$(E5_TOKENIZER_JSON)" --trl-wheel "$(E5_TRL_WHEEL)" \
+	  --output results/e5/e5-cpu-interface.json
+	E5_TOKENIZER_JSON="$(E5_TOKENIZER_JSON)" PYTHONPATH=src $(PYTHON) -m pytest tests/test_e5_interface.py
+
 m1-verify: verify env-check-local
 
 m2-verify: verify lint

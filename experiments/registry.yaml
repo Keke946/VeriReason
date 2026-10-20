@@ -1547,6 +1547,51 @@ experiments:
       cloud_cost_cny: 0
     notes: "Decision Revise, not GPU-ready. Synthetic coverage is not a population estimate. Real tokenizer/loss integration and representative train-only audit remain open. E1-E4 code/config/evidence and spend ledger unchanged. Executed from a working tree based on 42ffa6e; source and evidence are committed together, with containing Git hash supplied in the return packet rather than a circular self-reference."
 
+  e5_cpu_interface_001:
+    objective: "Validate real Qwen token-span geometry, a terminal-anchored DAPO CPU loss seam, and available training-only provenance."
+    status: completed
+    git_commit: ""
+    config: docs/E5_INTERFACE.md
+    dataset_version: "Authored synthetic SQL and logits; three existing SQL-free formal-training summaries; no benchmark payloads"
+    model: "Fixed-revision Qwen3-4B-Base tokenizer only; no model weights loaded"
+    hardware: "Linux CPU; CPython 3.11.15; tokenizers 0.22.2; TRL 1.9.0 source wheel inspected without import"
+    started_at: "2026-10-20"
+    completed_at: "2026-10-20"
+    artifacts:
+      - docs/E5_INTERFACE.md
+      - requirements/e5-interface.txt
+      - src/verireason/e5_interface.py
+      - src/verireason/e5_interface_audit.py
+      - scripts/diagnose_e5_interface.py
+      - tests/test_e5_interface.py
+      - results/e5/e5-cpu-interface.json
+    metrics:
+      mapping_geometry_cases: 8
+      mapped_geometry_cases: 8
+      uncertainty_cases: 5
+      exact_uncertainty_fallbacks: 5
+      synthetic_execution_cases: 37
+      synthetic_localized_candidates: 11
+      synthetic_candidates_mapped_to_tokens: 11
+      semantic_abstention_overrides: 0
+      finite_difference_coordinates: 27
+      maximum_gradient_absolute_error: 1.41291561783774e-11
+      negative_gradient_l1_e2: 0.24840579832548138
+      negative_gradient_l1_local_unscaled: 0.08280193277516046
+      negative_gradient_l1_mass_matched: 0.24840579832548135
+      focused_tests_passed: 42
+      full_tests_passed: 431
+      optional_runtime_tests_skipped: 4
+      real_training_rows_examined: 0
+      real_rollout_sql_examined: 0
+      real_localization_coverage: null
+      real_token_mapping_coverage: null
+      validation_payloads_read: 0
+      heldout_payloads_read: 0
+      gpu_runs: 0
+      cloud_cost_cny: 0
+    notes: "Decision Revise: CPU geometry and analytical loss seam feasible, but no real training replay payloads/IDs are local, and no live trainer or model gradients were run. Current runner exports aggregates, not raw SQL/IDs. N/K is an explicit diagnostic control, not selected training behavior. Parent 631b4a2; containing commit is returned in the handoff rather than circularly self-referenced. Same local branch, no GitHub push."
+
 # experiment_id:
 #   objective: ""
 #   status: planned | running | completed | failed | stopped

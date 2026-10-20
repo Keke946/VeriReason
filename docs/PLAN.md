@@ -195,6 +195,12 @@ integration plus training provenance/coverage evidence. No 8-prompt GPU smoke is
 
 These are sequential options, not promises hidden inside the 15-day schedule.
 
+The CPU tokenizer/loss follow-up `e5_cpu_interface_001` subsequently passes bounded real-Qwen
+mapping and analytical loss/gradient checks. Promotion remains **Revise** because this checkout
+contains only SQL-free historical training aggregates, not row-level training replay data or
+original generated IDs. Obtain a minimal existing local training-only replay bundle before any
+smoke decision; do not start cloud or new inference to fill that gap. See `docs/E5_INTERFACE.md`.
+
 | Upgrade | Extra time | Entry gate | Research content | Failure-safe outcome |
 |---|---:|---|---|---|
 | U1 Clause-aware credit and informative-group sampling | 4–6 days | E2 and E4 are stable and the reward parser passes adversarial tests | EXPO-SQL-inspired clause/token credit plus DAPO/ReViSQL-inspired filtering of constant-reward groups | Core report remains complete; publish the failed/negative ablation |

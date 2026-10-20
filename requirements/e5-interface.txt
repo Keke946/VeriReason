@@ -1,0 +1,3 @@
+# Optional CPU-only interface gate. No model runtime or GPU dependencies.
+-r m10-cpu-lock.txt
+tokenizers==0.22.2

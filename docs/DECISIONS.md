@@ -829,3 +829,21 @@ Decisions are append-only. If a decision changes, add a superseding entry rather
 - Consequence: Publish the local gate as **Revise**, not a training success or accuracy gain.
   Require a CPU-only tokenizer/loss and training-provenance audit packet next. No validation reward
   tuning, Mini-Dev, model download, paid launch, or eight-prompt GPU smoke occurred or is authorized.
+
+## ADR-062 — Accept bounded E5 CPU interface evidence; block promotion on real replay provenance
+
+- Date: 2026-10-20
+- Status: CPU interface gate completed; Revise before smoke
+- Decision: Use original-ID/text-bound Qwen offsets, trim only clause-edge separator whitespace,
+  and fail closed on unreliable offsets, alternative token segmentation, truncation or ambiguity.
+  Preserve E2's centered terminal advantage and DAPO denominator at the existing `(B,T)` TRL loss
+  seam. Keep unscaled localization and N/K mass-matched scaling as explicit CPU controls, without
+  selecting a new GPU normalization or enabling a live E5 trainer arm.
+- Rationale: All eight geometry cases and 11 synthetic execution-localized candidates map; five
+  uncertainty cases fall back exactly. Analytical loss gradients are finite and match 27 numerical
+  coordinates within 1.42e-11 absolute error. However, the three training-only public summaries
+  contain no row-level SQL/IDs, and the current runner exports no such replay bundle. These checks
+  do not establish real training attribution, on-policy token coverage, or actual trainer execution.
+- Consequence: Keep **Revise**, with zero real-coverage claims and no GPU smoke. Obtain only an
+  already retained local training-only bundle; explicitly record missing original IDs rather than
+  replacing them with re-encodings. No new inference, cloud, validation, Mini-Dev, or GitHub push.

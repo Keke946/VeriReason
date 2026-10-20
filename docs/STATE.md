@@ -10,7 +10,9 @@ Last updated: 2026-10-20
   and are not falsely marked mastered.
 - Final M2 cloud source commit: `75557aa5fc2cfd6f108210da0f5dfda69b481394`
 - Post-v1: E5 CPU-only feasibility implementation and synthetic audit completed; decision
-  **Revise**, not ready for GPU smoke. Preferred project-owner name: **BiBo**.
+  **Revise**, not ready for GPU smoke. The subsequent real-tokenizer/analytical-loss CPU gate
+  passes its bounded interface checks; real training replay evidence is missing locally.
+  Preferred project-owner name: **BiBo**.
 
 ## Accepted facts
 
@@ -464,7 +466,28 @@ Last updated: 2026-10-20
 - Decision: **Revise**. Real tokenizer/loss integration, representative training-only coverage,
   finite-database attribution limits, and gradient-mass effects remain unresolved. No smoke starts.
 
+## E5 CPU tokenizer/loss follow-up
+
+- `e5_cpu_interface_001` uses the actual fixed-revision Qwen3 tokenizer backend, no model weights.
+  Eight geometry cases map successfully; five uncertain-ID/text/EOS/boundary cases use exact E2
+  fallback. Across the 37 synthetic execution cases, all 11 localizable candidates map to tokens,
+  with zero overrides of semantic abstention. Nested/alias geometry is not semantic permission.
+- The inspected TRL 1.9.0 source already supports `(B,T)` advantages. A CPU seam changes only
+  advantages, retaining E2 terminal group centering, masks and the original DAPO denominator.
+  Analytical synthetic-logit loss gradients pass 27 finite-difference coordinates with maximum
+  absolute error about 1.41e-11. No real trainer/autograd/optimizer/model run is claimed.
+- Local unscaled masks reduce negative update mass. In the six-token/two-target-token fixture,
+  negative logit-gradient L1 shrinks to one third; an explicit N/K control restores credit mass
+  while tripling selected-token scale. This control is not selected for GPU training.
+- Source audit reads only the three SQL-free E2/E3/E4 formal-training summaries. This checkout
+  lacks training manifests, prepared rows, databases, generated SQL, and original generated IDs.
+  Real training/token coverage remains null. The current runner does not export SQL/IDs or enable
+  completion logging; independent private capture has not been demonstrated.
+- Decision stays **Revise**; no eight-prompt smoke, cloud start, validation/heldout payload read,
+  or change to E1–E4. Evidence: `results/e5/e5-cpu-interface.json`; `docs/E5_INTERFACE.md`.
+
 ## Exactly one next action
 
-Complete a CPU-only E5 tokenizer/loss integration and training-provenance audit packet, recording
-unavailable local training artifacts as a blocker; do not start cloud/GPU or use validation/heldout.
+Obtain and audit a minimal existing local training-only replay bundle from the original retained
+artifacts, explicitly recording whether original generated IDs were ever retained; no cloud/GPU,
+new inference, validation, or heldout access to fill missing evidence.

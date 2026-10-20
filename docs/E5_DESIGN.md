@@ -113,3 +113,7 @@ four optional-runtime skips) and `make e5-verify` (69 focused tests plus the syn
 Ruff, compileall, and `uv pip check --python .venv-e5/bin/python` check the CPU environment.
 Commands use `PYTHON=.venv-e5/bin/python`. The audit JSON records its measured wall time and
 runtime versions; no torch, TRL, Transformers, or vLLM module was imported by that runner.
+
+The subsequent CPU interface gate is documented in `docs/E5_INTERFACE.md`. It verifies real
+Qwen tokenizer geometry and analytical DAPO loss semantics, but retains **Revise** because real
+training replay payloads and original generated IDs are unavailable in this checkout.
