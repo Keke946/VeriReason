@@ -1510,6 +1510,43 @@ experiments:
       archived_private_heldout_manifest_bytes: 425412
     notes: "GitHub v1.0.0 is public, public commit 95138a7 passes exact-Python-3.11.15 and Docker CI, and the release contains the selected E2 adapter. A Web/CLI handoff supports continuation from GitHub without original chat history. The ignored local cloud archive contains dereferenced final E1/E3/E4 adapters and final M2 manifest/receipt/audit JSONs; reconstructible databases, base weights, caches, environments, checkpoints, and optimizer state were not copied. The provider disk is retained for possible E5 work. M11 is technically complete; outstanding personal teach-backs remain separately tracked in docs/INTERVIEW.md and are not marked mastered."
 
+  e5_cpu_feasibility_001:
+    objective: "Test conservative terminal-anchored clause/token-localized credit on synthetic training-only SQLite fixtures."
+    status: completed
+    git_commit: ""
+    config: docs/E5_DESIGN.md
+    dataset_version: "hand_authored_synthetic_train_v1; 37 built-in challenge cases; no BIRD inputs"
+    model: "none; no model or tokenizer loaded"
+    hardware: "Linux CPU-only; CPython 3.11.15; SQLGlot 30.17.0"
+    started_at: "2026-10-20"
+    completed_at: "2026-10-20"
+    artifacts:
+      - docs/E5_DESIGN.md
+      - src/verireason/e5_credit.py
+      - src/verireason/e5_diagnostics.py
+      - scripts/diagnose_e5.py
+      - tests/test_e5_credit.py
+      - results/e5/e5-cpu-feasibility.json
+    metrics:
+      synthetic_cases: 37
+      terminal_correct: 4
+      incorrect_count: 33
+      localized_count: 11
+      abstained_incorrect_count: 22
+      localization_coverage_all: 0.2972972972972973
+      localization_coverage_incorrect: 0.3333333333333333
+      abstention_rate_incorrect: 0.6666666666666666
+      localized_clause_classes: 6
+      expectation_mismatches: 0
+      focused_tests_passed: 69
+      full_tests_passed: 389
+      optional_runtime_tests_skipped: 4
+      validation_examples_loaded: 0
+      heldout_examples_loaded: 0
+      gpu_runs: 0
+      cloud_cost_cny: 0
+    notes: "Decision Revise, not GPU-ready. Synthetic coverage is not a population estimate. Real tokenizer/loss integration and representative train-only audit remain open. E1-E4 code/config/evidence and spend ledger unchanged. Executed from a working tree based on 42ffa6e; source and evidence are committed together, with containing Git hash supplied in the return packet rather than a circular self-reference."
+
 # experiment_id:
 #   objective: ""
 #   status: planned | running | completed | failed | stopped

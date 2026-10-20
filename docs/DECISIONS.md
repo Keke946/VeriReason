@@ -812,3 +812,20 @@ Decisions are append-only. If a decision changes, add a superseding entry rather
   dishonest.
 - Consequence: v1 stays closed and reproducible. The teaching task can proceed independently, and
   post-v1 E5 work still requires its CPU-only feasibility gate and separate GPU authorization.
+
+## ADR-061 — Bound E5 localization and retain terminal-only fallback
+
+- Date: 2026-10-20
+- Status: CPU-only implementation completed; Revise before promotion
+- Decision: Under BiBo's explicit CPU-only scope, implement reference-relative single-clause AST
+  difference plus sandboxed execution-repair evidence, using original-text spans and E2's unchanged
+  binary terminal reward. Mask only negative terminal-derived advantages. Ambiguous, unsupported,
+  unsafe, parse/execution-failed, nested, alias, missing-clause, and uncertain token-alignment cases
+  retain E2. LIMIT abstains until total ordering is proven. Do not add an E5 GPU execution arm.
+- Rationale: Prefix divergence alone is not reliable causality, and M6's literal-masked structural
+  scores cannot locate literal errors. The authored synthetic audit localized 11/33 incorrect cases
+  across six clause classes with zero expected-outcome mismatches, but this cannot establish real
+  rollout coverage or pinned-runtime token/loss correctness. E3/E4 remain accepted negative results.
+- Consequence: Publish the local gate as **Revise**, not a training success or accuracy gain.
+  Require a CPU-only tokenizer/loss and training-provenance audit packet next. No validation reward
+  tuning, Mini-Dev, model download, paid launch, or eight-prompt GPU smoke occurred or is authorized.

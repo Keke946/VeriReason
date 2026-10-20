@@ -9,6 +9,8 @@ Last updated: 2026-10-20
   reproducibility gates are complete. Personal teach-backs are tracked as a separate learning task
   and are not falsely marked mastered.
 - Final M2 cloud source commit: `75557aa5fc2cfd6f108210da0f5dfda69b481394`
+- Post-v1: E5 CPU-only feasibility implementation and synthetic audit completed; decision
+  **Revise**, not ready for GPU smoke. Preferred project-owner name: **BiBo**.
 
 ## Accepted facts
 
@@ -445,7 +447,24 @@ Last updated: 2026-10-20
   gates are complete; `docs/INTERVIEW.md` preserves the outstanding teach-backs without blocking or
   reopening the v1 milestone.
 
+## Post-v1 E5 CPU-only evidence
+
+- `e5_cpu_feasibility_001` reuses the frozen SQLite evaluator, SQLGlot, schema gate, and E2 terminal
+  reward. It provides conservative single-clause reference-relative repair spans and a pure token
+  credit adapter, without adding E5 to the GPU trainer dispatch or changing E1–E4.
+- The built-in synthetic training suite has 37 cases: four terminal-correct, 33 incorrect. Eleven
+  incorrect cases localize across six clause classes; 22 abstain. Coverage is 11/37 overall and
+  11/33 among incorrect cases (33.33%); incorrect-case abstention is 66.67%. Expected terminal and
+  clause outcomes have zero mismatches. These are authored challenge cases, not BIRD coverage.
+- LIMIT, nested/alias ambiguity, missing clauses, execution failures, and unsupported semantics
+  remain terminal-only. Exact fallback, source-text binding, Unicode offsets, and E2 scorer parity
+  are tested. No local bonus or signal for all-zero terminal groups is invented.
+- Evidence: `results/e5/e5-cpu-feasibility.json`; design and remaining risks: `docs/E5_DESIGN.md`.
+  No validation/heldout input, GPU, model, or paid resource was used. Spend ledger is unchanged.
+- Decision: **Revise**. Real tokenizer/loss integration, representative training-only coverage,
+  finite-database attribution limits, and gradient-mass effects remain unresolved. No smoke starts.
+
 ## Exactly one next action
 
-Run the CPU-only E5 feasibility gate for conservative clause/token-localized execution credit; do
-not start a GPU experiment unless that local gate passes and the user separately approves it.
+Complete a CPU-only E5 tokenizer/loss integration and training-provenance audit packet, recording
+unavailable local training artifacts as a blocker; do not start cloud/GPU or use validation/heldout.

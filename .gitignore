@@ -69,3 +69,6 @@ results/m9/*
 !results/m10/
 results/m10/*
 !results/m10/release-manifest.json
+!results/e5/
+results/e5/*
+!results/e5/e5-cpu-feasibility.json

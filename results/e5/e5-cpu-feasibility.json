@@ -1,0 +1,61 @@
+{
+  "abstained_incorrect_count": 22,
+  "abstention_rate_incorrect": 0.6666666666666666,
+  "case_count": 37,
+  "category_counts": {
+    "adversarial": 7,
+    "alias": 4,
+    "ambiguous": 6,
+    "equivalent": 3,
+    "negative": 10,
+    "nested": 3,
+    "positive": 1,
+    "unsafe": 3
+  },
+  "clause_counts": {
+    "FROM": 2,
+    "GROUP_BY": 1,
+    "HAVING": 1,
+    "ORDER_BY": 1,
+    "SELECT": 3,
+    "WHERE": 3
+  },
+  "cloud_cost_cny": 0,
+  "dataset": "hand_authored_synthetic_train_v1",
+  "decision": "Revise",
+  "decision_reason": "Synthetic feasibility only; real-tokenizer/loss integration and representative training-only coverage remain unverified. No GPU smoke.",
+  "expectation_mismatches": [],
+  "experiment_id": "e5_cpu_feasibility_001",
+  "gpu_runs": 0,
+  "heldout_examples_loaded": 0,
+  "incorrect_count": 33,
+  "localization_coverage_all": 0.2972972972972973,
+  "localization_coverage_incorrect": 0.3333333333333333,
+  "localized_count": 11,
+  "reason_counts": {
+    "alias_abstention": 2,
+    "ambiguous_clause_difference": 1,
+    "ambiguous_sources": 1,
+    "bare_aggregate_column": 1,
+    "execution_failure_abstention": 7,
+    "function_abstention": 2,
+    "limit_total_order_unproven": 2,
+    "missing_clause_no_token_target": 2,
+    "nested_query": 2,
+    "single_clause_execution_repair": 11,
+    "terminal_correct": 4,
+    "unsupported_query": 1,
+    "unsupported_scope": 1
+  },
+  "runtime": {
+    "gpu_packages_imported": [],
+    "platform": "Linux",
+    "python": "3.11.15",
+    "sqlglot": "30.17.0",
+    "sqlite": "3.53.1"
+  },
+  "terminal_correct": 4,
+  "terminal_only_rate_all": 0.7027027027027027,
+  "validation_examples_loaded": 0,
+  "wall_seconds": 10.315789969999969
+}

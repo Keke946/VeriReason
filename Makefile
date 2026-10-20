@@ -40,6 +40,11 @@ env-check-gpu:
 
 verify: guard test
 
+.PHONY: e5-verify
+e5-verify:
+	PYTHONPATH=src $(PYTHON) -m pytest tests/test_e5_credit.py
+	PYTHONPATH=src $(PYTHON) scripts/diagnose_e5.py --output results/e5/e5-cpu-feasibility.json
+
 m1-verify: verify env-check-local
 
 m2-verify: verify lint

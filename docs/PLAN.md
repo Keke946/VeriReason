@@ -187,6 +187,12 @@ Primary outcome: held-out execution accuracy. Secondary outcomes: valid-SQL rate
 
 ## Research upgrades after the core gate
 
+Post-v1 E5 CPU-only feasibility gate (2026-10-20): implementation and authored synthetic audit
+completed, **Revise** for promotion. `docs/E5_DESIGN.md` records the bounded support surface and
+`results/e5/e5-cpu-feasibility.json` the measured 11/33 incorrect-case localization coverage,
+22/33 abstention, and zero expectation mismatches. The next gate remains CPU-only tokenizer/loss
+integration plus training provenance/coverage evidence. No 8-prompt GPU smoke is authorized.
+
 These are sequential options, not promises hidden inside the 15-day schedule.
 
 | Upgrade | Extra time | Entry gate | Research content | Failure-safe outcome |
