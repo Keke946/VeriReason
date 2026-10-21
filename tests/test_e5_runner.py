@@ -117,9 +117,14 @@ def tokenizer():
     }
     backend = Tokenizer(WordLevel(vocab, unk_token="<unk>"))
     backend.pre_tokenizer = WhitespaceSplit()
-    return PreTrainedTokenizerFast(
+    tokenizer = PreTrainedTokenizerFast(
         tokenizer_object=backend, eos_token="<eos>", pad_token="<pad>", unk_token="<unk>"
     )
+    tokenizer.chat_template = (
+        "{% for message in messages %}{{ message['role'] + ': ' + message['content'] }}"
+        "{% endfor %}{% if add_generation_prompt %}assistant: {% endif %}"
+    )
+    return tokenizer
 
 
 def rows():
