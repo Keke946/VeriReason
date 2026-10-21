@@ -1,0 +1,41 @@
+{
+  "abstention": 1.0,
+  "adapter_manifest": "849379289b37acac3f9435d9a2f16053418827deb21b502e3f62d8cfc2e9aead",
+  "completed_at": "2026-10-21T18:00:06.818432+00:00",
+  "coverage": 0.0,
+  "decision": "Stop with zero updates; conservative real-rollout localization coverage is insufficient",
+  "experiment_id": "e5_capture_audit_smoke_001",
+  "gate_checks": {
+    "abstention": false,
+    "attribution": true,
+    "complete": true,
+    "coverage": false,
+    "signal": true,
+    "token_mapping": false,
+    "useful": false
+  },
+  "gate_passed": false,
+  "heldout_payloads_read": 0,
+  "mixed_groups": 3,
+  "optimizer_steps": 0,
+  "parent": "e1_m4_formal_sft_001",
+  "rollouts": 32,
+  "schema_version": 1,
+  "selection_bundle_sha256": "82cfce66c7728820f22ba4f759f8cbb18ca49abe0c55e96c10f2be1d275c3265",
+  "semantic_candidates": 0,
+  "semantic_reasons": {
+    "alias_abstention": 10,
+    "execution_failure_abstention": 8,
+    "nested_query": 1,
+    "terminal_correct": 13
+  },
+  "source_commit": "c8d0086b9be47cb6787f5379c751635f347a564f",
+  "status": "stopped_gate_failed",
+  "terminal_correct": 13,
+  "terminal_wrong": 19,
+  "token_mapped": 0,
+  "token_mapping": null,
+  "uncertain_side_effect": false,
+  "useful_localized_negative": 0,
+  "validation_payloads_read": 0
+}

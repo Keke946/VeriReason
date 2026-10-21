@@ -215,6 +215,13 @@ replay seam, private evidence/state-machine gates and safe-stop/resume tests. Se
 `docs/E5_RUNNER.md` and `results/e5/e5-cpu-runner.json`. The prospective thresholds are unchanged;
 real training coverage is still unknown and no GPU launch is authorized.
 
+The prospective E5 smoke subsequently ran on the frozen eight-prompt M7 training selection. It
+captured all 32 immutable-E1 rollouts but localized none of 19 terminal-wrong outputs; the frozen
+coverage/abstention/token-mapping/useful-credit gate therefore failed and the run stopped with zero
+optimizer updates. This closes the current clause-localized E5 design as a controlled negative
+feasibility result. It must not be rescued through sample replacement, validation tuning or relaxed
+post-hoc thresholds.
+
 | Upgrade | Extra time | Entry gate | Research content | Failure-safe outcome |
 |---|---:|---|---|---|
 | U1 Clause-aware credit and informative-group sampling | 4–6 days | E2 and E4 are stable and the reward parser passes adversarial tests | EXPO-SQL-inspired clause/token credit plus DAPO/ReViSQL-inspired filtering of constant-reward groups | Core report remains complete; publish the failed/negative ablation |

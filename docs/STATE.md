@@ -526,8 +526,23 @@ Last updated: 2026-10-21
   logical database paths to the frozen selector/manifest. It no longer loosely rejoins a full
   prepared-train file by ID. The branch still requires exact-runtime verification before launch.
 
+## E5 real-rollout smoke result
+
+- Exact-runtime verification passed after reinstalling the already pinned `xgrammar 0.2.3` wheel;
+  a retained-image independent-reload import-order issue was fixed in `c8d0086`.
+- The fixed M7 eight-prompt bundle produced 32 immutable-E1 rollouts: 13 terminal-correct and 19
+  terminal-wrong across three mixed groups. All records were durably captured before audit.
+- The conservative localizer produced zero semantic candidates on the 19 wrong outputs: ten were
+  alias-ambiguous, eight failed execution, and one contained a nested query. Therefore S=M=U=0,
+  real localization coverage is 0%, and abstention is 100%.
+- The frozen gate failed coverage, abstention, token-mapping and useful-credit checks. It stopped
+  with exactly zero optimizer updates, zero uncertain side effects, and zero validation/heldout
+  payload reads. No threshold or sample was changed after observing results.
+- SQL-free evidence is `results/e5/e5-gpu-smoke-summary.json`; raw SQL, original IDs and review
+  remain private on retained cloud storage. Provider cost remains pending.
+
 ## Exactly one next action
 
-Confirm the retained M7 eight-prompt prepared bundle exists, then run the exact-runtime preflight
-and seek explicit authorization for prospective GPU capture, pre-update review and conditional
-smoke updates.
+Close this E5 branch as a controlled negative feasibility result, then control-review whether a
+materially different credit-assignment design is justified; do not scale or tune the failed
+single-clause localizer on validation data.

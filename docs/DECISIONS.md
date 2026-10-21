@@ -906,3 +906,17 @@ Decisions are append-only. If a decision changes, add a superseding entry rather
 - Consequence: Cloud preflight must locate that small retained bundle. Absence or mismatch stops
   the smoke before model loading; it does not trigger regeneration, validation access or a new
   sample choice.
+
+## ADR-066 — Stop the current E5 localizer after its real-rollout gate failure
+
+- Date: 2026-10-22
+- Status: accepted negative feasibility result
+- Decision: Stop `e5_capture_audit_smoke_001` with zero optimizer updates. Do not relax its frozen
+  thresholds, replace prompts, tune against validation, or scale this single-clause localizer.
+- Rationale: Among 32 fixed-E1 rollouts, 19 were terminal-wrong, but none yielded a conservative
+  semantic localization candidate. Ten were alias-ambiguous, eight failed execution and one was
+  nested; real wrong-output coverage was 0% and abstention 100%. The gate behaved as intended by
+  preventing an unsupported update.
+- Consequence: Preserve the complete v1 result and publish E5 as a controlled negative extension.
+  Any further experiment must pose a materially different credit-assignment hypothesis and receive
+  a new CPU/pre-cloud review; it may not be framed as a retry of this failed gate.

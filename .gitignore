@@ -74,3 +74,4 @@ results/e5/*
 !results/e5/e5-cpu-feasibility.json
 !results/e5/e5-cpu-interface.json
 !results/e5/e5-cpu-runner.json
+!results/e5/e5-gpu-smoke-summary.json
