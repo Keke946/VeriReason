@@ -1,0 +1,42 @@
+{
+  "experiment_id": "e5_cpu_runner_001",
+  "scope": "authored synthetic SQLite/IDs; random tiny Qwen3/LoRA; CPU only",
+  "torch": "2.11.0+cpu",
+  "transformers": "5.14.1",
+  "trl": "1.9.0",
+  "device": "cpu",
+  "base_model_weights_downloaded": 0,
+  "capture": "authored synthetic record encodings, not real E1 generations",
+  "optimizer_steps_before_gate": 0,
+  "optimizer_steps": 8,
+  "synthetic_gate_counts": {
+    "W": 16,
+    "S": 16,
+    "M": 16,
+    "U": 16
+  },
+  "synthetic_gate_passed": true,
+  "adapter_delta_l2": 0.0003939752272278129,
+  "independent_adapter_hydration": true,
+  "reload_scope": "separate CPU process; LoRA hydrated, base architecture meta; no forward",
+  "actual_trl_autograd_controls": {
+    "local_unscaled": {
+      "loss": -0.6779805123806,
+      "parameter_gradient_max": 0.003330818610265851
+    },
+    "terminal": {
+      "loss": 0.46487677097320557,
+      "parameter_gradient_max": 0.003330818610265851
+    },
+    "mass_matched": {
+      "loss": 0.464876651763916,
+      "parameter_gradient_max": 0.003330818610265851
+    }
+  },
+  "real_training_coverage": null,
+  "validation_payloads_read": 0,
+  "heldout_payloads_read": 0,
+  "gpu_runs": 0,
+  "cloud_cost_cny": 0,
+  "decision": "CPU interface passes; real E1 capture/audit and launch approval pending"
+}

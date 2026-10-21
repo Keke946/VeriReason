@@ -54,6 +54,11 @@ e5-interface-verify:
 	  --output results/e5/e5-cpu-interface.json
 	E5_TOKENIZER_JSON="$(E5_TOKENIZER_JSON)" PYTHONPATH=src $(PYTHON) -m pytest tests/test_e5_interface.py
 
+.PHONY: e5-runner-verify
+e5-runner-verify:
+	$(PYTHON) -c "import torch, transformers, trl, jsonschema; from pathlib import Path; assert torch.__version__ == '2.11.0+cpu'; assert transformers.__version__ == '5.14.1'; assert trl.__version__ == '1.9.0'; assert Path('artifacts/e5-interface/qwen3-tokenizer/tokenizer.json').is_file()"
+	OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 E5_CPU_RECEIPT=results/e5/e5-cpu-runner.json PYTHONPATH=src $(PYTHON) -m pytest tests/test_e5_credit.py tests/test_e5_interface.py tests/test_e5_runner.py
+
 m1-verify: verify env-check-local
 
 m2-verify: verify lint

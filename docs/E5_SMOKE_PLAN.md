@@ -1,7 +1,8 @@
 # E5 prospective capture, audit, then update smoke
 
 Owner: BiBo. Proposed experiment: `e5_capture_audit_smoke_001`.
-Status: **design only; not implemented or authorized to launch**. Current decision: **Revise**.
+Status: **CPU implementation/tests completed; GPU launch not authorized**.
+Current research decision: **Revise**. Implementation receipt: `docs/E5_RUNNER.md`.
 Prepared 2026-10-21. No validation or Mini-Dev payload may be opened in any stage.
 
 ## Historical evidence limitation

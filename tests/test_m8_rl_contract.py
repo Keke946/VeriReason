@@ -150,7 +150,11 @@ def test_e4_rejects_extra_optimizer_drift(tmp_path: Path) -> None:
 def test_pinned_trl_accepts_e4_aggregation(tmp_path: Path, name: str) -> None:
     trl = pytest.importorskip("trl")
     config = load_m8_rl_config(ROOT / "configs" / name)
-    arguments = trl.GRPOConfig(**grpo_argument_values(config, str(tmp_path / "output")))
+    # Constructor/aggregation regression, not a GPU run. Explicit CPU placement
+    # lets the installed pinned stack validate the unchanged bf16 GPU contract.
+    arguments = trl.GRPOConfig(
+        **{**grpo_argument_values(config, str(tmp_path / "output")), "use_cpu": True}
+    )
     assert arguments.multi_objective_aggregation == "normalize_then_sum"
 
 

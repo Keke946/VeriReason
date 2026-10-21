@@ -1,5 +1,9 @@
 # E5 CPU tokenizer/loss interface and training-source audit
 
+Subsequent implementation: `docs/E5_RUNNER.md` adds actual HF fast-tokenizer and pinned TRL
+tensor/autograd/Trainer tests plus the prospective state machine. The analytical receipt below
+remains historical evidence; it is not relabeled as a real trainer run.
+
 Owner: BiBo. Experiment: `e5_cpu_interface_001`. Parent implementation: `631b4a2`.
 Decision: **Revise**. No GPU smoke, cloud launch, model weights, validation payload, or Mini-Dev.
 

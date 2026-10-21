@@ -871,3 +871,23 @@ Decisions are append-only. If a decision changes, add a superseding entry rather
   returns 403 `Resource not accessible by integration`. No remote branch was created. Preserve
   the local commit chain in a review bundle for authenticated local-client publication; do not
   claim a successful push or invent a remote commit URL.
+
+## ADR-064 — Implement the reviewed E5 capture gate with real HF/TRL CPU interfaces
+
+- Date: 2026-10-21
+- Status: CPU implementation completed; no GPU/cloud launch
+- Decision: Bind original generated IDs/text to HF fast-tokenizer backend offsets; fail closed to
+  E2 on ambiguity. Use a narrow TRL 1.9.0 replay subclass with scalar-to-matrix conversion before
+  microbatch slicing, explicit immutable E1 old logps and unchanged DAPO/GAS/clipping semantics.
+  Preserve all preregistered thresholds. Journal generation/update intents privately before side
+  effects; never retry uncertain intents or resume interrupted updates. Require explicit
+  session-bound local-control review before optimizer creation.
+- Rationale: The underlying-tokenizers analytical prototype was insufficient to certify the real
+  HF/TRL training boundary. CPU tests now exercise actual tensor autograd, the installed loss,
+  Trainer accumulation, tiny random Qwen/LoRA updates and separate-process adapter hydration.
+  No existing E1-E4 runner/config/result was changed; two M8 constructor tests only gain explicit
+  CPU placement so their original bf16/aggregation configuration can be tested without a GPU.
+- Consequence: `docs/E5_RUNNER.md` owns implementation evidence and remaining limits. CPU tests
+  support launch review, not launch authorization or real coverage. Independent adapter hydration
+  keeps base weights on meta and does not claim a full quantized forward reload. Historical real
+  coverage stays unknown; local control reviews the updated branch/bundle before GPU capture.

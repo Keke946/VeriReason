@@ -1607,6 +1607,42 @@ experiments:
     metrics: {}
     notes: "Design only, not implemented or launch-authorized; current decision Revise. On 2026-10-21 BiBo reported an actual local-client archive inspection: historical rollout SQL/original IDs/replay bundles absent, so real historical coverage remains unknown, not synthetic 33.33%. Plan requires 32 saved rollouts and all gates before any update, at most eight fixed-rollout updates, and separate CPU implementation/control review/launch approval. No validation, heldout, GPU, cloud search or spend. Branch publication only is authorized."
 
+  e5_cpu_runner_001:
+    objective: "Implement and CPU-test prospective capture/audit/gated-update with real HF tokenizer, pinned TRL autograd and private evidence."
+    status: completed
+    git_commit: ""
+    config: docs/E5_RUNNER.md
+    dataset_version: "Authored synthetic SQLite and token encodings; separate short random tiny-model generation test; no E1/BIRD payloads"
+    model: "Random one-layer tiny Qwen3 plus rank-2 LoRA; retained Qwen3-4B tokenizer only"
+    hardware: "CPU only; torch 2.11.0+cpu; Transformers 5.14.1; TRL 1.9.0; no CUDA wheel"
+    started_at: "2026-10-21"
+    completed_at: "2026-10-21"
+    artifacts:
+      - docs/E5_RUNNER.md
+      - src/verireason/e5_smoke.py
+      - src/verireason/e5_trl.py
+      - src/verireason/e5_backend.py
+      - src/verireason/e5_reload.py
+      - scripts/run_e5_smoke.py
+      - requirements/e5-trainer-cpu.txt
+      - results/schemas/e5-private-replay.schema.json
+      - tests/test_e5_runner.py
+      - results/e5/e5-cpu-runner.json
+    metrics:
+      focused_tests_passed: 165
+      full_tests_passed: 489
+      tests_skipped: 0
+      synthetic_optimizer_steps_before_gate: 0
+      synthetic_optimizer_steps_after_gate: 8
+      synthetic_adapter_delta_l2: 0.0003939752272278129
+      independent_adapter_hydration_passed: true
+      real_training_coverage: null
+      validation_payloads_read: 0
+      heldout_payloads_read: 0
+      gpu_runs: 0
+      cloud_cost_cny: 0
+    notes: "CPU implementation gate passes; overall research remains Revise. Actual inherited TRL loss/autograd, HF wrapper and Trainer GAS are tested. Reload hydrates LoRA in a distinct CPU process with base on meta, not full-base inference. Prospective thresholds unchanged; original E1-E4 runners/configs/results unchanged. Two M8 constructor tests only add use_cpu placement. Parent 786a89a; containing commit supplied in handoff. No launch authorized."
+
 # experiment_id:
 #   objective: ""
 #   status: planned | running | completed | failed | stopped

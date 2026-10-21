@@ -41,9 +41,17 @@ def verified_offsets(
         return None, "missing_or_interior_eos"
     text_ids = ids[:-1]
     try:
-        if tokenizer.decode(list(text_ids), skip_special_tokens=False) != completion:
+        # Use the actual HF fast-tokenizer backend: HF encode() returns a list,
+        # while tokenizers.Tokenizer.encode() returns an Encoding. Neither path
+        # replaces the original generated IDs. Alternative segmentations abstain.
+        backend = getattr(tokenizer, "backend_tokenizer", tokenizer)
+        if backend.decode(list(text_ids), skip_special_tokens=False) != completion:
             return None, "decoded_text_mismatch"
-        encoded = tokenizer.encode(completion, add_special_tokens=False)
+        if backend is not tokenizer and tokenizer.decode(
+            list(text_ids), skip_special_tokens=False, clean_up_tokenization_spaces=False
+        ) != completion:
+            return None, "decoded_text_mismatch"
+        encoded = backend.encode(completion, add_special_tokens=False)
         if tuple(encoded.ids) != text_ids:
             return None, "generated_segmentation_mismatch"
         offsets = tuple(tuple(pair) for pair in encoded.offsets)

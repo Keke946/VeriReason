@@ -209,6 +209,12 @@ publication/review of the branch packet, before separate CPU implementation and 
 Current publication is blocked by missing shell credentials and connector write permission;
 the local control client can import the Git bundle and publish with its existing credentials.
 
+Local control subsequently reviewed and published `786a89a` on `codex/e5-cpu-feasibility`.
+The next CPU implementation supplies real HF fast-tokenizer binding, a pinned TRL tensor/autograd
+replay seam, private evidence/state-machine gates and safe-stop/resume tests. See
+`docs/E5_RUNNER.md` and `results/e5/e5-cpu-runner.json`. The prospective thresholds are unchanged;
+real training coverage is still unknown and no GPU launch is authorized.
+
 | Upgrade | Extra time | Entry gate | Research content | Failure-safe outcome |
 |---|---:|---|---|---|
 | U1 Clause-aware credit and informative-group sampling | 4–6 days | E2 and E4 are stable and the reward parser passes adversarial tests | EXPO-SQL-inspired clause/token credit plus DAPO/ReViSQL-inspired filtering of constant-reward groups | Core report remains complete; publish the failed/negative ablation |

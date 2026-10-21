@@ -12,7 +12,8 @@ Last updated: 2026-10-21
 - Post-v1: E5 CPU-only feasibility implementation and synthetic audit completed; decision
   **Revise**, not ready for GPU smoke. The subsequent real-tokenizer/analytical-loss CPU gate
   passes its bounded interface checks; historical real training rollouts were not retained and
-  cannot be recovered from the checked Mac archive. A new capture/audit/update smoke is design-only.
+  cannot be recovered from the checked Mac archive. The prospective capture/audit/update runner
+  now has real HF/TRL CPU tests; GPU execution and real training coverage remain pending.
   Preferred project-owner name: **BiBo**.
 
 ## Accepted facts
@@ -507,7 +508,21 @@ Last updated: 2026-10-21
   tree-write request returns 403 `Resource not accessible by integration`. No remote review branch
   was created. A Git bundle preserves the local commit chain for authenticated local publication.
 
+## E5 prospective runner CPU implementation
+
+- Local control reviewed and published `786a89a` on `codex/e5-cpu-feasibility`; main is unchanged.
+- `e5_cpu_runner_001` now tests the actual HF fast-tokenizer wrapper, installed TRL 1.9.0 loss,
+  tensor autograd and Trainer accumulation path. Private journal/gate code blocks optimizer
+  creation before review, and uncertain generation/update intents never auto-resume.
+- The authored end-to-end SQLite/tiny random Qwen3/LoRA test records zero pre-gate updates, eight
+  CPU updates after gate, adapter delta L2 0.0003939752 and independent adapter hydration in a
+  separate CPU process. The base remains meta in that reload check; no full-base forward is claimed.
+- Full `make verify` passes 489 tests; the E5 focused gate passes 165, without optional skips.
+  These are CPU/synthetic results only. Real E1 training coverage remains unknown/null.
+- Evidence: `results/e5/e5-cpu-runner.json`; implementation/limits: `docs/E5_RUNNER.md`.
+  Research decision remains Revise; no GPU/cloud/paid resource or validation/heldout payload read.
+
 ## Exactly one next action
 
-Local control imports the review Git bundle, publishes `codex/e5-cpu-feasibility` with its existing
-GitHub credentials, and reviews `docs/E5_SMOKE_PLAN.md` before CPU runner implementation or launch.
+Local control reviews the new E5 runner/CPU receipt and retained-input launch packet before
+explicitly authorizing prospective GPU capture, pre-update review and conditional smoke updates.
