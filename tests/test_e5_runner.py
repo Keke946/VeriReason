@@ -22,7 +22,7 @@ from tokenizers.pre_tokenizers import WhitespaceSplit  # noqa: E402
 from transformers import PreTrainedTokenizerFast, Qwen3Config, Qwen3ForCausalLM  # noqa: E402
 from trl import GRPOConfig, GRPOTrainer  # noqa: E402
 
-from verireason.e5_backend import HFReplayBackend  # noqa: E402
+from verireason.e5_backend import HFReplayBackend, _rows_from_prepared_smoke  # noqa: E402
 from verireason.e5_trl import (  # noqa: E402
     E5ReplayTrainer,
     attach_tensor_advantages,
@@ -35,22 +35,27 @@ def hf_qwen():
     path = Path("artifacts/e5-interface/qwen3-tokenizer/tokenizer.json")
     if not path.exists():
         pytest.skip("fixed-revision real Qwen tokenizer asset unavailable")
-    return PreTrainedTokenizerFast(tokenizer_file=str(path), eos_token="<|endoftext|>",
-                                   pad_token="<|endoftext|>")
+    return PreTrainedTokenizerFast(
+        tokenizer_file=str(path), eos_token="<|endoftext|>", pad_token="<|endoftext|>"
+    )
 
 
-@pytest.mark.parametrize("text", [
-    "SELECT id FROM sales WHERE amount > 20",
-    "select id\nfrom sales\nwhere amount > 20",
-    "SELECT identifier_with_subwords FROM sales WHERE amount > 200",
-    "SELECT 'WHERE' FROM sales WHERE amount > 20",
-    "SELECT x.id FROM sales x WHERE x.amount > 20",
-    "SELECT id FROM (SELECT id FROM sales) WHERE id > 20",
-])
+@pytest.mark.parametrize(
+    "text",
+    [
+        "SELECT id FROM sales WHERE amount > 20",
+        "select id\nfrom sales\nwhere amount > 20",
+        "SELECT identifier_with_subwords FROM sales WHERE amount > 200",
+        "SELECT 'WHERE' FROM sales WHERE amount > 20",
+        "SELECT x.id FROM sales x WHERE x.amount > 20",
+        "SELECT id FROM (SELECT id FROM sales) WHERE id > 20",
+    ],
+)
 def test_actual_hf_wrapper_offsets(text, hf_qwen):
     ids = tuple(hf_qwen.encode(text, add_special_tokens=False)) + (hf_qwen.eos_token_id,)
-    offsets, reason = verified_offsets(hf_qwen, text, ids, (1,) * len(ids),
-                                       eos_id=hf_qwen.eos_token_id)
+    offsets, reason = verified_offsets(
+        hf_qwen, text, ids, (1,) * len(ids), eos_id=hf_qwen.eos_token_id
+    )
     assert reason == "verified_ids_and_text"
     assert len(offsets) == len(ids)
     assert offsets[-1] == (0, 0)
@@ -77,28 +82,106 @@ def test_hf_uncertainty_is_exact_e2_fallback(hf_qwen, kind):
         valid = (0,) + valid[1:]
     elif kind == "boundary":
         credit = ExecutionCredit(0, "synthetic", ClauseSpan("SELECT", 1, 5), text)
-    result = qwen_token_credit(credit, text, ids, valid, hf_qwen,
-                              eos_id=hf_qwen.eos_token_id, terminal_advantage=-.25,
-                              truncated=truncated)
-    assert result.advantages == (-.25,) * len(ids)
+    result = qwen_token_credit(
+        credit,
+        text,
+        ids,
+        valid,
+        hf_qwen,
+        eos_id=hf_qwen.eos_token_id,
+        terminal_advantage=-0.25,
+        truncated=truncated,
+    )
+    assert result.advantages == (-0.25,) * len(ids)
     assert result.reason != "localized"
 
 
 @pytest.fixture
 def tokenizer():
-    vocab = {x: i for i, x in enumerate([
-        "<pad>", "<eos>", "<unk>", "SELECT", "id", "FROM", "sales", "WHERE", "x", "y",
-    ])}
+    vocab = {
+        x: i
+        for i, x in enumerate(
+            [
+                "<pad>",
+                "<eos>",
+                "<unk>",
+                "SELECT",
+                "id",
+                "FROM",
+                "sales",
+                "WHERE",
+                "x",
+                "y",
+            ]
+        )
+    }
     backend = Tokenizer(WordLevel(vocab, unk_token="<unk>"))
     backend.pre_tokenizer = WhitespaceSplit()
-    return PreTrainedTokenizerFast(tokenizer_object=backend, eos_token="<eos>",
-                                   pad_token="<pad>", unk_token="<unk>")
+    return PreTrainedTokenizerFast(
+        tokenizer_object=backend, eos_token="<eos>", pad_token="<pad>", unk_token="<unk>"
+    )
 
 
 def rows():
-    return [dict(example_id=f"authored-{i}", split="train", operational_eligible=True,
-                 source="synthetic", prompt="SELECT", gold_sql="SELECT id FROM sales WHERE y",
-                 database_path="synthetic.sqlite") for i in range(8)]
+    return [
+        dict(
+            example_id=f"authored-{i}",
+            split="train",
+            operational_eligible=True,
+            source="synthetic",
+            prompt="SELECT",
+            gold_sql="SELECT id FROM sales WHERE y",
+            database_path="synthetic.sqlite",
+        )
+        for i in range(8)
+    ]
+
+
+def m7_input_fixture():
+    selected = [{"row_id": f"sample-{i}", "db_id": "db", "sql": f"SELECT {i}"} for i in range(8)]
+    manifest = {"databases": {"db": {"path": "db/db.sqlite"}}}
+    prepared = {
+        "schema_version": 1,
+        "selection_policy": "m7_e2_smoke_hash_v1",
+        "sample_ids": [row["row_id"] for row in selected],
+        "examples": [
+            {
+                "reward_group_id": row["row_id"],
+                "messages": [{"role": "user", "content": f"question {i}"}],
+                "gold_sql": row["sql"],
+                "database_path": "db/db.sqlite",
+            }
+            for i, row in enumerate(selected)
+        ],
+        "heldout_examples_loaded": 0,
+        "heldout_examples_evaluated": 0,
+    }
+    return selected, manifest, prepared, {"data": {"prompt_count": 8}}
+
+
+def test_e5_binds_exact_ordered_m7_smoke_bundle(tokenizer):
+    selected, manifest, prepared, config = m7_input_fixture()
+    result = _rows_from_prepared_smoke(selected, manifest, prepared, tokenizer, config)
+    assert [row["example_id"] for row in result] == prepared["sample_ids"]
+    assert all(row["source"] == "frozen_m7_smoke_bundle" for row in result)
+
+
+@pytest.mark.parametrize("drift", ["sample_order", "group_id", "gold_sql", "database_path"])
+def test_e5_rejects_m7_smoke_identity_drift(tokenizer, drift):
+    selected, manifest, prepared, config = m7_input_fixture()
+    if drift == "sample_order":
+        prepared["sample_ids"][0], prepared["sample_ids"][1] = (
+            prepared["sample_ids"][1],
+            prepared["sample_ids"][0],
+        )
+    elif drift == "group_id":
+        prepared["examples"][0]["reward_group_id"] = "other"
+    elif drift == "gold_sql":
+        prepared["examples"][0]["gold_sql"] = "SELECT 999"
+    else:
+        prepared["examples"][0]["database_path"] = "other.sqlite"
+    with pytest.raises(ValueError, match="drifted"):
+        _rows_from_prepared_smoke(selected, manifest, prepared, tokenizer, config)
 
 
 CONTEXT = {"parent": "e1_m4_formal_sft_001", "fixture": "authored_cpu_only"}
@@ -106,6 +189,7 @@ CONTEXT = {"parent": "e1_m4_formal_sft_001", "fixture": "authored_cpu_only"}
 
 class Backend:
     """Deterministic authored records for state-machine tests, not a generation claim."""
+
     def __init__(self, tokenizer):
         self.tokenizer = tokenizer
         self.optimizer_steps = 0
@@ -121,11 +205,24 @@ class Backend:
         for j in range(4):
             text = "SELECT id FROM sales WHERE " + ("y" if j < 2 else "x")
             ids = self.tokenizer.encode(text, add_special_tokens=False) + [1]
-            result.append(dict(example_id=row["example_id"], group=group, rollout=j,
-                               prompt_ids=[3], completion_ids=ids, completion_mask=[1] * len(ids),
-                               old_logps=[-2.3] * len(ids), old_logps_dtype="float32",
-                               text=text, reward=int(j < 2),
-                               truncated=False, eos_id=1, pad_id=0, terminal_status="ok"))
+            result.append(
+                dict(
+                    example_id=row["example_id"],
+                    group=group,
+                    rollout=j,
+                    prompt_ids=[3],
+                    completion_ids=ids,
+                    completion_mask=[1] * len(ids),
+                    old_logps=[-2.3] * len(ids),
+                    old_logps_dtype="float32",
+                    text=text,
+                    reward=int(j < 2),
+                    truncated=False,
+                    eos_id=1,
+                    pad_id=0,
+                    terminal_status="ok",
+                )
+            )
         return result
 
     def localize(self, record, row):
@@ -141,17 +238,20 @@ class Backend:
         for i in range(8):
             session.before_update(i)
             self.optimizer_steps += 1
-            session.after_update(i, {"loss": .1, "gradient_norm": .2})
+            session.after_update(i, {"loss": 0.1, "gradient_norm": 0.2})
 
     def finish(self, directory):
-        return {"adapter_delta_l2": .1, "independent_reload": True}
+        return {"adapter_delta_l2": 0.1, "independent_reload": True}
 
 
 def review(session):
-    return dict(reviewer="authored-test-reviewer",
-                session_id=session.data["session_id"],
-                candidate_rows=[x["row"] for x in session.data["audit"] if x["semantic"]],
-                wrong_rows=[], unresolved_rows=[])
+    return dict(
+        reviewer="authored-test-reviewer",
+        session_id=session.data["session_id"],
+        candidate_rows=[x["row"] for x in session.data["audit"] if x["semantic"]],
+        wrong_rows=[],
+        unresolved_rows=[],
+    )
 
 
 def captured(tmp_path, tokenizer):
@@ -246,8 +346,9 @@ def test_nontraining_input_rejected_before_write(tmp_path, split):
     assert not (tmp_path / "p").exists()
 
 
-@pytest.mark.parametrize("error", [ValueError("nan"), torch.OutOfMemoryError("private SQL"),
-                                   KeyboardInterrupt()])
+@pytest.mark.parametrize(
+    "error", [ValueError("nan"), torch.OutOfMemoryError("private SQL"), KeyboardInterrupt()]
+)
 def test_capture_exception_persists_safe_stop(tmp_path, tokenizer, error):
     s = SmokeSession(tmp_path / "p", rows(), CONTEXT)
     b = Backend(tokenizer)
@@ -270,9 +371,15 @@ def test_evidence_write_failure_prevents_generation(tmp_path, tokenizer, monkeyp
     s.close()
 
 
-@pytest.mark.parametrize("field,value", [("old_logps", [float("nan")] * 7),
-                                         ("old_logps", [float("inf")] * 7),
-                                         ("group", 3), ("completion_mask", [1, 0])])
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("old_logps", [float("nan")] * 7),
+        ("old_logps", [float("inf")] * 7),
+        ("group", 3),
+        ("completion_mask", [1, 0]),
+    ],
+)
 def test_misaligned_or_nonfinite_capture_rejected(tokenizer, field, value):
     b = Backend(tokenizer)
     r = b.capture_group(rows()[0], 0)[0]
@@ -283,33 +390,70 @@ def test_misaligned_or_nonfinite_capture_rejected(tokenizer, field, value):
 
 def make_trainer(tmp_path, tokenizer, *, cls=E5ReplayTrainer):
     torch.manual_seed(23)
-    config = Qwen3Config(vocab_size=16, hidden_size=16, intermediate_size=32,
-                         num_hidden_layers=1, num_attention_heads=2, num_key_value_heads=2,
-                         head_dim=8, max_position_embeddings=512,
-                         eos_token_id=1, pad_token_id=0, attn_implementation="eager")
-    model = get_peft_model(Qwen3ForCausalLM(config), LoraConfig(
-        r=2, lora_alpha=4, target_modules=["q_proj", "v_proj"], task_type="CAUSAL_LM"
-    ))
-    args = GRPOConfig(output_dir=str(tmp_path / "trainer"), use_cpu=True, bf16=False,
-                      max_steps=8, per_device_train_batch_size=1, gradient_accumulation_steps=4,
-                      generation_batch_size=4, num_generations=4, beta=0, loss_type="dapo",
-                      scale_rewards="none", epsilon=.2, epsilon_high=.28, num_iterations=1,
-                      learning_rate=5e-6, optim="adamw_torch", lr_scheduler_type="constant",
-                      save_strategy="no", report_to="none", disable_tqdm=True,
-                      gradient_checkpointing=False, mask_truncated_completions=True,
-                      max_completion_length=384, shuffle_dataset=False, logging_steps=999,
-                      temperature=1., top_p=1., top_k=0)
-    return cls(model=model, processing_class=tokenizer, args=args,
-               reward_funcs=lambda completions, **kw: [0.] * len(completions),
-               train_dataset=Dataset.from_list([{"prompt": "SELECT"}] * 8))
+    config = Qwen3Config(
+        vocab_size=16,
+        hidden_size=16,
+        intermediate_size=32,
+        num_hidden_layers=1,
+        num_attention_heads=2,
+        num_key_value_heads=2,
+        head_dim=8,
+        max_position_embeddings=512,
+        eos_token_id=1,
+        pad_token_id=0,
+        attn_implementation="eager",
+    )
+    model = get_peft_model(
+        Qwen3ForCausalLM(config),
+        LoraConfig(r=2, lora_alpha=4, target_modules=["q_proj", "v_proj"], task_type="CAUSAL_LM"),
+    )
+    args = GRPOConfig(
+        output_dir=str(tmp_path / "trainer"),
+        use_cpu=True,
+        bf16=False,
+        max_steps=8,
+        per_device_train_batch_size=1,
+        gradient_accumulation_steps=4,
+        generation_batch_size=4,
+        num_generations=4,
+        beta=0,
+        loss_type="dapo",
+        scale_rewards="none",
+        epsilon=0.2,
+        epsilon_high=0.28,
+        num_iterations=1,
+        learning_rate=5e-6,
+        optim="adamw_torch",
+        lr_scheduler_type="constant",
+        save_strategy="no",
+        report_to="none",
+        disable_tqdm=True,
+        gradient_checkpointing=False,
+        mask_truncated_completions=True,
+        max_completion_length=384,
+        shuffle_dataset=False,
+        logging_steps=999,
+        temperature=1.0,
+        top_p=1.0,
+        top_k=0,
+    )
+    return cls(
+        model=model,
+        processing_class=tokenizer,
+        args=args,
+        reward_funcs=lambda completions, **kw: [0.0] * len(completions),
+        train_dataset=Dataset.from_list([{"prompt": "SELECT"}] * 8),
+    )
 
 
 def test_tensor_seam_preserves_every_other_object(tmp_path, tokenizer):
     s, b = captured(tmp_path, tokenizer)
-    credit = tuple(TokenCredit(tuple(a["advantages"]), tuple(a["mask"]), a["token_reason"])
-                   for a in s.data["audit"])
+    credit = tuple(
+        TokenCredit(tuple(a["advantages"]), tuple(a["mask"]), a["token_reason"])
+        for a in s.data["audit"]
+    )
     batch = replay_batches(s.data["records"], credit, "cpu")[0]
-    raw = {**batch, "advantages": torch.tensor([.5, .5, -.5, -.5])}
+    raw = {**batch, "advantages": torch.tensor([0.5, 0.5, -0.5, -0.5])}
     mapped = attach_tensor_advantages(raw, credit[:4])
     for key in raw.keys() - {"advantages"}:
         assert mapped[key] is raw[key]
@@ -317,22 +461,25 @@ def test_tensor_seam_preserves_every_other_object(tmp_path, tokenizer):
     s.close()
 
 
-@pytest.mark.parametrize("ratio", [.6, 1., 1.5])
+@pytest.mark.parametrize("ratio", [0.6, 1.0, 1.5])
 def test_real_trl_fallback_loss_and_autograd_exactly_e2(tmp_path, tokenizer, ratio):
     trainer = make_trainer(tmp_path, tokenizer)
     records = [r for i in range(8) for r in Backend(tokenizer).capture_group(rows()[i], i)]
     adv = terminal_advantages(tuple(r["reward"] for r in records))
-    credits = tuple(TokenCredit((a,) * len(r["completion_ids"]),
-                                (1,) * len(r["completion_ids"]), "fallback")
-                    for r, a in zip(records, adv, strict=True))
+    credits = tuple(
+        TokenCredit((a,) * len(r["completion_ids"]), (1,) * len(r["completion_ids"]), "fallback")
+        for r, a in zip(records, adv, strict=True)
+    )
     batch = replay_batches(records, credits, "cpu")[0]
     model = trainer.model
     model.eval()
     with torch.no_grad():
         current, _, _ = trainer._get_per_token_logps_and_entropies(
-            model, torch.cat([batch["prompt_ids"], batch["completion_ids"]], 1),
+            model,
+            torch.cat([batch["prompt_ids"], batch["completion_ids"]], 1),
             torch.cat([batch["prompt_mask"], batch["completion_mask"]], 1),
-            batch["completion_ids"].shape[1])
+            batch["completion_ids"].shape[1],
+        )
     batch["old_per_token_logps"] = current - torch.log(torch.tensor(ratio))
     scalar = {**batch, "advantages": torch.tensor(adv[:4])}
     parameters = [p for p in model.parameters() if p.requires_grad]
@@ -352,11 +499,14 @@ def test_actual_trainer_optimizer_gate_and_full_cpu_update_reload(tmp_path, toke
         trainer.create_optimizer()
     backend = HFReplayBackend(trainer, tmp_path)
     backend.preflight(CONTEXT)
-    credits = tuple(TokenCredit(tuple(a["advantages"]), tuple(a["mask"]), a["token_reason"])
-                    for a in s.data["audit"])
+    credits = tuple(
+        TokenCredit(tuple(a["advantages"]), tuple(a["mask"]), a["token_reason"])
+        for a in s.data["audit"]
+    )
     backend.check_numerics(s.data["records"], credits)
-    assert all(all(torch.isfinite(torch.tensor(v)) for v in m.values())
-               for m in backend.numerics.values())
+    assert all(
+        all(torch.isfinite(torch.tensor(v)) for v in m.values()) for m in backend.numerics.values()
+    )
     s.decide(review(s))
     backend.update(s.data["records"], credits, s)
     assert s.data["optimizer_steps"] == trainer.state.global_step == 8
@@ -379,7 +529,7 @@ def test_real_hf_generate_ids_are_retained_before_decode(tmp_path, tokenizer, mo
     def short_cpu_generate(**kwargs):
         kwargs["max_new_tokens"] = 3
         output = original(**kwargs)
-        captured_ids.extend(output[:, kwargs["input_ids"].shape[1]:].tolist())
+        captured_ids.extend(output[:, kwargs["input_ids"].shape[1] :].tolist())
         return output
 
     monkeypatch.setattr(trainer.model, "generate", short_cpu_generate)
@@ -427,24 +577,29 @@ def test_hf_eos_padding_and_repeated_text_target(hf_qwen):
     ids += (hf_qwen.pad_token_id,) * 2
     mask = (1,) * (len(ids) - 2) + (0, 0)
     c = ExecutionCredit(0, "synthetic", ClauseSpan("WHERE", text.index("WHERE"), len(text)), text)
-    result = qwen_token_credit(c, text, ids, mask, hf_qwen,
-                              eos_id=hf_qwen.eos_token_id, terminal_advantage=-.5)
+    result = qwen_token_credit(
+        c, text, ids, mask, hf_qwen, eos_id=hf_qwen.eos_token_id, terminal_advantage=-0.5
+    )
     assert result.reason == "localized"
     assert result.mask[-3:] == (0, 0, 0)
     offsets, _ = verified_offsets(hf_qwen, text, ids, mask, eos_id=hf_qwen.eos_token_id)
-    assert all(end > text.index("WHERE") for (start, end), m in
-               zip(offsets, result.mask, strict=True) if m)
+    assert all(
+        end > text.index("WHERE") for (start, end), m in zip(offsets, result.mask, strict=True) if m
+    )
 
 
 def test_real_trl_loss_local_gradient_targets_and_accumulation(tmp_path, tokenizer, monkeypatch):
     trainer = make_trainer(tmp_path, tokenizer)
     r = [record for i in range(8) for record in Backend(tokenizer).capture_group(rows()[i], i)]
     adv = terminal_advantages(tuple(x["reward"] for x in r))
-    credits = tuple(TokenCredit(
-        tuple(a if j in (4, 5) or a >= 0 else 0. for j in range(7)),
-        tuple(int(j in (4, 5)) if a < 0 else 1 for j in range(7)),
-        "localized" if a < 0 else "fallback",
-    ) for a in adv)
+    credits = tuple(
+        TokenCredit(
+            tuple(a if j in (4, 5) or a >= 0 else 0.0 for j in range(7)),
+            tuple(int(j in (4, 5)) if a < 0 else 1 for j in range(7)),
+            "localized" if a < 0 else "fallback",
+        )
+        for a in adv
+    )
     batch = replay_batches(r, credits, "cpu")[0]
     logits = torch.randn(4, 7, 16, dtype=torch.float64, requires_grad=True)
     current = logits.log_softmax(-1).gather(-1, batch["completion_ids"].unsqueeze(-1)).squeeze(-1)
@@ -455,22 +610,24 @@ def test_real_trl_loss_local_gradient_targets_and_accumulation(tmp_path, tokeniz
         trainer._e5_current_logps = inputs["test_logps"]
         return inputs["test_logps"], torch.zeros_like(inputs["test_logps"]), None
 
-    monkeypatch.setattr(trainer, "_get_per_token_logps_and_entropies",
-                        lambda *a, **k: compute(None, active))
+    monkeypatch.setattr(
+        trainer, "_get_per_token_logps_and_entropies", lambda *a, **k: compute(None, active)
+    )
     active = {**batch, "test_logps": current}
     e5 = trainer._compute_loss(trainer.model, batch)
     e5_grad = torch.autograd.grad(e5, logits, retain_graph=True)[0]
     active = {**batch, "test_logps": current}
-    e2 = GRPOTrainer._compute_loss(trainer, trainer.model,
-                                   {**batch, "advantages": torch.tensor(adv[:4])})
+    e2 = GRPOTrainer._compute_loss(
+        trainer, trainer.model, {**batch, "advantages": torch.tensor(adv[:4])}
+    )
     e2_grad = torch.autograd.grad(e2, logits, retain_graph=True)[0]
     assert torch.equal(e5_grad[:2], e2_grad[:2])
     assert e5_grad[2:, [0, 1, 2, 3, 6]].count_nonzero() == 0
     assert torch.equal(e5_grad[2:, 4:6], e2_grad[2:, 4:6])
     parts = []
     for i in range(4):
-        active = {**batch, "test_logps": current[i:i + 1]}
-        micro = {k: v if v.ndim == 0 else v[i:i + 1] for k, v in batch.items()}
+        active = {**batch, "test_logps": current[i : i + 1]}
+        micro = {k: v if v.ndim == 0 else v[i : i + 1] for k, v in batch.items()}
         parts.append(trainer._compute_loss(trainer.model, micro))
     accumulated = sum(parts)
     assert torch.allclose(e5, accumulated, atol=1e-12)
@@ -480,12 +637,14 @@ def test_real_trl_loss_local_gradient_targets_and_accumulation(tmp_path, tokeniz
 def test_actual_trainer_gas_parameter_updates_match_full_windows(tmp_path, tokenizer):
     s, b = captured(tmp_path, tokenizer)
     trainer = make_trainer(tmp_path, tokenizer)
-    trainer.args.max_grad_norm = 1000.
-    trainer.optimizer = torch.optim.SGD(trainer.model.parameters(), lr=.05)
+    trainer.args.max_grad_norm = 1000.0
+    trainer.optimizer = torch.optim.SGD(trainer.model.parameters(), lr=0.05)
     expected = copy.deepcopy(trainer.model)
-    optimizer = torch.optim.SGD(expected.parameters(), lr=.05)
-    credits = tuple(TokenCredit(tuple(a["advantages"]), tuple(a["mask"]), a["token_reason"])
-                    for a in s.data["audit"])
+    optimizer = torch.optim.SGD(expected.parameters(), lr=0.05)
+    credits = tuple(
+        TokenCredit(tuple(a["advantages"]), tuple(a["mask"]), a["token_reason"])
+        for a in s.data["audit"]
+    )
     expected.train()
     trainer.model.train()
     for batch in replay_batches(s.data["records"], credits, "cpu"):
@@ -495,8 +654,10 @@ def test_actual_trainer_gas_parameter_updates_match_full_windows(tmp_path, token
     s.decide(review(s))
     trainer.prepare_replay(s, s.data["records"], credits)
     trainer.train()
-    diffs = [float((p.detach() - q.detach()).abs().max()) for p, q in
-             zip(trainer.model.parameters(), expected.parameters(), strict=True)]
+    diffs = [
+        float((p.detach() - q.detach()).abs().max())
+        for p, q in zip(trainer.model.parameters(), expected.parameters(), strict=True)
+    ]
     assert max(diffs) < 1e-7
     assert s.data["optimizer_steps"] == 8
     s.close()
@@ -520,8 +681,9 @@ def test_hf_alternative_generated_segmentation_abstains(hf_qwen):
     assert hf_qwen.decode(alt, clean_up_tokenization_spaces=False) == text
     assert alt != tuple(hf_qwen.encode(text, add_special_tokens=False))
     ids = alt + (hf_qwen.eos_token_id,)
-    offsets, reason = verified_offsets(hf_qwen, text, ids, (1,) * len(ids),
-                                       eos_id=hf_qwen.eos_token_id)
+    offsets, reason = verified_offsets(
+        hf_qwen, text, ids, (1,) * len(ids), eos_id=hf_qwen.eos_token_id
+    )
     assert offsets is None and reason == "generated_segmentation_mismatch"
 
 
@@ -599,8 +761,11 @@ def test_full_real_sqlite_hf_trl_cpu_state_machine(tmp_path, tokenizer, monkeypa
         public = {
             "experiment_id": "e5_cpu_runner_001",
             "scope": "authored synthetic SQLite/IDs; random tiny Qwen3/LoRA; CPU only",
-            "torch": torch.__version__, "transformers": transformers.__version__,
-            "trl": trl.__version__, "device": "cpu", "base_model_weights_downloaded": 0,
+            "torch": torch.__version__,
+            "transformers": transformers.__version__,
+            "trl": trl.__version__,
+            "device": "cpu",
+            "base_model_weights_downloaded": 0,
             "capture": "authored synthetic record encodings, not real E1 generations",
             "optimizer_steps_before_gate": s.data["gate"]["optimizer_steps_before_gate"],
             "optimizer_steps": s.data["optimizer_steps"],
@@ -612,8 +777,11 @@ def test_full_real_sqlite_hf_trl_cpu_state_machine(tmp_path, tokenizer, monkeypa
                 "separate CPU process; LoRA hydrated, base architecture meta; no forward"
             ),
             "actual_trl_autograd_controls": s.data["finish"]["numerics"],
-            "real_training_coverage": None, "validation_payloads_read": 0,
-            "heldout_payloads_read": 0, "gpu_runs": 0, "cloud_cost_cny": 0,
+            "real_training_coverage": None,
+            "validation_payloads_read": 0,
+            "heldout_payloads_read": 0,
+            "gpu_runs": 0,
+            "cloud_cost_cny": 0,
             "decision": "CPU interface passes; real E1 capture/audit and launch approval pending",
         }
         atomic_write_json(receipt, public)

@@ -891,3 +891,18 @@ Decisions are append-only. If a decision changes, add a superseding entry rather
   support launch review, not launch authorization or real coverage. Independent adapter hydration
   keeps base weights on meta and does not claim a full quantized forward reload. Historical real
   coverage stays unknown; local control reviews the updated branch/bundle before GPU capture.
+
+## ADR-065 — Bind E5 to the retained ordered M7 smoke input
+
+- Date: 2026-10-21
+- Status: accepted in local control review; GPU launch still unauthorized
+- Decision: Accept only the retained M7 eight-prompt `prepared-bundle.json` as E5 prompt input.
+  Match its ordered sample/group IDs, gold SQL and logical database paths against the deterministic
+  selector and frozen training manifest before model loading. Do not reconstruct prompts by a
+  loose ID join against the full prepared-train bundle.
+- Rationale: Re-selecting the same IDs was insufficient to prove prompt parity if the associated
+  messages drifted. The retained M7 bundle is the actual controlled input used by the baseline
+  smoke and gives E5 the intended fixed-prompt comparison without adding a new data pipeline.
+- Consequence: Cloud preflight must locate that small retained bundle. Absence or mismatch stops
+  the smoke before model loading; it does not trigger regeneration, validation access or a new
+  sample choice.

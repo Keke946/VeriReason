@@ -19,14 +19,20 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--approved-commit", required=True)
     p.add_argument("--training-manifest", required=True)
-    p.add_argument("--prepared-train", required=True)
+    p.add_argument(
+        "--prepared-smoke", required=True, help="Retained M7 eight-prompt prepared-bundle.json"
+    )
     p.add_argument("--database-root", required=True)
     p.add_argument("--e1-adapter", required=True)
     p.add_argument("--e1-adapter-manifest", required=True)
     p.add_argument("--session-dir", required=True)
     p.add_argument("--review", help="Private review JSON; omit for capture/audit only")
-    p.add_argument("--paid-started-at", type=float, required=True,
-                   help="Original paid-session Unix timestamp, including resumed review")
+    p.add_argument(
+        "--paid-started-at",
+        type=float,
+        required=True,
+        help="Original paid-session Unix timestamp, including resumed review",
+    )
     a = p.parse_args()
     head = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
     branch = subprocess.check_output(["git", "branch", "--show-current"], text=True).strip()
@@ -48,8 +54,11 @@ def main():
     journal = PrivateJournal(Path(a.session_dir))
     if journal.path.exists():
         state = journal.read()
-        if (state["pending"] or state["phase"] in {"updating", "finishing"}
-                or (journal.directory / "replay.partial").exists()):
+        if (
+            state["pending"]
+            or state["phase"] in {"updating", "finishing"}
+            or (journal.directory / "replay.partial").exists()
+        ):
             journal.close()
             raise RuntimeError("uncertain session: stop without loading model")
     journal.close()
@@ -71,23 +80,30 @@ def main():
     config = load_m7_smoke_config("configs/m7_e2_smoke.toml")
     m4 = load_m4_config("configs/m4_formal_sft.toml", "configs/m2_data.toml")
     tokenizer = load_tokenizer(m4, False)
-    rows = load_training_selection(a.training_manifest, a.prepared_train, tokenizer)
-    context = dict(parent="e1_m4_formal_sft_001", adapter_manifest=a.e1_adapter_manifest,
-                   source_commit=head, manifest=config["data"]["training_manifest_sha256"],
-                   paid_started_at=a.paid_started_at)
+    rows = load_training_selection(a.training_manifest, a.prepared_smoke, tokenizer)
+    context = dict(
+        parent="e1_m4_formal_sft_001",
+        adapter_manifest=a.e1_adapter_manifest,
+        source_commit=head,
+        manifest=config["data"]["training_manifest_sha256"],
+        paid_started_at=a.paid_started_at,
+    )
     session = SmokeSession(Path(a.session_dir), rows, context)
     try:
         set_seed(23)
         base = load_base(m4, trainable=False, allow_download=False)
         base = prepare_model_for_kbit_training(base, use_gradient_checkpointing=True)
-        model = PeftModel.from_pretrained(base, a.e1_adapter, is_trainable=True,
-                                          local_files_only=True)
+        model = PeftModel.from_pretrained(
+            base, a.e1_adapter, is_trainable=True, local_files_only=True
+        )
         model.config.use_cache = False
         args = grpo_argument_values(config, str(Path(a.session_dir) / "checkpoints"))
         args.update(save_strategy="no", disable_tqdm=True)
         trainer = E5ReplayTrainer(
-            model=model, processing_class=tokenizer, args=GRPOConfig(**args),
-            reward_funcs=lambda completions, **kw: [0.] * len(completions),
+            model=model,
+            processing_class=tokenizer,
+            args=GRPOConfig(**args),
+            reward_funcs=lambda completions, **kw: [0.0] * len(completions),
             train_dataset=Dataset.from_list([{"prompt": r["prompt"]} for r in rows]),
         )
         backend = HFReplayBackend(trainer, Path(a.database_root))

@@ -57,10 +57,16 @@ class HFReplayBackend:
         with torch.no_grad():
             # Actual generated IDs are captured before any decoding or re-encoding.
             output = model.generate(
-                **inputs, do_sample=True, num_return_sequences=4, max_new_tokens=384,
-                temperature=1.0, top_p=1.0, top_k=0,
-                eos_token_id=tokenizer.eos_token_id, pad_token_id=tokenizer.pad_token_id,
-            )[:, len(prompt_ids):]
+                **inputs,
+                do_sample=True,
+                num_return_sequences=4,
+                max_new_tokens=384,
+                temperature=1.0,
+                top_p=1.0,
+                top_k=0,
+                eos_token_id=tokenizer.eos_token_id,
+                pad_token_id=tokenizer.pad_token_id,
+            )[:, len(prompt_ids) :]
         result = []
         database = self.database(row)
         gold = execute_read_only(database, row["gold_sql"])
@@ -70,30 +76,43 @@ class HFReplayBackend:
             eos = next((i for i, x in enumerate(generated) if x == tokenizer.eos_token_id), None)
             truncated = eos is None
             text_ids = generated if truncated else generated[:eos]
-            text = tokenizer.decode(text_ids, skip_special_tokens=False,
-                                    clean_up_tokenization_spaces=False)
-            mask = [0] * len(generated) if truncated else (
-                [1] * (eos + 1) + [0] * (len(generated) - eos - 1)
+            text = tokenizer.decode(
+                text_ids, skip_special_tokens=False, clean_up_tokenization_spaces=False
+            )
+            mask = (
+                [0] * len(generated)
+                if truncated
+                else ([1] * (eos + 1) + [0] * (len(generated) - eos - 1))
             )
             pids = inputs["input_ids"]
             cids = torch.tensor([generated], device=pids.device)
             cmask = torch.tensor([mask], device=pids.device)
             with torch.no_grad():
                 old, _, _ = self.trainer._get_per_token_logps_and_entropies(
-                    model, torch.cat([pids, cids], 1),
-                    torch.cat([inputs["attention_mask"], cmask], 1), cids.shape[1],
+                    model,
+                    torch.cat([pids, cids], 1),
+                    torch.cat([inputs["attention_mask"], cmask], 1),
+                    cids.shape[1],
                 )
             prediction = execute_read_only(database, text)
-            result.append(dict(
-                example_id=row["example_id"], group=group, rollout=j,
-                prompt_ids=prompt_ids, text=text, completion_ids=generated,
-                completion_mask=mask, old_logps=old[0].tolist(),
-                old_logps_dtype=str(old.dtype).removeprefix("torch."),
-                truncated=truncated, eos_id=tokenizer.eos_token_id,
-                pad_id=tokenizer.pad_token_id,
-                reward=int(compare_strict_results(prediction, gold).equal),
-                terminal_status=prediction.status,
-            ))
+            result.append(
+                dict(
+                    example_id=row["example_id"],
+                    group=group,
+                    rollout=j,
+                    prompt_ids=prompt_ids,
+                    text=text,
+                    completion_ids=generated,
+                    completion_mask=mask,
+                    old_logps=old[0].tolist(),
+                    old_logps_dtype=str(old.dtype).removeprefix("torch."),
+                    truncated=truncated,
+                    eos_id=tokenizer.eos_token_id,
+                    pad_id=tokenizer.pad_token_id,
+                    reward=int(compare_strict_results(prediction, gold).equal),
+                    terminal_status=prediction.status,
+                )
+            )
         return result
 
     def localize(self, record, row):
@@ -107,7 +126,7 @@ class HFReplayBackend:
         controls = {"local_unscaled": batches, "terminal": [], "mass_matched": []}
         all_scalar = terminal_advantages(tuple(r["reward"] for r in records))
         for group, b in enumerate(batches):
-            scalar = all_scalar[group * 4:group * 4 + 4]
+            scalar = all_scalar[group * 4 : group * 4 + 4]
             terminal = torch.tensor(scalar, device=b["advantages"].device)
             controls["terminal"].append({**b, "advantages": terminal})
             matrix = b["advantages"].clone()
@@ -122,19 +141,19 @@ class HFReplayBackend:
         self.numerics = {}
         parameters = [p for p in self.trainer.model.parameters() if p.requires_grad]
         for mode, group_batches in controls.items():
-            loss_total = 0.
-            grad_max = 0.
+            loss_total = 0.0
+            grad_max = 0.0
             for batch in group_batches:
                 # Four microbatches keep this pre-update check within the smoke memory budget.
                 for i in range(4):
-                    micro = {k: v if v.ndim == 0 else v[i:i + 1] for k, v in batch.items()}
+                    micro = {k: v if v.ndim == 0 else v[i : i + 1] for k, v in batch.items()}
                     loss = self.trainer._compute_loss(self.trainer.model, micro)
                     grad = torch.autograd.grad(loss, parameters, allow_unused=True)
                     if any(g is not None and not torch.isfinite(g).all() for g in grad):
                         raise ValueError("nonfinite pre-update autograd")
-                    grad_max = max([grad_max] + [
-                        float(g.abs().max()) for g in grad if g is not None
-                    ])
+                    grad_max = max(
+                        [grad_max] + [float(g.abs().max()) for g in grad if g is not None]
+                    )
                     loss_total += float(loss.detach())
             self.numerics[mode] = {"loss": loss_total, "parameter_gradient_max": grad_max}
         if trainable_delta_l2(self.before, self.trainer.model) != 0:
@@ -157,15 +176,62 @@ class HFReplayBackend:
         # for a tiny CPU test; production PEFT reload uses recorded base config, no base weights.
         config = copy.deepcopy(self.trainer.model.config)
         config.to_json_file(str(Path(directory) / "base-config.json"))
-        command = [sys.executable, "-m", "verireason.e5_reload", str(path),
-                   str(Path(directory) / "base-config.json"), manifest]
+        command = [
+            sys.executable,
+            "-m",
+            "verireason.e5_reload",
+            str(path),
+            str(Path(directory) / "base-config.json"),
+            manifest,
+        ]
         result = subprocess.run(command, capture_output=True, timeout=120, check=False)
-        return dict(adapter_delta_l2=delta, independent_reload=result.returncode == 0,
-                    adapter_manifest_sha256=manifest, numerics=self.numerics)
+        return dict(
+            adapter_delta_l2=delta,
+            independent_reload=result.returncode == 0,
+            adapter_manifest_sha256=manifest,
+            numerics=self.numerics,
+        )
 
 
-def load_training_selection(manifest_path, prepared_path, tokenizer):
-    """Reuse frozen M7 selection; reject mixed prepared bundles before use."""
+def _rows_from_prepared_smoke(selected, manifest, prepared, tokenizer, config):
+    """Bind E5 to the exact ordered M7 smoke bundle rather than a loose ID join."""
+    from verireason.m7_runtime import validate_smoke_bundle
+
+    validate_smoke_bundle(prepared, config)
+    selected_ids = [row["row_id"] for row in selected]
+    if prepared["sample_ids"] != selected_ids:
+        raise ValueError("prepared M7 smoke selection/order drifted")
+    prepared_rows = prepared["examples"]
+    if [row["reward_group_id"] for row in prepared_rows] != selected_ids:
+        raise ValueError("prepared M7 smoke group identity/order drifted")
+
+    rows = []
+    for row, source in zip(selected, prepared_rows, strict=True):
+        logical_path = manifest["databases"][row["db_id"]]["path"]
+        if source["gold_sql"] != row["sql"] or source["database_path"] != logical_path:
+            raise ValueError("prepared M7 smoke SQL/database identity drifted")
+        prompt = tokenizer.apply_chat_template(
+            source["messages"],
+            tokenize=False,
+            add_generation_prompt=True,
+            enable_thinking=False,
+        )
+        rows.append(
+            dict(
+                example_id=row["row_id"],
+                split="train",
+                operational_eligible=True,
+                source="frozen_m7_smoke_bundle",
+                prompt=prompt,
+                gold_sql=row["sql"],
+                database_path=logical_path,
+            )
+        )
+    return rows
+
+
+def load_training_selection(manifest_path, prepared_smoke_path, tokenizer):
+    """Reuse and verify the retained frozen M7 smoke bundle before model loading."""
     from verireason.m3_contract import sha256_file
     from verireason.m7_contract import load_m7_smoke_config, select_smoke_rows
 
@@ -173,22 +239,11 @@ def load_training_selection(manifest_path, prepared_path, tokenizer):
     if sha256_file(manifest_path) != config["data"]["training_manifest_sha256"]:
         raise ValueError("frozen training manifest mismatch")
     manifest = json.loads(Path(manifest_path).read_text())
-    prepared = json.loads(Path(prepared_path).read_text())
-    if (prepared.get("heldout_examples_loaded", 0) or prepared.get("heldout_examples_evaluated", 0)
-            or any(r.get("split") != "train" for r in prepared["examples"])):
-        raise ValueError("prepared input must be entirely training-only")
-    selected = select_smoke_rows(manifest["examples"], count=8,
-                                seed=config["data"]["selector_seed"],
-                                required_features=config["data"]["required_features"])
-    by_id = {r["sample_id"]: r for r in prepared["examples"]}
-    rows = []
-    for row in selected:
-        source = by_id[row["row_id"]]
-        prompt = tokenizer.apply_chat_template(source["messages"], tokenize=False,
-                                              add_generation_prompt=True, enable_thinking=False)
-        rows.append(dict(
-            example_id=row["row_id"], split="train", operational_eligible=True,
-            source="frozen_training_manifest", prompt=prompt, gold_sql=row["sql"],
-            database_path=manifest["databases"][row["db_id"]]["path"],
-        ))
-    return rows
+    prepared = json.loads(Path(prepared_smoke_path).read_text())
+    selected = select_smoke_rows(
+        manifest["examples"],
+        count=8,
+        seed=config["data"]["selector_seed"],
+        required_features=config["data"]["required_features"],
+    )
+    return _rows_from_prepared_smoke(selected, manifest, prepared, tokenizer, config)

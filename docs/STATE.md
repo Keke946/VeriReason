@@ -521,8 +521,13 @@ Last updated: 2026-10-21
   These are CPU/synthetic results only. Real E1 training coverage remains unknown/null.
 - Evidence: `results/e5/e5-cpu-runner.json`; implementation/limits: `docs/E5_RUNNER.md`.
   Research decision remains Revise; no GPU/cloud/paid resource or validation/heldout payload read.
+- Local control found and fixed one launch blocker before cloud use: E5 now consumes the retained
+  ordered eight-prompt M7 `prepared-bundle.json` and matches its sample/group IDs, gold SQL and
+  logical database paths to the frozen selector/manifest. It no longer loosely rejoins a full
+  prepared-train file by ID. The branch still requires exact-runtime verification before launch.
 
 ## Exactly one next action
 
-Local control reviews the new E5 runner/CPU receipt and retained-input launch packet before
-explicitly authorizing prospective GPU capture, pre-update review and conditional smoke updates.
+Confirm the retained M7 eight-prompt prepared bundle exists, then run the exact-runtime preflight
+and seek explicit authorization for prospective GPU capture, pre-update review and conditional
+smoke updates.

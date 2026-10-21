@@ -80,15 +80,17 @@ Local control must stop or bound the retained resource as specified by the exist
 
 `scripts/run_e5_smoke.py --help` is safe and loads no model stack. The actual entry requires a
 clean exact approved commit on `codex/e5-cpu-feasibility`, original paid-start timestamp, frozen
-training manifest/prepared-train inputs, retained base/adapter/databases, expected E1 adapter
+training manifest and retained M7 eight-prompt `prepared-bundle.json`, retained
+base/adapter/databases, expected E1 adapter
 manifest, and private session directory. It provisions nothing and allows no download. A POSIX
 deadline alarm bounds the remaining time in the original 60-minute window, including resumed
 review. Changing the timestamp is rejected by resume context equality.
 
-The existing M7 outcome-blind selector and manifest identity are reused. Only eligible train rows
-are selected; a prepared bundle containing validation/heldout rows is rejected. The upstream
-training-source manifest is the existing mixed train/development source container, not a reason
-to consume validation rows. No validation raw file or heldout manifest is opened.
+The existing M7 outcome-blind selector and manifest identity are reused. The runner requires the
+retained eight-prompt M7 smoke bundle, validates its count, ordered sample/group IDs, SQL and
+logical database paths against the deterministic selector and frozen training manifest, and uses
+its original messages. It does not accept a loose full prepared-train file or silently rejoin rows
+by ID. No validation raw file or heldout manifest is opened.
 
 The HF backend directly calls model.generate for four completions at a time, captures its returned
 IDs before decoding, retains EOS/padding/truncation, executes only the training database, and
