@@ -1698,7 +1698,7 @@ experiments:
     status: completed
     git_commit: ""
     config: configs/e7_repair_sft_data.toml
-    dataset_version: "Authored SQLite CPU fixtures only; real M4/BIRD training yield not yet measured"
+    dataset_version: "Authored SQLite fixtures plus fixed 256-source M7 formal training bundle over retained M2/BIRD training databases"
     model: "None; data construction only"
     hardware: "Local CPU; no cloud or GPU"
     started_at: "2026-10-23"
@@ -1706,21 +1706,23 @@ experiments:
     artifacts:
       - docs/E7_REPAIR_SFT_DATA.md
       - results/e7/e7-repair-sft-data-feasibility.json
+      - results/e7/e7-repair-sft-real-summary.json
     metrics:
-      source_examples: 4
-      databases: 2
-      verified_repair_examples: 12
-      keep_examples: 4
-      wrong_column_examples: 4
-      wrong_table_examples: 4
-      wrong_alias_examples: 4
-      real_training_yield: null
+      source_examples: 256
+      databases: 52
+      verified_repair_examples: 688
+      keep_examples: 256
+      wrong_column_examples: 240
+      wrong_table_examples: 256
+      wrong_alias_examples: 192
+      repair_examples_per_source: 2.6875
+      real_training_yield_known: true
       optimizer_updates: 0
       validation_payloads_read: 0
       heldout_payloads_read: 0
       gpu_runs: 0
       cloud_cost_cny: 0
-    notes: "Authored CPU interface gate passed. Successful/equivalent semantic mutations are intentionally excluded; only actionable execution/syntax failures become repair supervision. KEEP targets address E6 damage. Real BIRD yield remains unknown because retained M4 training artifacts are absent locally."
+    notes: "Authored CPU interface gate and fixed M7-formal real materialization passed. Successful/equivalent semantic mutations remain excluded; only actionable execution/syntax failures become repair supervision. KEEP targets address E6 damage. Private SQL data remains mode 0600 outside Git; public evidence is aggregate and SQL-free."
 
 # experiment_id:
 #   objective: ""

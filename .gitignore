@@ -78,3 +78,4 @@ results/e5/*
 !results/e7/
 results/e7/*
 !results/e7/e7-repair-sft-data-feasibility.json
+!results/e7/e7-repair-sft-real-summary.json

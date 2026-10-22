@@ -232,9 +232,9 @@ demonstrates basic repair competence and a measurable feedback advantage.
 E7 completed that CPU-first data/interface review. It constructs training-only repair supervision
 only from execution-verified, single typed corruptions and pairs it with KEEP supervision for
 already-correct queries. The authored fixture gate passed with 12 repairs and four KEEP examples;
-real BIRD yield is still unknown because the required retained training artifacts are not local.
-The next step is real training-only materialization, not GPU training. Repair-action RL remains
-unauthorized.
+the subsequent fixed 256-source BIRD training materialization produced 688 verified repairs and
+256 KEEP examples across 52 databases. The next step is a CPU-reviewed, source-disjoint and
+class-balanced repair-SFT smoke protocol, not repair-action RL.
 
 | Upgrade | Extra time | Entry gate | Research content | Failure-safe outcome |
 |---|---:|---|---|---|

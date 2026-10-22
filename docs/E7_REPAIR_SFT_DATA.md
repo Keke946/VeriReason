@@ -62,15 +62,27 @@ Experiment `e7_repair_sft_data_feasibility_001` passed its authored-interface ga
 Evidence: `results/e7/e7-repair-sft-data-feasibility.json`.
 
 This proves that construction, execution filtering, privacy boundaries and no-op supervision work
-on authored SQLite fixtures. The Mac does not contain the retained BIRD databases, so real training
-yield and mutation coverage remain unknown. The retained cloud disk does contain the fixed M7
-formal training bundle and M2 databases; those inputs are the next bounded materialization source.
+on authored SQLite fixtures.
+
+## Real training-only materialization
+
+The fixed M7 formal bundle was subsequently materialized against the retained M2/BIRD training
+databases without model loading or optimizer updates. Its 256 source examples span 52 databases and
+produced 688 execution-verified repair examples plus 256 KEEP examples:
+
+| Mutation | Accepted examples |
+|---|---:|
+| Wrong column | 240 |
+| Wrong table | 256 |
+| Wrong alias | 192 |
+
+All construction checks passed. Validation and heldout reads remained 0/0. The private 4.0 MB
+dataset remains outside Git with mode `0600`; the committed SQL-free receipt is
+`results/e7/e7-repair-sft-real-summary.json`.
 
 ## Stop conditions and next gate
 
-Real materialization must stop rather than adjust the policy if the retained training bundle or
-database root is absent, source rows are not training-only, paths escape the root, gold execution
-fails, or private output cannot be protected. A later training proposal requires a SQL-free real
-yield receipt, inspection of a private sample, a fixed train/analysis split inside the training
-partition, and a separate user-approved compute plan. E7 does not authorize cloud access or GPU
-training by itself.
+The real-yield gate is now satisfied. A later training proposal still requires a fixed
+source-group-disjoint train/audit split inside the training partition, balanced repair/KEEP
+sampling, baseline-versus-adapter evaluation, and a separate user-approved compute plan. E7 does
+not authorize repair-action RL by itself.

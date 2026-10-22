@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "experiment_id": "e7_repair_sft_data_feasibility_001",
+  "status": "pass",
+  "evidence_scope": "m7_formal_training_materialization",
+  "source_examples": 256,
+  "repair_examples": 688,
+  "keep_examples": 256,
+  "databases": 52,
+  "mutation_counts": {
+    "wrong_alias": 192,
+    "wrong_column": 240,
+    "wrong_table": 256
+  },
+  "gate_checks": {
+    "source_examples": true,
+    "repair_examples": true,
+    "keep_examples": true,
+    "mutation_types": true,
+    "databases": true,
+    "all_train": true,
+    "all_verified": true
+  },
+  "real_training_yield_known": true,
+  "optimizer_updates": 0,
+  "validation_payloads_read": 0,
+  "heldout_payloads_read": 0,
+  "privacy": {
+    "sql_included": false,
+    "questions_included": false,
+    "sample_ids_included": false,
+    "database_ids_included": false
+  }
+}

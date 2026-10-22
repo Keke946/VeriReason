@@ -966,6 +966,7 @@ Decisions are append-only. If a decision changes, add a superseding entry rather
   supervised warm-up can teach the new action before more RL, but semantic corruption labels would
   rely on gold-dependent information unavailable at inference. KEEP supervision explicitly trains
   the behavior that E6 lacked.
-- Consequence: The authored CPU gate validates the construction interface only. Real BIRD coverage
-  and yield must be measured from retained M4 training artifacts before a training design or cloud
-  budget is approved. E7 neither changes E1-E4 nor authorizes repair-action RL.
+- Consequence: The authored CPU gate validated the interface; the subsequent fixed M7 formal
+  training materialization measured 688 repair and 256 KEEP examples across 52 BIRD training
+  databases. This permits design review of a bounded repair-SFT smoke, but neither changes E1-E4
+  nor authorizes repair-action RL.

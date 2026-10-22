@@ -543,10 +543,10 @@ Last updated: 2026-10-23
 
 ## Exactly one next action
 
-Materialize the frozen E7 repair-SFT construction against the retained M4 training-only bundle and
-BIRD training databases, producing a private dataset plus SQL-free real-yield receipt. This needs a
-separate cloud-access approval because the required artifacts are absent from the Mac. Do not train
-or read validation/Mini-Dev during that materialization.
+Design and CPU-test a bounded repair-SFT smoke protocol over the completed E7 private dataset. The
+split must be source-group-disjoint, training must balance repair and KEEP behavior, and evaluation
+must compare the unchanged E1 baseline with the new adapter on identical training-only audit cases.
+Do not start GPU training until that protocol and its budget are reviewed.
 
 ## E6 execution-feedback repair probe
 
@@ -579,6 +579,10 @@ or read validation/Mini-Dev during that materialization.
 - The authored CPU gate passed on four examples across two SQLite databases: 12 verified repairs
   (four each for wrong column/table/alias) and four KEEP examples. No optimizer, model, cloud,
   validation or heldout data was used.
-- This is an interface result, not BIRD coverage. The real M4 prepared training bundle and BIRD
-  databases are absent locally, so real yield remains unknown. Protocol and evidence:
-  `docs/E7_REPAIR_SFT_DATA.md` and `results/e7/e7-repair-sft-data-feasibility.json`.
+- Real materialization then used the fixed 256-example M7 formal training bundle across 52 BIRD
+  training databases. It produced 688 repair examples (240 wrong-column, 256 wrong-table, 192
+  wrong-alias) and 256 KEEP examples; every gate passed, optimizer updates remained zero, and
+  validation/heldout reads remained 0/0.
+- Protocol and SQL-free evidence: `docs/E7_REPAIR_SFT_DATA.md`,
+  `results/e7/e7-repair-sft-data-feasibility.json`, and
+  `results/e7/e7-repair-sft-real-summary.json`. The private dataset remains mode 0600 outside Git.
