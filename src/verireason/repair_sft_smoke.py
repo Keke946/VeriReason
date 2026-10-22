@@ -89,13 +89,13 @@ def prepare_repair_sft_split(
         raise ValueError("database split is degenerate")
 
     train: list[dict[str, Any]] = []
-    audit: list[dict[str, Any]] = []
+    audit_pool: list[dict[str, Any]] = []
     train_sources: set[str] = set()
     audit_sources: set[str] = set()
     for source_id in sorted(by_source):
         rows = by_source[source_id]
         if source_database[source_id] in audit_databases:
-            audit.extend(sorted(rows, key=lambda row: str(row["record_id"])))
+            audit_pool.extend(sorted(rows, key=lambda row: str(row["record_id"])))
             audit_sources.add(source_id)
             continue
         repairs = sorted(
@@ -111,6 +111,25 @@ def prepare_repair_sft_split(
         raise RuntimeError("E8 split leakage detected")
     if sum(row["kind"] == "repair" for row in train) != sum(row["kind"] == "keep" for row in train):
         raise RuntimeError("E8 training set is not repair/KEEP balanced")
+    evaluation = config["evaluation"]
+    audit: list[dict[str, Any]] = []
+    for database in sorted(audit_databases):
+        database_rows = [row for row in audit_pool if row["db_id"] == database]
+        for kind, count_key in (("repair", "repairs_per_database"), ("keep", "keeps_per_database")):
+            candidates = sorted(
+                (row for row in database_rows if row["kind"] == kind),
+                key=lambda row: (
+                    _rank(split["seed"] + ":audit", str(row["record_id"])),
+                    str(row["record_id"]),
+                ),
+            )
+            required = int(evaluation[count_key])
+            if len(candidates) < required:
+                raise ValueError(f"audit database lacks required {kind} examples")
+            audit.extend(candidates[:required])
+    if len(audit) != int(evaluation["expected_audit_records"]):
+        raise RuntimeError("E8 selected audit count drifted")
+    selected_audit_sources = {str(row["source_sample_id"]) for row in audit}
     private = {
         "schema_version": 1,
         "experiment_id": EXPERIMENT_ID,
@@ -122,13 +141,16 @@ def prepare_repair_sft_split(
         "experiment_id": EXPERIMENT_ID,
         "status": "prepared",
         "train_sources": len(train_sources),
-        "audit_sources": len(audit_sources),
+        "audit_sources": len(selected_audit_sources),
+        "audit_pool_sources": len(audit_sources),
         "train_databases": len(train_databases),
         "audit_databases": len(audit_databases),
         "train_repair_examples": sum(row["kind"] == "repair" for row in train),
         "train_keep_examples": sum(row["kind"] == "keep" for row in train),
         "audit_repair_examples": sum(row["kind"] == "repair" for row in audit),
         "audit_keep_examples": sum(row["kind"] == "keep" for row in audit),
+        "audit_pool_repair_examples": sum(row["kind"] == "repair" for row in audit_pool),
+        "audit_pool_keep_examples": sum(row["kind"] == "keep" for row in audit_pool),
         "database_overlap": 0,
         "source_overlap": 0,
         "validation_payloads_read": 0,

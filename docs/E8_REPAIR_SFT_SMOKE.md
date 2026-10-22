@@ -16,7 +16,8 @@ loaded.
 
 Training is exactly one epoch. Each training source contributes one deterministic repair example
 and its one KEEP example, producing a 1:1 action balance. Other repair variants are not silently
-used. The audit partition retains all repair variants and its KEEP examples.
+used. The audit pool retains all variants; the measured smoke deterministically selects four
+repairs and two KEEP cases from each of the ten audit databases (60 cases total).
 
 ## Comparison
 
@@ -46,7 +47,7 @@ outputs.
 
 ## Compute plan
 
-Reuse one RTX 4090 D 48 GB, the immutable E1 adapter and the existing 4-bit QLoRA stack. Planning
-estimate is 30 minutes; hard stop is 60 minutes or CNY 2.59 at the historical rate. This document
-does not authorize launch. A runner/reload contract and the real split receipt must pass before a
-GPU start.
+Reuse one RTX 4090 D 48 GB, the immutable E1 adapter and the existing 4-bit QLoRA stack. The fixed
+60-case four-cell audit requires 240 completions. Planning estimate is 60–90 minutes; hard stop is
+120 minutes or CNY 5.18 at the historical rate. This document does not authorize launch. A
+runner/reload contract and the real split receipt must pass before a GPU start.

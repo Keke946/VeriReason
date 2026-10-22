@@ -33,6 +33,9 @@ conditions = ["e1_baseline", "repair_sft"]
 arms = ["feedback", "control"]
 generation = "greedy"
 maximum_new_tokens = 384
+repairs_per_database = 4
+keeps_per_database = 2
+expected_audit_records = 60
 
 [gate]
 minimum_adapter_feedback_repairs = 5
@@ -44,8 +47,7 @@ maximum_keep_rate_drop_vs_e1 = 0.05
 require_zero_unsafe_actions = true
 
 [budget]
-expected_minutes = 30
-maximum_minutes = 60
+expected_minutes = 90
+maximum_minutes = 120
 planning_rate_cny_per_hour = 2.59
-maximum_cost_cny = 2.59
-
+maximum_cost_cny = 5.18
