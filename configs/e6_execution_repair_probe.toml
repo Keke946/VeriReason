@@ -1,0 +1,44 @@
+schema_version = 1
+status = "precloud_preregistered"
+experiment_id = "e6_execution_repair_probe_001"
+
+[source]
+experiment_id = "e5_capture_audit_smoke_001"
+parent = "e1_m4_formal_sft_001"
+initial_states = 32
+training_examples = 8
+validation_payloads_read = 0
+heldout_payloads_read = 0
+
+[model]
+model_id = "Qwen/Qwen3-4B-Base"
+revision = "906bfd4b4dc7f14ee4320094d8b41684abff8539"
+adapter_experiment_id = "e1_m4_formal_sft_001"
+adapter_manifest = "849379289b37acac3f9435d9a2f16053418827deb21b502e3f62d8cfc2e9aead"
+
+[generation]
+arms = ["feedback", "control"]
+completions_per_arm = 2
+maximum_new_tokens = 384
+temperature = 1.0
+top_p = 1.0
+top_k = 0
+seed = 29
+
+[feedback]
+maximum_preview_rows = 3
+maximum_preview_characters = 1200
+
+[gate]
+minimum_feedback_only_repaired_states = 2
+minimum_distinct_feedback_only_examples = 2
+minimum_feedback_mixed_states = 2
+require_more_feedback_than_control_repairs = true
+require_no_excess_feedback_damage = true
+require_zero_unsafe_actions = true
+
+[evidence]
+maximum_session_wall_seconds = 3600
+planning_rate_cny_per_hour = 2.59
+maximum_session_cost_cny = 2.59
+optimizer_updates = 0

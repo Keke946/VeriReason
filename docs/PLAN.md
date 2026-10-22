@@ -222,6 +222,13 @@ optimizer updates. This closes the current clause-localized E5 design as a contr
 feasibility result. It must not be rescued through sample replacement, validation tuning or relaxed
 post-hoc thresholds.
 
+E6 is a bounded follow-up under the existing multi-turn execution-correction research option. Its
+first gate is not RL: it reuses the 32 fixed private E5 states and compares equal-budget one-step
+repair with versus without bounded execution feedback. The model, source states, seeds, generation
+budget and strict evaluator are held constant. No update is permitted in this phase. A positive
+paired signal only authorizes design review for repair-action training; a null or negative result
+closes the direction without a larger run.
+
 | Upgrade | Extra time | Entry gate | Research content | Failure-safe outcome |
 |---|---:|---|---|---|
 | U1 Clause-aware credit and informative-group sampling | 4–6 days | E2 and E4 are stable and the reward parser passes adversarial tests | EXPO-SQL-inspired clause/token credit plus DAPO/ReViSQL-inspired filtering of constant-reward groups | Core report remains complete; publish the failed/negative ablation |

@@ -1,6 +1,6 @@
 # Current Project State
 
-Last updated: 2026-10-21
+Last updated: 2026-10-22
 
 ## Current phase
 
@@ -543,6 +543,23 @@ Last updated: 2026-10-21
 
 ## Exactly one next action
 
-Close this E5 branch as a controlled negative feasibility result, then control-review whether a
-materially different credit-assignment design is justified; do not scale or tune the failed
-single-clause localizer on validation data.
+Run the preregistered, zero-update E6 paired repair probe on the retained 32 training-only E5
+states. Compare two completions with bounded execution feedback against two completions with the
+same repair instruction but no feedback; do not train, replace states, or access validation or
+heldout data.
+
+## E6 execution-feedback repair probe
+
+- The failed E5 localizer is closed and unchanged. E6 tests a materially different hypothesis:
+  whether bounded database execution feedback helps the fixed E1 model repair an already generated
+  SQL statement better than an equal-budget no-feedback second attempt.
+- Inputs are the exact 32 private training-only states captured by E5. Each state receives two
+  feedback-arm and two control-arm completions with paired seeds. The original SQL is frozen; only
+  the new repair action is generated and scored by strict execution correctness.
+- This is inference-only: zero optimizer creation and zero policy updates. The preregistered gate
+  requires feedback-only repairs on at least two states from two source examples, at least two
+  mixed feedback states, more repaired completions than control, no excess damage, and no unsafe
+  execution. Passing only justifies a later training-design review.
+- Config and protocol: `configs/e6_execution_repair_probe.toml` and
+  `docs/E6_REPAIR_PROBE.md`. Paid execution is authorized separately by BiBo's 2026-10-22 launch
+  instruction; actual measurements and spend remain pending.

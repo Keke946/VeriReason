@@ -1657,6 +1657,27 @@ experiments:
       cloud_cost_cny: 0
     notes: "CPU implementation gate passes; overall research remains Revise. Actual inherited TRL loss/autograd, HF wrapper and Trainer GAS are tested. Reload hydrates LoRA in a distinct CPU process with base on meta, not full-base inference. Prospective thresholds unchanged; original E1-E4 runners/configs/results unchanged. Two M8 constructor tests only add use_cpu placement. Parent 786a89a; containing commit supplied in handoff. No launch authorized."
 
+  e6_execution_repair_probe_001:
+    objective: "Measure whether bounded execution feedback improves one-step repair over an equal-budget no-feedback retry on fixed real E1 outputs."
+    status: planned
+    git_commit: ""
+    config: configs/e6_execution_repair_probe.toml
+    dataset_version: "Exact 32 private training-only states from e5_capture_audit_smoke_001; retained ordered M7 eight-prompt bundle"
+    model: "Qwen3-4B-Base plus immutable e1_m4_formal_sft_001 adapter"
+    hardware: "Planned Xiangongyun 1x NVIDIA GeForce RTX 4090 D 48 GB; inference only"
+    started_at: ""
+    completed_at: ""
+    artifacts:
+      - docs/E6_REPAIR_PROBE.md
+    metrics:
+      source_states: 32
+      feedback_completions_planned: 64
+      control_completions_planned: 64
+      optimizer_steps_allowed: 0
+      validation_payloads_allowed: 0
+      heldout_payloads_allowed: 0
+    notes: "Preregistered paired inference probe. Two completions per arm use paired per-state seeds; strict execution reward remains terminal. Passing only permits later repair-action training design review."
+
 # experiment_id:
 #   objective: ""
 #   status: planned | running | completed | failed | stopped

@@ -920,3 +920,20 @@ Decisions are append-only. If a decision changes, add a superseding entry rather
 - Consequence: Preserve the complete v1 result and publish E5 as a controlled negative extension.
   Any further experiment must pose a materially different credit-assignment hypothesis and receive
   a new CPU/pre-cloud review; it may not be framed as a retry of this failed gate.
+
+## ADR-067 — Test execution feedback before training a repair policy
+
+- Date: 2026-10-22
+- Status: accepted for a bounded inference-only probe
+- Decision: Reuse all 32 fixed private E5 training states and compare one-step SQL repair with
+  bounded execution feedback against an equal-budget no-feedback control. Generate two completions
+  per arm with paired seeds, preserve the original SQL as context, score only the new action with
+  strict execution correctness, and perform zero optimizer updates.
+- Rationale: E5 failed because reliable blame could not be assigned to tokens in the original SQL.
+  Execution feedback may still be useful as an observation for a new repair action. A paired
+  inference test isolates that value before implementing or paying for repair-action RL, while the
+  no-feedback arm controls for the benefit of merely giving the model a second attempt.
+- Consequence: Passing the frozen gate permits only a later training-design review, not a claim of
+  RL improvement. A null or negative result closes the direction. The probe cannot replace states,
+  open validation/Mini-Dev, reward mere executability, or reinterpret resource failures as semantic
+  error localization.
