@@ -937,3 +937,18 @@ Decisions are append-only. If a decision changes, add a superseding entry rather
   RL improvement. A null or negative result closes the direction. The probe cannot replace states,
   open validation/Mini-Dev, reward mere executability, or reinterpret resource failures as semantic
   error localization.
+
+## ADR-068 — Stop direct zero-shot repair before repair-action RL
+
+- Date: 2026-10-22
+- Status: accepted negative feasibility result
+- Decision: Stop `e6_execution_repair_probe_001` with zero optimizer updates. Do not scale the
+  sample, increase generation count, tune its prompt on validation, or implement repair-action RL
+  from this result.
+- Rationale: Across the fixed 19 initially wrong states, neither 64-completion arm produced a
+  single repair. Feedback therefore provided no observable advantage over an equal-budget retry.
+  It also damaged six initially correct completions versus five for control. Safety and output
+  format were acceptable, but they do not substitute for successful repair behavior.
+- Consequence: Any continuation must pose a new, CPU-reviewed hypothesis: first teach repair
+  competence with training-only supervised pairs, then rerun a feedback-versus-control gate. Only
+  a positive paired signal may reopen repair-action RL. E1-E4 and the v1 release remain unchanged.

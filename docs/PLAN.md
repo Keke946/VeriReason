@@ -222,12 +222,12 @@ optimizer updates. This closes the current clause-localized E5 design as a contr
 feasibility result. It must not be rescued through sample replacement, validation tuning or relaxed
 post-hoc thresholds.
 
-E6 is a bounded follow-up under the existing multi-turn execution-correction research option. Its
-first gate is not RL: it reuses the 32 fixed private E5 states and compares equal-budget one-step
-repair with versus without bounded execution feedback. The model, source states, seeds, generation
-budget and strict evaluator are held constant. No update is permitted in this phase. A positive
-paired signal only authorizes design review for repair-action training; a null or negative result
-closes the direction without a larger run.
+E6 completed the bounded inference-only gate on the 32 fixed private E5 states. Neither the
+feedback nor the equal-budget no-feedback arm repaired any initially wrong state, while feedback
+damaged one additional initially correct completion. The frozen gate failed and zero updates were
+made. Direct zero-shot repair is therefore closed without a larger run. A future repair-SFT
+warm-up may be reviewed CPU-first, but repair-action RL remains unauthorized until the model first
+demonstrates basic repair competence and a measurable feedback advantage.
 
 | Upgrade | Extra time | Entry gate | Research content | Failure-safe outcome |
 |---|---:|---|---|---|

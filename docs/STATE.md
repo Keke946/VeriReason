@@ -543,10 +543,9 @@ Last updated: 2026-10-22
 
 ## Exactly one next action
 
-Run the preregistered, zero-update E6 paired repair probe on the retained 32 training-only E5
-states. Compare two completions with bounded execution feedback against two completions with the
-same repair instruction but no feedback; do not train, replace states, or access validation or
-heldout data.
+Close E6 as a controlled negative inference result, then perform a CPU-only design review for a
+small repair-SFT warm-up. Do not implement repair-action RL or start another GPU run unless a later
+gate first demonstrates basic repair competence and a feedback advantage over the no-feedback arm.
 
 ## E6 execution-feedback repair probe
 
@@ -556,10 +555,14 @@ heldout data.
 - Inputs are the exact 32 private training-only states captured by E5. Each state receives two
   feedback-arm and two control-arm completions with paired seeds. The original SQL is frozen; only
   the new repair action is generated and scored by strict execution correctness.
-- This is inference-only: zero optimizer creation and zero policy updates. The preregistered gate
-  requires feedback-only repairs on at least two states from two source examples, at least two
-  mixed feedback states, more repaired completions than control, no excess damage, and no unsafe
-  execution. Passing only justifies a later training-design review.
+- The completed inference-only run evaluated 32 states and 128 repair completions in 386.72
+  seconds, peaking at 4,606 MiB. Feedback and control each produced zero repairs on the 19 initially
+  wrong states. Feedback damaged six initially correct completions versus five for control; both
+  arms had 63/64 strict-format outputs and zero unsafe actions.
+- The preregistered gate failed feedback-only repair, distinct-example, repair-advantage and damage
+  checks. It passed only mixed-signal and safety checks. The run stopped with zero optimizer
+  updates and zero validation/heldout reads. This is evidence against direct zero-shot repair with
+  this interface, not evidence that every execution-feedback method is ineffective.
 - Config and protocol: `configs/e6_execution_repair_probe.toml` and
-  `docs/E6_REPAIR_PROBE.md`. Paid execution is authorized separately by BiBo's 2026-10-22 launch
-  instruction; actual measurements and spend remain pending.
+  `docs/E6_REPAIR_PROBE.md`; SQL-free evidence:
+  `results/e6/e6-repair-probe-summary.json`. Provider invoice cost remains pending.

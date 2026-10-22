@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "experiment_id": "e6_execution_repair_probe_001",
+  "status": "stop_or_revise",
+  "initial_states": 32,
+  "initial_correct": 13,
+  "initial_wrong": 19,
+  "per_arm": {
+    "feedback": {
+      "completions": 64,
+      "repaired_completions": 0,
+      "wrong_state_completions": 38,
+      "damaged_completions": 6,
+      "correct_state_completions": 26,
+      "repaired_states_any": 0,
+      "damaged_states_any": 5,
+      "mixed_states": 4,
+      "strict_outputs": 63,
+      "unsafe_actions": 0,
+      "resource_limited_actions": 0,
+      "final_statuses": {
+        "ok": 48,
+        "execution_error": 13,
+        "invalid_format": 1,
+        "syntax_error": 2
+      }
+    },
+    "control": {
+      "completions": 64,
+      "repaired_completions": 0,
+      "wrong_state_completions": 38,
+      "damaged_completions": 5,
+      "correct_state_completions": 26,
+      "repaired_states_any": 0,
+      "damaged_states_any": 5,
+      "mixed_states": 5,
+      "strict_outputs": 63,
+      "unsafe_actions": 0,
+      "resource_limited_actions": 0,
+      "final_statuses": {
+        "ok": 45,
+        "execution_error": 15,
+        "invalid_format": 1,
+        "syntax_error": 3
+      }
+    }
+  },
+  "feedback_only_repaired_states": 0,
+  "control_only_repaired_states": 0,
+  "distinct_feedback_only_examples": 0,
+  "gate_checks": {
+    "feedback_only_repairs": false,
+    "distinct_examples": false,
+    "mixed_feedback_states": true,
+    "repair_advantage": false,
+    "damage_control": false,
+    "safe": true
+  },
+  "gate_passed": false,
+  "optimizer_updates": 0,
+  "validation_payloads_read": 0,
+  "heldout_payloads_read": 0,
+  "source_experiment_id": "e5_capture_audit_smoke_001",
+  "source_commit": "1cc57f538fbe807fb0bda120b2755644fe3dd4e1",
+  "initial_statuses": {
+    "ok": 24,
+    "execution_error": 6,
+    "syntax_error": 2
+  },
+  "wall_seconds": 386.72402119636536,
+  "peak_gpu_memory_mib": 4606
+}

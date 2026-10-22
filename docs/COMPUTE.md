@@ -241,10 +241,11 @@ Post-v1 E5 `e5_capture_audit_smoke_001` completed its real-rollout gate with zer
 and is closed as a negative feasibility result. Its actual provider charge is still pending and
 must be recorded from the provider invoice rather than inferred from program time.
 
-E6 `e6_execution_repair_probe_001` is an inference-only paired probe on the retained 32 private E5
-states: 64 feedback and 64 no-feedback repair completions, zero training. Planning estimate is
-20-40 minutes on one retained 48-GB 4090 D, with a 60-minute program ceiling and CNY 2.59 reference
-ceiling at the historical rate. Reconfirm price and retained inputs before model load. No restart,
-sample replacement, or larger run is authorized by a failed or incomplete probe.
+E6 `e6_execution_repair_probe_001` completed its inference-only paired probe on the retained 32
+private E5 states: 64 feedback and 64 no-feedback repair completions, zero training. The successful
+attempt used 386.72 program seconds and peaked at 4,606 MiB on one 48-GB 4090 D. A first attempt
+stopped before model loading or generation because the retained Hugging Face cache path was not in
+the process environment. Actual provider charges remain pending and must not be inferred from
+program time. The failed research gate authorizes no restart, sample replacement or larger run.
 
 Every paid session is appended to `experiments/spend.csv` with provider, GPU, purpose, experiment IDs, start/end time, and actual cost. Planned and actual cost are separate fields.

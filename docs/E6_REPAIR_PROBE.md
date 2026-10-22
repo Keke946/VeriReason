@@ -48,3 +48,12 @@ training design is worth reviewing; it does not authorize RL training or claim v
 One retained 48 GB GPU, fixed Qwen3-4B-Base + E1 adapter, 128 new repair completions. Expected wall
 time is 20--40 minutes; the cumulative program ceiling is 60 minutes / CNY 2.59 at the historical
 rate. Model/data/cache inputs must already exist, and the output directory must be fresh and private.
+
+## Measured result
+
+The fixed probe completed all 32 states and 128 repair completions. Neither arm repaired any of the
+19 initially wrong states. Feedback damaged six initially correct completions, compared with five
+for control; both arms produced 63/64 strict outputs and zero unsafe actions. The frozen gate failed
+and the run stopped with zero optimizer updates and zero validation/heldout reads. Program time was
+386.72 seconds and peak GPU memory was 4,606 MiB. See
+`results/e6/e6-repair-probe-summary.json` for the SQL-free aggregate evidence.

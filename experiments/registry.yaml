@@ -1659,24 +1659,39 @@ experiments:
 
   e6_execution_repair_probe_001:
     objective: "Measure whether bounded execution feedback improves one-step repair over an equal-budget no-feedback retry on fixed real E1 outputs."
-    status: planned
-    git_commit: ""
+    status: stopped
+    git_commit: "1cc57f538fbe807fb0bda120b2755644fe3dd4e1"
     config: configs/e6_execution_repair_probe.toml
     dataset_version: "Exact 32 private training-only states from e5_capture_audit_smoke_001; retained ordered M7 eight-prompt bundle"
     model: "Qwen3-4B-Base plus immutable e1_m4_formal_sft_001 adapter"
-    hardware: "Planned Xiangongyun 1x NVIDIA GeForce RTX 4090 D 48 GB; inference only"
-    started_at: ""
-    completed_at: ""
+    hardware: "Xiangongyun; 1x NVIDIA GeForce RTX 4090 D 48 GB; inference only; 4606 MiB measured peak"
+    started_at: "2026-10-22"
+    completed_at: "2026-10-22"
     artifacts:
       - docs/E6_REPAIR_PROBE.md
+      - results/e6/e6-repair-probe-summary.json
     metrics:
       source_states: 32
-      feedback_completions_planned: 64
-      control_completions_planned: 64
-      optimizer_steps_allowed: 0
-      validation_payloads_allowed: 0
-      heldout_payloads_allowed: 0
-    notes: "Preregistered paired inference probe. Two completions per arm use paired per-state seeds; strict execution reward remains terminal. Passing only permits later repair-action training design review."
+      initial_correct: 13
+      initial_wrong: 19
+      feedback_completions: 64
+      control_completions: 64
+      feedback_repaired_completions: 0
+      control_repaired_completions: 0
+      feedback_damaged_completions: 6
+      control_damaged_completions: 5
+      feedback_mixed_states: 4
+      control_mixed_states: 5
+      feedback_strict_outputs: 63
+      control_strict_outputs: 63
+      unsafe_actions: 0
+      gate_passed: false
+      optimizer_updates: 0
+      validation_payloads_read: 0
+      heldout_payloads_read: 0
+      wall_seconds: 386.72402119636536
+      peak_gpu_memory_mib: 4606
+    notes: "Controlled negative result. Both arms repaired 0/38 wrong-state completions; feedback caused one more damaged correct-state completion. First launch stopped before model loading/generation because HF_HOME omitted the retained cache path; attempt 002 completed. No thresholds, samples or evaluator rules changed. Provider charge pending."
 
 # experiment_id:
 #   objective: ""
