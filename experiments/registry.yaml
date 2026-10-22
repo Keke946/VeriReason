@@ -1724,6 +1724,35 @@ experiments:
       cloud_cost_cny: 0
     notes: "Authored CPU interface gate and fixed M7-formal real materialization passed. Successful/equivalent semantic mutations remain excluded; only actionable execution/syntax failures become repair supervision. KEEP targets address E6 damage. Private SQL data remains mode 0600 outside Git; public evidence is aggregate and SQL-free."
 
+  e8_repair_sft_smoke_001:
+    objective: "Test whether a one-epoch repair/KEEP SFT warm-up creates feedback-specific repair competence without damaging correct SQL."
+    status: planned
+    git_commit: ""
+    config: configs/e8_repair_sft_smoke.toml
+    dataset_version: "Deterministic database-disjoint split of e7_repair_sft_data_feasibility_001"
+    model: "Qwen3-4B-Base plus immutable E1 parent adapter; repair-SFT adapter not yet trained"
+    hardware: "Split materialization on cloud CPU; GPU training not started"
+    started_at: ""
+    completed_at: ""
+    artifacts:
+      - docs/E8_REPAIR_SFT_SMOKE.md
+      - results/e8/e8-repair-sft-split-summary.json
+    metrics:
+      train_sources: 177
+      audit_sources: 79
+      train_databases: 42
+      audit_databases: 10
+      train_repair_examples: 177
+      train_keep_examples: 177
+      audit_repair_examples: 221
+      audit_keep_examples: 79
+      database_overlap: 0
+      source_overlap: 0
+      optimizer_updates: 0
+      validation_payloads_read: 0
+      heldout_payloads_read: 0
+    notes: "Protocol and real split are prepared. The next gate is CPU implementation/testing of the one-epoch trainer, independent adapter reload, and fixed 2x2 audit. No GPU launch or repair-action RL is authorized yet."
+
 # experiment_id:
 #   objective: ""
 #   status: planned | running | completed | failed | stopped

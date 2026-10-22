@@ -233,8 +233,14 @@ E7 completed that CPU-first data/interface review. It constructs training-only r
 only from execution-verified, single typed corruptions and pairs it with KEEP supervision for
 already-correct queries. The authored fixture gate passed with 12 repairs and four KEEP examples;
 the subsequent fixed 256-source BIRD training materialization produced 688 verified repairs and
-256 KEEP examples across 52 databases. The next step is a CPU-reviewed, source-disjoint and
-class-balanced repair-SFT smoke protocol, not repair-action RL.
+256 KEEP examples across 52 databases.
+
+E8 has now frozen and materialized the source/database-disjoint repair-SFT smoke split. Forty-two
+databases contribute a balanced 177-repair/177-KEEP one-epoch training set; ten unseen training
+databases contribute 221 repairs and 79 KEEP cases to a fixed E1-versus-adapter,
+feedback-versus-control audit. This preparation performs zero updates and reads no project
+validation or heldout payload. The next gate is a CPU-tested runner/reload contract; repair-action
+RL remains unauthorized.
 
 | Upgrade | Extra time | Entry gate | Research content | Failure-safe outcome |
 |---|---:|---|---|---|

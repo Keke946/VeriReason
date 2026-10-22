@@ -956,7 +956,7 @@ Decisions are append-only. If a decision changes, add a superseding entry rather
 ## ADR-069 — Gate repair SFT on execution-verified training-only pairs
 
 - Date: 2026-10-23
-- Status: CPU interface accepted; real-data yield pending
+- Status: accepted; real-data yield measured
 - Decision: Construct repair targets only from a correct training SQL changed by one typed AST
   mutation whose real SQLite outcome is an actionable execution/syntax failure. Add an unchanged
   correct-query `KEEP` example whenever at least one repair is accepted. Reject successfully
@@ -970,3 +970,19 @@ Decisions are append-only. If a decision changes, add a superseding entry rather
   training materialization measured 688 repair and 256 KEEP examples across 52 BIRD training
   databases. This permits design review of a bounded repair-SFT smoke, but neither changes E1-E4
   nor authorizes repair-action RL.
+
+## ADR-070 — Evaluate repair SFT on database-disjoint training-only cases
+
+- Date: 2026-10-23
+- Status: protocol and real split prepared; runner pending
+- Decision: Reserve ten E7 databases for audit by one fixed hash ranking and train on the other 42.
+  Keep every source and all its variants on one side. Train for one epoch on one deterministic
+  repair plus one KEEP example per training source. Compare immutable E1 and the resulting adapter
+  on identical audit records under both bounded-feedback and withheld-feedback prompts.
+- Rationale: A row-level split would leak schemas and near-duplicate source variants. Balancing
+  repair and KEEP actions addresses the E6 damage mode, while the no-feedback arm separates learned
+  repair competence from actual use of execution feedback.
+- Consequence: The real split contains 177 repair and 177 KEEP training rows, plus 221 repair and
+  79 KEEP audit rows with zero database/source overlap. GPU launch remains blocked until the
+  training, independent reload and four-cell evaluation runner passes its CPU contract. A failed
+  frozen evaluation gate closes this extension and does not reopen repair-action RL.

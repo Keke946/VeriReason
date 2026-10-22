@@ -543,10 +543,9 @@ Last updated: 2026-10-23
 
 ## Exactly one next action
 
-Design and CPU-test a bounded repair-SFT smoke protocol over the completed E7 private dataset. The
-split must be source-group-disjoint, training must balance repair and KEEP behavior, and evaluation
-must compare the unchanged E1 baseline with the new adapter on identical training-only audit cases.
-Do not start GPU training until that protocol and its budget are reviewed.
+Implement and CPU-test the E8 training/reload/evaluation runner against the prepared private split.
+Do not start GPU training until the runner proves answer-only masking, one-epoch update accounting,
+adapter reload, and the fixed four-cell evaluation contract on authored fixtures.
 
 ## E6 execution-feedback repair probe
 
@@ -586,3 +585,20 @@ Do not start GPU training until that protocol and its budget are reviewed.
 - Protocol and SQL-free evidence: `docs/E7_REPAIR_SFT_DATA.md`,
   `results/e7/e7-repair-sft-data-feasibility.json`, and
   `results/e7/e7-repair-sft-real-summary.json`. The private dataset remains mode 0600 outside Git.
+
+## E8 repair-SFT smoke preparation
+
+- The preregistered E8 smoke uses a deterministic database-level split, not a random row split.
+  Ten of the 52 E7 databases are reserved for a training-only audit; 42 remain for SFT. Database
+  and source overlap are both zero, and no project validation or Mini-Dev payload was opened.
+- Each training source contributes one deterministically selected verified repair plus one KEEP
+  example. The real prepared training set therefore contains 177 repairs and 177 KEEP examples.
+  The audit side retains all 221 repair variants and 79 KEEP examples from its ten databases.
+- Evaluation is frozen as immutable E1 versus the repair-SFT adapter, each with bounded execution
+  feedback and an equal-budget withheld-feedback control. Continuation requires at least five
+  repaired audit cases across three databases, +10 percentage points over E1+feedback, +5 points
+  over the adapter control, at least 90% KEEP retention, no more than five points of KEEP damage,
+  and zero unsafe actions.
+- This is prepared evidence, not a model result. No optimizer update has run. Protocol and SQL-free
+  split receipt are `docs/E8_REPAIR_SFT_SMOKE.md` and
+  `results/e8/e8-repair-sft-split-summary.json`; private rows remain mode 0600 outside Git.

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "experiment_id": "e8_repair_sft_smoke_001",
+  "status": "prepared",
+  "train_sources": 177,
+  "audit_sources": 79,
+  "train_databases": 42,
+  "audit_databases": 10,
+  "train_repair_examples": 177,
+  "train_keep_examples": 177,
+  "audit_repair_examples": 221,
+  "audit_keep_examples": 79,
+  "database_overlap": 0,
+  "source_overlap": 0,
+  "validation_payloads_read": 0,
+  "heldout_payloads_read": 0,
+  "privacy": {
+    "sql_included": false,
+    "questions_included": false,
+    "sample_ids_included": false,
+    "database_ids_included": false
+  }
+}
