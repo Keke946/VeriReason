@@ -229,6 +229,13 @@ made. Direct zero-shot repair is therefore closed without a larger run. A future
 warm-up may be reviewed CPU-first, but repair-action RL remains unauthorized until the model first
 demonstrates basic repair competence and a measurable feedback advantage.
 
+E7 completed that CPU-first data/interface review. It constructs training-only repair supervision
+only from execution-verified, single typed corruptions and pairs it with KEEP supervision for
+already-correct queries. The authored fixture gate passed with 12 repairs and four KEEP examples;
+real BIRD yield is still unknown because the required retained training artifacts are not local.
+The next step is real training-only materialization, not GPU training. Repair-action RL remains
+unauthorized.
+
 | Upgrade | Extra time | Entry gate | Research content | Failure-safe outcome |
 |---|---:|---|---|---|
 | U1 Clause-aware credit and informative-group sampling | 4–6 days | E2 and E4 are stable and the reward parser passes adversarial tests | EXPO-SQL-inspired clause/token credit plus DAPO/ReViSQL-inspired filtering of constant-reward groups | Core report remains complete; publish the failed/negative ablation |

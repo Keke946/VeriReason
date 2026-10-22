@@ -75,3 +75,6 @@ results/e5/*
 !results/e5/e5-cpu-interface.json
 !results/e5/e5-cpu-runner.json
 !results/e5/e5-gpu-smoke-summary.json
+!results/e7/
+results/e7/*
+!results/e7/e7-repair-sft-data-feasibility.json

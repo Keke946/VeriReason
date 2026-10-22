@@ -1,0 +1,24 @@
+schema_version = 1
+status = "cpu_feasibility"
+experiment_id = "e7_repair_sft_data_feasibility_001"
+
+[source]
+allowed_split = "train"
+validation_payloads_read = 0
+heldout_payloads_read = 0
+
+[feedback]
+maximum_preview_rows = 0
+maximum_preview_characters = 600
+
+[construction]
+mutation_types = ["wrong_column", "wrong_table", "wrong_alias"]
+maximum_mutations_per_source = 3
+include_keep_example = true
+
+[synthetic_gate]
+minimum_source_examples = 4
+minimum_repair_examples = 6
+minimum_keep_examples = 4
+minimum_mutation_types = 3
+minimum_databases = 2

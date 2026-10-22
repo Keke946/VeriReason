@@ -952,3 +952,20 @@ Decisions are append-only. If a decision changes, add a superseding entry rather
 - Consequence: Any continuation must pose a new, CPU-reviewed hypothesis: first teach repair
   competence with training-only supervised pairs, then rerun a feedback-versus-control gate. Only
   a positive paired signal may reopen repair-action RL. E1-E4 and the v1 release remain unchanged.
+
+## ADR-069 — Gate repair SFT on execution-verified training-only pairs
+
+- Date: 2026-10-23
+- Status: CPU interface accepted; real-data yield pending
+- Decision: Construct repair targets only from a correct training SQL changed by one typed AST
+  mutation whose real SQLite outcome is an actionable execution/syntax failure. Add an unchanged
+  correct-query `KEEP` example whenever at least one repair is accepted. Reject successfully
+  executing semantic mutations, unsafe/resource failures, duplicate inputs and any non-training
+  source. Use bounded execution feedback with zero successful-row preview.
+- Rationale: E6 showed no direct repair competence and slightly more damage under feedback. A
+  supervised warm-up can teach the new action before more RL, but semantic corruption labels would
+  rely on gold-dependent information unavailable at inference. KEEP supervision explicitly trains
+  the behavior that E6 lacked.
+- Consequence: The authored CPU gate validates the construction interface only. Real BIRD coverage
+  and yield must be measured from retained M4 training artifacts before a training design or cloud
+  budget is approved. E7 neither changes E1-E4 nor authorizes repair-action RL.

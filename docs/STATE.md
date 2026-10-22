@@ -1,6 +1,6 @@
 # Current Project State
 
-Last updated: 2026-10-22
+Last updated: 2026-10-23
 
 ## Current phase
 
@@ -543,9 +543,10 @@ Last updated: 2026-10-22
 
 ## Exactly one next action
 
-Close E6 as a controlled negative inference result, then perform a CPU-only design review for a
-small repair-SFT warm-up. Do not implement repair-action RL or start another GPU run unless a later
-gate first demonstrates basic repair competence and a feedback advantage over the no-feedback arm.
+Materialize the frozen E7 repair-SFT construction against the retained M4 training-only bundle and
+BIRD training databases, producing a private dataset plus SQL-free real-yield receipt. This needs a
+separate cloud-access approval because the required artifacts are absent from the Mac. Do not train
+or read validation/Mini-Dev during that materialization.
 
 ## E6 execution-feedback repair probe
 
@@ -566,3 +567,18 @@ gate first demonstrates basic repair competence and a feedback advantage over th
 - Config and protocol: `configs/e6_execution_repair_probe.toml` and
   `docs/E6_REPAIR_PROBE.md`; SQL-free evidence:
   `results/e6/e6-repair-probe-summary.json`. Provider invoice cost remains pending.
+
+## E7 repair-SFT data feasibility
+
+- E7 does not retry E5 localization or E6 zero-shot repair. It first teaches a repair action with
+  execution-verified, training-only supervised pairs and adds `KEEP` targets to discourage the
+  damage E6 observed on initially correct SQL.
+- Only explicit execution/syntax failures from one typed SQLGlot mutation are repair candidates.
+  Successfully executing semantic mutations are rejected because SQLite cannot provide a
+  gold-independent correctness explanation for them at inference time.
+- The authored CPU gate passed on four examples across two SQLite databases: 12 verified repairs
+  (four each for wrong column/table/alias) and four KEEP examples. No optimizer, model, cloud,
+  validation or heldout data was used.
+- This is an interface result, not BIRD coverage. The real M4 prepared training bundle and BIRD
+  databases are absent locally, so real yield remains unknown. Protocol and evidence:
+  `docs/E7_REPAIR_SFT_DATA.md` and `results/e7/e7-repair-sft-data-feasibility.json`.

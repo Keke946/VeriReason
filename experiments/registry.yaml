@@ -1693,6 +1693,35 @@ experiments:
       peak_gpu_memory_mib: 4606
     notes: "Controlled negative result. Both arms repaired 0/38 wrong-state completions; feedback caused one more damaged correct-state completion. First launch stopped before model loading/generation because HF_HOME omitted the retained cache path; attempt 002 completed. No thresholds, samples or evaluator rules changed. Provider charge pending."
 
+  e7_repair_sft_data_feasibility_001:
+    objective: "Test whether trustworthy training-only repair/KEEP SFT examples can be constructed with bounded execution feedback."
+    status: completed
+    git_commit: ""
+    config: configs/e7_repair_sft_data.toml
+    dataset_version: "Authored SQLite CPU fixtures only; real M4/BIRD training yield not yet measured"
+    model: "None; data construction only"
+    hardware: "Local CPU; no cloud or GPU"
+    started_at: "2026-10-23"
+    completed_at: "2026-10-23"
+    artifacts:
+      - docs/E7_REPAIR_SFT_DATA.md
+      - results/e7/e7-repair-sft-data-feasibility.json
+    metrics:
+      source_examples: 4
+      databases: 2
+      verified_repair_examples: 12
+      keep_examples: 4
+      wrong_column_examples: 4
+      wrong_table_examples: 4
+      wrong_alias_examples: 4
+      real_training_yield: null
+      optimizer_updates: 0
+      validation_payloads_read: 0
+      heldout_payloads_read: 0
+      gpu_runs: 0
+      cloud_cost_cny: 0
+    notes: "Authored CPU interface gate passed. Successful/equivalent semantic mutations are intentionally excluded; only actionable execution/syntax failures become repair supervision. KEEP targets address E6 damage. Real BIRD yield remains unknown because retained M4 training artifacts are absent locally."
+
 # experiment_id:
 #   objective: ""
 #   status: planned | running | completed | failed | stopped
