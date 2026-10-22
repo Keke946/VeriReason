@@ -33,7 +33,9 @@ do not become repair supervision.
 
 ## Data contract
 
-- Source: `prepared-train.json` only; every row must have `split=train`.
+- Source: either `prepared-train.json` or the already-frozen 256-example M7 formal E2 training
+  bundle. The latter is preferred for the first real-yield audit because its selection predates E7,
+  is bounded, and records zero heldout use. Every normalized row has `split=train`.
 - No validation or Mini-Dev payload may be loaded.
 - Database paths must resolve below the explicit database root.
 - Source IDs and input prompts must be unique.
@@ -60,9 +62,9 @@ Experiment `e7_repair_sft_data_feasibility_001` passed its authored-interface ga
 Evidence: `results/e7/e7-repair-sft-data-feasibility.json`.
 
 This proves that construction, execution filtering, privacy boundaries and no-op supervision work
-on authored SQLite fixtures. The Mac does not contain the real M4 `prepared-train.json` or retained
-BIRD databases, so real training yield and mutation coverage remain unknown. Those values must be
-measured from the existing training-only artifacts before any repair-SFT GPU run is designed.
+on authored SQLite fixtures. The Mac does not contain the retained BIRD databases, so real training
+yield and mutation coverage remain unknown. The retained cloud disk does contain the fixed M7
+formal training bundle and M2 databases; those inputs are the next bounded materialization source.
 
 ## Stop conditions and next gate
 

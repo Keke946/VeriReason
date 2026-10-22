@@ -43,6 +43,48 @@ def load_repair_sft_config(path: str | Path) -> dict[str, Any]:
     return config
 
 
+def normalize_m7_formal_bundle(
+    payload: Mapping[str, Any], config: Mapping[str, Any]
+) -> list[dict[str, Any]]:
+    """Adapt the already-frozen M7 formal training bundle to the E7 source contract."""
+    source = config["source"]
+    examples, sample_ids = payload.get("examples"), payload.get("sample_ids")
+    if (
+        source.get("accepted_bundle") != "m7_e2_formal"
+        or payload.get("schema_version") != 1
+        or payload.get("selection_policy") != source.get("selection_policy")
+        or payload.get("bundle_sha256") != source.get("bundle_sha256")
+        or payload.get("heldout_examples_loaded") != 0
+        or payload.get("heldout_examples_evaluated") != 0
+        or not isinstance(examples, list)
+        or not isinstance(sample_ids, list)
+        or len(examples) != source.get("expected_examples")
+        or len(sample_ids) != len(examples)
+        or len(set(map(str, sample_ids))) != len(sample_ids)
+    ):
+        raise ValueError("M7 formal bundle identity or training-only contract failed")
+    normalized: list[dict[str, Any]] = []
+    for sample_id, example in zip(sample_ids, examples, strict=True):
+        if not isinstance(example, Mapping) or str(example.get("reward_group_id")) != str(
+            sample_id
+        ):
+            raise ValueError("M7 sample/group alignment failed")
+        database_path = str(example.get("database_path", ""))
+        if not database_path or not str(example.get("gold_sql", "")).strip():
+            raise ValueError("M7 example is incomplete")
+        normalized.append(
+            {
+                "sample_id": str(sample_id),
+                "split": "train",
+                "db_id": Path(database_path).stem,
+                "database_path": database_path,
+                "target_sql": str(example["gold_sql"]),
+                "messages": example.get("messages"),
+            }
+        )
+    return normalized
+
+
 def _fingerprint(value: Any) -> str:
     payload = json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
     return hashlib.sha256(payload.encode()).hexdigest()

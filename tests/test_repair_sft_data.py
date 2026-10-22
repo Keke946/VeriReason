@@ -5,7 +5,11 @@ from pathlib import Path
 import pytest
 
 import verireason.repair_sft_data as repair_data
-from verireason.repair_sft_data import build_repair_sft_examples, load_repair_sft_config
+from verireason.repair_sft_data import (
+    build_repair_sft_examples,
+    load_repair_sft_config,
+    normalize_m7_formal_bundle,
+)
 
 
 def _database(path: Path, prefix: str = "x") -> None:
@@ -121,3 +125,36 @@ def test_bad_message_shape_and_unsafe_gold_do_not_create_supervision(tmp_path: P
     unsafe["target_sql"] = "DROP TABLE x_people"
     private, public = build_repair_sft_examples([unsafe], tmp_path, config)
     assert private == [] and public["gate_checks"]["all_verified"] is False
+
+
+def test_m7_formal_bundle_adapter_requires_frozen_training_identity(tmp_path: Path) -> None:
+    database = tmp_path / "db.sqlite"
+    _database(database)
+    config = load_repair_sft_config("configs/e7_repair_sft_data.toml")
+    examples = [
+        {
+            "reward_group_id": index,
+            "database_path": "databases/training/db.sqlite",
+            "gold_sql": "SELECT 1",
+            "messages": [{"role": "user", "content": f"q{index}"}],
+        }
+        for index in range(256)
+    ]
+    payload = {
+        "schema_version": 1,
+        "selection_policy": "m7_e2_formal_hash_v1",
+        "bundle_sha256": config["source"]["bundle_sha256"],
+        "sample_ids": list(range(256)),
+        "examples": examples,
+        "heldout_examples_loaded": 0,
+        "heldout_examples_evaluated": 0,
+    }
+
+    normalized = normalize_m7_formal_bundle(payload, config)
+
+    assert len(normalized) == 256 and all(row["split"] == "train" for row in normalized)
+    with pytest.raises(ValueError, match="training-only contract"):
+        normalize_m7_formal_bundle({**payload, "heldout_examples_loaded": 1}, config)
+    drifted = {**payload, "sample_ids": [999, *list(range(1, 256))]}
+    with pytest.raises(ValueError, match="alignment"):
+        normalize_m7_formal_bundle(drifted, config)

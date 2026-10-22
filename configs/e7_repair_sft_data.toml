@@ -4,6 +4,10 @@ experiment_id = "e7_repair_sft_data_feasibility_001"
 
 [source]
 allowed_split = "train"
+accepted_bundle = "m7_e2_formal"
+selection_policy = "m7_e2_formal_hash_v1"
+expected_examples = 256
+bundle_sha256 = "4e3c32e9a85b16a6a4d0471f961a9fc0e51b11f4a271d4cda478ca694ef87966"
 validation_payloads_read = 0
 heldout_payloads_read = 0
 
