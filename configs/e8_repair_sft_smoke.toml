@@ -1,0 +1,51 @@
+schema_version = 1
+status = "precloud_design"
+experiment_id = "e8_repair_sft_smoke_001"
+
+[source]
+experiment_id = "e7_repair_sft_data_feasibility_001"
+source_examples = 256
+repair_examples = 688
+keep_examples = 256
+databases = 52
+validation_payloads_read = 0
+heldout_payloads_read = 0
+
+[split]
+selector = "database_hash_v1"
+seed = "verireason-e8-repair-sft-v1"
+audit_databases = 10
+one_repair_per_training_source = true
+one_keep_per_training_source = true
+
+[training]
+parent_adapter_experiment_id = "e1_m4_formal_sft_001"
+epochs = 1
+per_device_train_batch_size = 1
+gradient_accumulation_steps = 8
+learning_rate = 0.00005
+maximum_sequence_tokens = 4096
+maximum_answer_tokens = 768
+seed = 31
+
+[evaluation]
+conditions = ["e1_baseline", "repair_sft"]
+arms = ["feedback", "control"]
+generation = "greedy"
+maximum_new_tokens = 384
+
+[gate]
+minimum_adapter_feedback_repairs = 5
+minimum_repaired_databases = 3
+minimum_repair_rate_gain_over_e1 = 0.10
+minimum_feedback_gain_over_control = 0.05
+minimum_keep_rate = 0.90
+maximum_keep_rate_drop_vs_e1 = 0.05
+require_zero_unsafe_actions = true
+
+[budget]
+expected_minutes = 30
+maximum_minutes = 60
+planning_rate_cny_per_hour = 2.59
+maximum_cost_cny = 2.59
+

@@ -55,7 +55,7 @@ e5-interface-verify:
 	  --output results/e5/e5-cpu-interface.json
 	E5_TOKENIZER_JSON="$(E5_TOKENIZER_JSON)" PYTHONPATH=src $(PYTHON) -m pytest tests/test_e5_interface.py
 
-.PHONY: e5-runner-verify e6-repair-verify e7-repair-data-verify
+.PHONY: e5-runner-verify e6-repair-verify e7-repair-data-verify e8-repair-sft-verify
 e5-runner-verify:
 	$(PYTHON) -c "import torch, transformers, trl, jsonschema; from pathlib import Path; assert torch.__version__ == '2.11.0+cpu'; assert transformers.__version__ == '5.14.1'; assert trl.__version__ == '1.9.0'; assert Path('artifacts/e5-interface/qwen3-tokenizer/tokenizer.json').is_file()"
 	OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 E5_CPU_RECEIPT=results/e5/e5-cpu-runner.json PYTHONPATH=src $(PYTHON) -m pytest tests/test_e5_credit.py tests/test_e5_interface.py tests/test_e5_runner.py
@@ -68,6 +68,10 @@ e7-repair-data-verify:
 	PYTHONPATH=src $(PYTHON) -m pytest tests/test_repair_sft_data.py
 	PYTHONPATH=src $(PYTHON) scripts/diagnose_e7_repair_sft_data.py \
 	  --output results/e7/e7-repair-sft-data-feasibility.json
+
+e8-repair-sft-verify:
+	PYTHONPATH=src $(PYTHON) -m pytest tests/test_repair_sft_smoke.py
+	PYTHONPATH=src $(PYTHON) -m compileall -q src scripts tests
 
 m1-verify: verify env-check-local
 
