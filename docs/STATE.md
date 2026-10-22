@@ -593,7 +593,8 @@ adapter reload, and the fixed four-cell evaluation contract on authored fixtures
   and source overlap are both zero, and no project validation or Mini-Dev payload was opened.
 - Each training source contributes one deterministically selected verified repair plus one KEEP
   example. The real prepared training set therefore contains 177 repairs and 177 KEEP examples.
-  The audit side retains all 221 repair variants and 79 KEEP examples from its ten databases.
+  The audit pool contains 221 repairs and 79 KEEP cases; the fixed measured subset takes four
+  repairs and two KEEP cases per database, for 40+20 cases and 240 four-cell completions.
 - Evaluation is frozen as immutable E1 versus the repair-SFT adapter, each with bounded execution
   feedback and an equal-budget withheld-feedback control. Continuation requires at least five
   repaired audit cases across three databases, +10 percentage points over E1+feedback, +5 points

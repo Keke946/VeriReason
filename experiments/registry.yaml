@@ -1739,13 +1739,16 @@ experiments:
       - results/e8/e8-repair-sft-split-summary.json
     metrics:
       train_sources: 177
-      audit_sources: 79
+      audit_sources: 45
+      audit_pool_sources: 79
       train_databases: 42
       audit_databases: 10
       train_repair_examples: 177
       train_keep_examples: 177
-      audit_repair_examples: 221
-      audit_keep_examples: 79
+      audit_repair_examples: 40
+      audit_keep_examples: 20
+      audit_pool_repair_examples: 221
+      audit_pool_keep_examples: 79
       database_overlap: 0
       source_overlap: 0
       optimizer_updates: 0

@@ -982,7 +982,8 @@ Decisions are append-only. If a decision changes, add a superseding entry rather
 - Rationale: A row-level split would leak schemas and near-duplicate source variants. Balancing
   repair and KEEP actions addresses the E6 damage mode, while the no-feedback arm separates learned
   repair competence from actual use of execution feedback.
-- Consequence: The real split contains 177 repair and 177 KEEP training rows, plus 221 repair and
-  79 KEEP audit rows with zero database/source overlap. GPU launch remains blocked until the
-  training, independent reload and four-cell evaluation runner passes its CPU contract. A failed
-  frozen evaluation gate closes this extension and does not reopen repair-action RL.
+- Consequence: The real split contains 177 repair and 177 KEEP training rows. The ten-database
+  audit pool contains 221 repairs and 79 KEEP rows; deterministic per-database sampling fixes the
+  measured audit at 40 repairs and 20 KEEP rows, or 240 four-cell completions. GPU launch remains
+  blocked until the training, independent reload and evaluation runner passes its CPU contract. A
+  failed frozen evaluation gate closes this extension and does not reopen repair-action RL.
