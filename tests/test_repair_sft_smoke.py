@@ -2,6 +2,7 @@ from copy import deepcopy
 
 import pytest
 
+from verireason.repair_probe import repair_messages
 from verireason.repair_sft_runtime import (
     audit_messages,
     tokenize_repair_training,
@@ -42,17 +43,11 @@ def _config():
 
 
 def _messages(initial="SELECT broken"):
-    return [
+    source = [
         {"role": "system", "content": "Return SQL."},
         {"role": "user", "content": "Question and schema"},
-        {"role": "assistant", "content": initial},
-        {
-            "role": "user",
-            "content": (
-                "Return only KEEP or corrected SQL.\n\nDatabase feedback:\nunknown column: broken"
-            ),
-        },
     ]
+    return repair_messages(source, initial, arm="feedback", feedback="unknown column: broken")
 
 
 def _records():
@@ -189,6 +184,7 @@ def test_runtime_validates_split_tokenizes_answer_only_and_builds_control():
 
     feedback = audit_messages(audit[0], "feedback")
     control = audit_messages(audit[0], "control")
+    assert feedback == audit[0]["messages"]
     assert "Database feedback:" in feedback[-1]["content"]
     assert "withheld" in control[-1]["content"]
 
@@ -229,3 +225,20 @@ def test_runtime_training_and_independent_reload_contracts():
         validate_training_evidence(bad, training_examples=24, config=config)
     with pytest.raises(ValueError, match="reload contract"):
         validate_reload_evidence(evidence, dict(reload, reload_process_id=12))
+
+
+def test_real_e8_plan_requires_354_examples_and_45_updates():
+    config = load_repair_sft_smoke_config("configs/e8_repair_sft_smoke.toml")
+    evidence = {
+        "experiment_id": "e8_repair_sft_smoke_001",
+        "epochs": 1,
+        "real_example_passes": 354,
+        "optimizer_steps": 45,
+        "training_loss": 1.0,
+        "gradient_norm": 0.5,
+        "adapter_delta_l2": 0.01,
+        "validation_payloads_read": 0,
+        "heldout_payloads_read": 0,
+    }
+    result = validate_training_evidence(evidence, training_examples=354, config=config)
+    assert result == {"expected_optimizer_steps": 45, "training_contract_passed": True}

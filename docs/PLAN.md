@@ -240,7 +240,10 @@ databases contribute a balanced 177-repair/177-KEEP one-epoch training set. The 
 databases contain a 221-repair/79-KEEP audit pool; four repairs and two KEEP cases per database form
 the fixed 60-case E1-versus-adapter, feedback-versus-control audit. This preparation performs zero
 updates and reads no project validation or heldout payload. The next gate is a CPU-tested
-runner/reload contract; repair-action RL remains unauthorized.
+runner/reload contract; repair-action RL remains unauthorized. That runner is now implemented and
+passes authored CPU contracts. Launch remains separate: it must first verify all 354 real tokenized
+rows before loading the base, then run exactly 45 updates and the fixed 240-completion audit within
+the two-hour/CNY 5.18 ceiling.
 
 | Upgrade | Extra time | Entry gate | Research content | Failure-safe outcome |
 |---|---:|---|---|---|

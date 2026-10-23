@@ -44,6 +44,17 @@ def validate_private_split(
     train_keeps = sum(row["kind"] == "keep" for row in train)
     if train_repairs != train_keeps or train_repairs != len(train_sources):
         raise ValueError("E8 train rows must contain one repair and one KEEP per source")
+    evaluation = config["evaluation"]
+    if len(audit) != int(evaluation["expected_audit_records"]):
+        raise ValueError("E8 selected audit count drifted")
+    for database in audit_databases:
+        selected = [row for row in audit if str(row["db_id"]) == database]
+        if sum(row["kind"] == "repair" for row in selected) != int(
+            evaluation["repairs_per_database"]
+        ) or sum(row["kind"] == "keep" for row in selected) != int(
+            evaluation["keeps_per_database"]
+        ):
+            raise ValueError("E8 per-database audit composition drifted")
     return train, audit
 
 

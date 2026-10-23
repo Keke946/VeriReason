@@ -18,7 +18,7 @@ EXPERIMENT_ID = "e8_repair_sft_smoke_001"
 def load_repair_sft_smoke_config(path: str | Path) -> dict[str, Any]:
     with Path(path).open("rb") as handle:
         config = tomllib.load(handle)
-    required = {"source", "split", "training", "evaluation", "gate", "budget"}
+    required = {"source", "model", "split", "training", "evaluation", "gate", "budget"}
     if config.get("schema_version") != 1 or required - config.keys():
         raise ValueError("E8 config is incomplete")
     if config.get("experiment_id") != EXPERIMENT_ID:
@@ -28,6 +28,12 @@ def load_repair_sft_smoke_config(path: str | Path) -> dict[str, Any]:
         raise ValueError("E8 must remain training-only")
     if config["training"].get("epochs") != 1:
         raise ValueError("E8 smoke requires exactly one epoch")
+    if (
+        config["training"].get("expected_train_examples") != 354
+        or config["training"].get("expected_optimizer_steps") != 45
+        or config["evaluation"].get("expected_audit_records") != 60
+    ):
+        raise ValueError("E8 train or audit size drifted")
     return config
 
 

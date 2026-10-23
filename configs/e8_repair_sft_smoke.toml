@@ -11,6 +11,12 @@ databases = 52
 validation_payloads_read = 0
 heldout_payloads_read = 0
 
+[model]
+model_id = "Qwen/Qwen3-4B-Base"
+revision = "906bfd4b4dc7f14ee4320094d8b41684abff8539"
+parent_adapter_experiment_id = "e1_m4_formal_sft_001"
+parent_adapter_manifest = "849379289b37acac3f9435d9a2f16053418827deb21b502e3f62d8cfc2e9aead"
+
 [split]
 selector = "database_hash_v1"
 seed = "verireason-e8-repair-sft-v1"
@@ -19,11 +25,17 @@ one_repair_per_training_source = true
 one_keep_per_training_source = true
 
 [training]
-parent_adapter_experiment_id = "e1_m4_formal_sft_001"
 epochs = 1
 per_device_train_batch_size = 1
 gradient_accumulation_steps = 8
 learning_rate = 0.00005
+optimizer = "paged_adamw_8bit"
+scheduler = "constant"
+warmup_optimizer_steps = 0
+maximum_gradient_norm = 1.0
+gradient_checkpointing = true
+expected_train_examples = 354
+expected_optimizer_steps = 45
 maximum_sequence_tokens = 4096
 maximum_answer_tokens = 768
 seed = 31
@@ -51,3 +63,5 @@ expected_minutes = 90
 maximum_minutes = 120
 planning_rate_cny_per_hour = 2.59
 maximum_cost_cny = 5.18
+minimum_output_free_bytes = 10737418240
+terminate_grace_seconds = 30

@@ -543,9 +543,10 @@ Last updated: 2026-10-23
 
 ## Exactly one next action
 
-Implement and CPU-test the E8 training/reload/evaluation runner against the prepared private split.
-Do not start GPU training until the runner proves answer-only masking, one-epoch update accounting,
-adapter reload, and the fixed four-cell evaluation contract on authored fixtures.
+Review the clean E8 runner commit and launch only after current price and automatic shutdown are
+confirmed. The paid session must first run the focused gate and real-tokenizer 354-row preflight,
+then one 45-update epoch and the fixed 240-completion audit. Any preflight failure stops before
+base-model loading; repair-action RL remains unauthorized regardless of the smoke outcome.
 
 ## E6 execution-feedback repair probe
 
@@ -603,3 +604,8 @@ adapter reload, and the fixed four-cell evaluation contract on authored fixtures
 - This is prepared evidence, not a model result. No optimizer update has run. Protocol and SQL-free
   split receipt are `docs/E8_REPAIR_SFT_SMOKE.md` and
   `results/e8/e8-repair-sft-split-summary.json`; private rows remain mode 0600 outside Git.
+- The GPU-facing runner is now implemented as separate train and reload/evaluation processes under
+  one 120-minute session deadline. CPU tests cover exact 354→45 update accounting, answer-only
+  masking, prompt-arm reconstruction, DB-disjoint composition, evidence rejection and independent
+  reload identity. Real Qwen tokenizer lengths, quantized training and GPU behavior remain launch
+  preflight/runtime evidence, not locally measured claims.

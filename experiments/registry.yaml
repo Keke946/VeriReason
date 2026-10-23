@@ -1754,7 +1754,7 @@ experiments:
       optimizer_updates: 0
       validation_payloads_read: 0
       heldout_payloads_read: 0
-    notes: "Protocol and real split are prepared. The next gate is CPU implementation/testing of the one-epoch trainer, independent adapter reload, and fixed 2x2 audit. No GPU launch or repair-action RL is authorized yet."
+    notes: "Protocol, real split, and GPU-facing train/reload/evaluation runner are prepared. Authored CPU contracts cover answer-only masking, 354-to-45 update accounting, prompt parity, evidence rejection and distinct-process reload. Real tokenizer lengths, quantized training and evaluation remain unmeasured until a separately approved launch. No repair-action RL is authorized."
 
 # experiment_id:
 #   objective: ""

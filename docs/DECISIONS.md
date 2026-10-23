@@ -974,7 +974,7 @@ Decisions are append-only. If a decision changes, add a superseding entry rather
 ## ADR-070 — Evaluate repair SFT on database-disjoint training-only cases
 
 - Date: 2026-10-23
-- Status: protocol and real split prepared; runner pending
+- Status: protocol, real split and CPU-tested runner prepared; launch pending
 - Decision: Reserve ten E7 databases for audit by one fixed hash ranking and train on the other 42.
   Keep every source and all its variants on one side. Train for one epoch on one deterministic
   repair plus one KEEP example per training source. Compare immutable E1 and the resulting adapter
@@ -985,5 +985,7 @@ Decisions are append-only. If a decision changes, add a superseding entry rather
 - Consequence: The real split contains 177 repair and 177 KEEP training rows. The ten-database
   audit pool contains 221 repairs and 79 KEEP rows; deterministic per-database sampling fixes the
   measured audit at 40 repairs and 20 KEEP rows, or 240 four-cell completions. GPU launch remains
-  blocked until the training, independent reload and evaluation runner passes its CPU contract. A
-  failed frozen evaluation gate closes this extension and does not reopen repair-action RL.
+  blocked until the training, independent reload and evaluation runner passes its CPU contract. The
+  runner now passes that authored contract and places real-tokenizer validation before model load;
+  this does not itself authorize paid execution. A failed frozen evaluation gate closes this
+  extension and does not reopen repair-action RL.

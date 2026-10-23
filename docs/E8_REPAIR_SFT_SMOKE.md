@@ -45,6 +45,23 @@ The smoke passes only if all conditions hold:
 A failed gate stops the direction with no repair-action RL. Thresholds are not changed after seeing
 outputs.
 
+## Runner contract
+
+`scripts/orchestrate_e8_repair_sft.py` owns one bounded session and requires a clean, explicitly
+approved commit plus external paths for the private split, retained training databases and E1
+adapter. It runs the focused verification gate before model work, then:
+
+1. `run_e8_repair_sft_train.py` verifies the E1 identity, tokenizes all 354 examples with prompt
+   labels masked, and performs one remainder-correct epoch (45 optimizer updates);
+2. it atomically publishes the changed adapter and SQL-free finite-loss/gradient evidence;
+3. `run_e8_repair_sft_eval.py` starts as a distinct process, reloads the adapter, evaluates the
+   immutable E1 and E8 adapters on the identical 60 audit cases under both arms, and writes private
+   rows mode `0600` plus a SQL-free aggregate.
+
+The real tokenizer length/mask receipt is computed before base-model loading. Any overlength row,
+identity drift, non-finite training value, missing adapter delta, reload failure, unsafe action, or
+session wall limit stops the run. No automatic retry is implemented.
+
 ## Compute plan
 
 Reuse one RTX 4090 D 48 GB, the immutable E1 adapter and the existing 4-bit QLoRA stack. The fixed
